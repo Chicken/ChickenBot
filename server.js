@@ -66,7 +66,7 @@ app.get("/auth", async (req, res)=>{
         'client_secret': process.env.client_secret,
         'grant_type': 'authorization_code',
         'code': req.query.code,
-        'redirect_uri': "http://internal.antti.codes:9090/auth",
+        'redirect_uri': `${client.config.hostname}/auth`,
         'scope': 'identify guilds'
       }
     let headers = {

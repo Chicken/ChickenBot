@@ -3,6 +3,7 @@ const config = {
     "admins": ["517371142508380170"],
     "support": [],
     "token": process.env.token,
+    "hostname": process.env.hostname,
     "youtube": process.env.youtube,
     "log": "520602366240882697",
     "defaultSettings": {
