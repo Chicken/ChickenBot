@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "bent": "^7.3.0",
-    "better-sqlite3": "^6.0.1",
+    "better-sqlite3": "^7.0.1",
     "canvas": "^2.6.1",
     "discord.js": "^12.1.1",
     "dotenv": "^8.2.0",
