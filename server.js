@@ -57,7 +57,7 @@ client.colors = {
 };
 
 app.get("/", async (req, res)=>{
-    res.sendFile(__dirname + "\\web\\index.html")
+    res.sendFile(__dirname + "/web/index.html")
 })
 
 app.get("/auth", async (req, res)=>{
