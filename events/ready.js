@@ -1,0 +1,23 @@
+const Discord = require("discord.js");
+module.exports = async (client) => {
+
+    client.db.map(g=>g.banned).filter(v=>v!=null).forEach((arr)=>{
+        Object.values(arr).forEach(v=>{
+            let timeout = client.setTimeout(()=>{
+                client.db.deleteProp(v.guild, `banned.${v.id}`)
+                let guild = client.guilds.cache.get(v.guild)
+                if(!guild.available || guild.me.hasPermission("BAN_MEMBERS")) return;
+                guild.members.unban(v.id, "Automated unban")
+            }, v.time-Date.now())
+            client.bantimers[`${v.guild}-${v.id}`] = timeout
+        })
+    })
+
+    console.log(`${client.colors.Green}I am online as ${client.user.tag}${client.colors.Reset}`)
+    client.user.setActivity(`people on ${client.guilds.cache.size} servers`, { type: "WATCHING" });
+    const embed = new Discord.MessageEmbed()
+    .setTitle('Bot started')
+    .setColor('ffff00')
+    .setTimestamp()
+    client.channels.cache.get(client.config.log).send(embed)
+}
