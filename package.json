@@ -10,6 +10,7 @@
   "author": "Chicken#4127",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/opus": "^0.2.1",
     "bent": "^7.3.0",
     "better-sqlite3": "^7.0.1",
     "canvas": "^2.6.1",
@@ -21,7 +22,6 @@
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
     "ms": "^2.1.2",
-    "node-opus": "^0.3.3",
     "ytdl-core": "^2.1.1",
     "ytdl-core-discord": "^1.2.0"
   },
