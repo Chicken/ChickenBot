@@ -24,5 +24,8 @@
     "node-opus": "^0.3.3",
     "ytdl-core": "^2.1.1",
     "ytdl-core-discord": "^1.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
   }
 }
