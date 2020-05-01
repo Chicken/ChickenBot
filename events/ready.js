@@ -13,7 +13,7 @@ module.exports = async (client) => {
         })
     })
 
-    console.log(`${client.colors.Green}I am online as ${client.user.tag}${client.colors.Reset}`)
+    console.log(`${client.colors.Green}${client.formatDate(new Date())} | I am online as ${client.user.tag}${client.colors.Reset}`)
     client.user.setActivity(`people on ${client.guilds.cache.size} servers`, { type: "WATCHING" });
     const embed = new Discord.MessageEmbed()
     .setTitle('Bot started')
