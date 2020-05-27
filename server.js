@@ -18,6 +18,7 @@ client.commands = new Enmap();
 client.aliases = new Enmap();
 client.cooldown = new Set();
 client.bantimers = {};
+client.remindtimers = {};
 client.login(client.config.token)
 
 client.perm = message => {
@@ -35,7 +36,7 @@ client.perm = message => {
 };
 
 client.formatDate = (date) => {
-    return `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()} ${date.getHours().toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}:${date.getSeconds().toString().padStart(2,'0')}`
+    return `${date.getUTCDate()}.${date.getUTCMonth()+1}.${date.getUTCFullYear()} ${date.getUTCHours().toString().padStart(2,'0')}:${date.getUTCMinutes().toString().padStart(2,'0')}:${date.getUTCSeconds().toString().padStart(2,'0')} UTC+0`
 }
 
 client.colors = {
