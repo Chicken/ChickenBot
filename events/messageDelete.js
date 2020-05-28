@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 module.exports = async (client, messageDelete) => {
+    if(!messageDelete.guild) return;
     const embed = new Discord.MessageEmbed()
     .setDescription(`**Message Deleted**\n**User:** ${messageDelete.author.tag}\n**Channel:** ${messageDelete.channel.toString()} \`#${messageDelete.channel.name}\`\n\n**Message:**\n${messageDelete.content}`)
     .setColor("ff0000")

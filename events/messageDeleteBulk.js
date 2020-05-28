@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 module.exports = async (client, deletedMessages) => {
+     if(!deletedMessages.first().guild) return;
     const embed = new Discord.MessageEmbed()
     .setDescription(`**Bulk Message Delete**\n${deletedMessages.size} messages were deleted in ${deletedMessages.first().channel.toString()} \`#${deletedMessages.first().channel.name}\``)
     .setColor("ff0000")
