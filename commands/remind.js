@@ -1,20 +1,13 @@
 const ms = require("ms")
 const Discord = require("discord.js")
-function create_UUID(){
-    var dt = new Date().getTime();
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = (dt + Math.random()*16)%16 | 0;
-        dt = Math.floor(dt/16);
-        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
-    });
-    return uuid;
-}
 
 exports.execute = async (client, message, args) => {
 
+    client.db.ensure("REMINDERS", {num:0}, message.author.id)
+
     if (args[0]==="list") {
 
-        let txt = Object.values(client.db.get("REMINDERS")).filter(r=>r.user === message.author.id).map(r=>`\`${client.formatDate(new Date(r.time))}\`  |  "${r.reason}"`).join("\n") || "You have no reminders!"
+        let txt = Object.entries(client.db.get("REMINDERS", message.author.id)).filter(r=>r[0]!="num").map(r=>`\`${r[0]}\` | \`${client.formatDate(new Date(r[1].time))}\`  |  \`${r[1].reason}\``).join("\n") || "You have no reminders!"
 
         let embed = new Discord.MessageEmbed()
         .setTitle("Reminders")
@@ -23,6 +16,16 @@ exports.execute = async (client, message, args) => {
         .setFooter(`Requested by ${message.author.tag}`)
         .setDescription(txt)
         return message.channel.send(embed)
+    }
+
+    if(["remove", "delete", "cancel"].includes(args[0])) {
+        args.shift()
+        let num = parseInt(args[0])
+        if(!num || !client.db.get("REMINDERS", `${message.author.id}.${num}`)) return message.channel.send("Not a valid reminder id");
+        client.db.deleteProp("REMINDERS", `${message.author.id}.${num}`)
+        client.clearTimeout(client.remindtimers[`${message.author.id}-${num}`])
+        delete client.remindtimers[`${message.author.id}-${num}`]
+        return message.channel.send(`Removed reminder with id of \`${num}\``)
     }
 
     let time;
@@ -43,10 +46,11 @@ exports.execute = async (client, message, args) => {
         reason = args.join(" ")
     }
 
-    let uuid = create_UUID();
+    let num = client.db.get("REMINDERS", `${message.author.id}.num`);
 
     let timeout = client.setTimeout(()=>{
-        client.db.deleteProp("REMINDERS", uuid)
+        client.db.deleteProp("REMINDERS", `${message.author.id}.${num}`)
+        delete client.remindtimers[`${message.author.id}-${num}`]
         let embed = new Discord.MessageEmbed()
         .setTitle("Reminder")
         .setDescription(reason)
@@ -58,8 +62,9 @@ exports.execute = async (client, message, args) => {
 
     message.channel.send(`Set reminder on ${client.formatDate(new Date(Date.now()+time))} for "${reason}"`)
 
-    client.remindtimers[uuid] = timeout;
-    client.db.set("REMINDERS", {created: message.createdTimestamp, channel: message.channel.id, reason: reason, user: message.author.id, time: Date.now()+time}, uuid)
+    client.remindtimers[`${message.author.id}-${num}`] = timeout;
+    client.db.set("REMINDERS", {created: message.createdTimestamp, channel: message.channel.id, reason: reason, user: message.author.id, time: Date.now()+time}, `${message.author.id}.${num}`)
+    client.db.inc("REMINDERS", `${message.author.id}.num`)
 };
   
 exports.data = {
@@ -68,6 +73,6 @@ exports.data = {
     category: "fun",
     name: "remind",
     desc: "Reminds you about something after some time",
-    usage: "remind <time | list> [reminder]",
+    usage: "remind <<time> | list | delete> [reminder]",
     perm: 0
 };
