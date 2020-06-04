@@ -19,7 +19,7 @@ exports.execute = async (client, message, args) => {
         msg = await message.channel.send("Loading videos from playlist...")
 
         let url = querry.match(/^.*(youtu.be\/|list=)([^#\&\?]*).*/)[0]
-        let result = await bent(url, "string", "GET", 200)();
+        let result = await bent(url, "string", "GET")();
         let videos = result.match(/watch\?v=([a-zA-Z0-9-_]{11})/g)
         if(videos.length<0){
             return message.channel.send("No playlist found!")
@@ -49,7 +49,7 @@ exports.execute = async (client, message, args) => {
 
     } else {
         msg = await message.channel.send("Loading video...")
-        let result = await bent(`https://www.youtube.com/results?search_query=${args.join("+")}&sp=EgIQAQ%253D%253D`, "string", "GET", 200)();
+        let result = await bent(`https://www.youtube.com/results?search_query=${args.join("+")}&sp=EgIQAQ%253D%253D`, "string", "GET")();
         let first = "https://www.youtube.com/" + result.match(/watch\?v=([a-zA-Z0-9-_]{11})/g)[0]
         meta = await client.yt.getBasicInfo(first)
     }
