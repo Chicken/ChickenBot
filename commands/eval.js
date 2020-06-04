@@ -11,7 +11,7 @@ exports.execute = async (client, message, args) => {
     }
 
     try{
-        let res, diff, start, us;
+        let res, diff, start, us, time, unit;
 
         if(flags.includes("a")) {
             if(flags.includes("A")) {
@@ -37,7 +37,16 @@ exports.execute = async (client, message, args) => {
 
         us = diff[0] * 1000000 + diff[1] / 1000;
 
-        if(!flags.includes("s")) message.channel.send(`**SUCCESS**\n\`\`\`js\n${require("util").inspect(res, {depth: 3}).substring(0, 1800)}\n\`\`\`\n**Executed in**\n\`${us}\`μs`)
+
+        if (us>1000) {
+            unit = "ms";
+            time = (us / 1000).toFixed(3); 
+        } else {
+            unit = "μs";
+            time = us.toFixed(3);
+        }
+
+        if(!flags.includes("s")) message.channel.send(`**SUCCESS**\n\`\`\`js\n${require("util").inspect(res, {depth: 3}).substring(0, 1800)}\n\`\`\`\n**Executed in**\n\`${time}\`${unit}`)
     } catch(e) {
         if(!flags.includes("s")) message.channel.send(`**ERROR**\n\`\`\`js\n${e}\n\`\`\``)
     }
