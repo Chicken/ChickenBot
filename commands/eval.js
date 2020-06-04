@@ -11,22 +11,33 @@ exports.execute = async (client, message, args) => {
     }
 
     try{
-        let res
+        let res, diff, start, us;
+
         if(flags.includes("a")) {
             if(flags.includes("A")) {
+                start = process.hrtime();
                 res = await eval("(async()=>{"+args.join(" ")+"})()");
+                diff = process.hrtime(start);
             } else {
+                start = process.hrtime();
                 res = await eval(args.join(" "));
+                diff = process.hrtime(start);
             }
         } else {
             if(flags.includes("A")) {
+                start = process.hrtime();
                 res = eval("(async()=>{"+args.join(" ")+"})()");
+                diff = process.hrtime(start);
             } else {
+                start = process.hrtime();
                 res = eval(args.join(" "));
+                diff = process.hrtime(start);
             }
         }
 
-        if(!flags.includes("s")) message.channel.send(`**SUCCESS**\n\`\`\`js\n${require("util").inspect(res, {depth: 3}).substring(0, 1800)}\n\`\`\``)
+        us = diff[0] * 1000000 + diff[1] / 1000;
+
+        if(!flags.includes("s")) message.channel.send(`**SUCCESS**\n\`\`\`js\n${require("util").inspect(res, {depth: 3}).substring(0, 1800)}\n\`\`\`\n**Executed in**\n\`${us}\`μs`)
     } catch(e) {
         if(!flags.includes("s")) message.channel.send(`**ERROR**\n\`\`\`js\n${e}\n\`\`\``)
     }
