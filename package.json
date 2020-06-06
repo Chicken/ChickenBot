@@ -24,8 +24,5 @@
     "ms": "^2.1.2",
     "ytdl-core": "^2.1.6",
     "ytdl-core-discord": "^1.2.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
   }
 }
