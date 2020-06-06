@@ -10,6 +10,8 @@ exports.execute = async (client, message, args) => {
         flags.push(args.shift()[1])
     }
 
+    if(flags.includes("S")) message.delete();
+
     try{
         let res, diff, start, us, time, unit;
 
