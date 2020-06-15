@@ -8,7 +8,9 @@ exports.execute = async (client, message, args) => {
                     || message.guild.members.cache.find(m => m.user.username.match(new RegExp(fullname, 'ui')))
                     || message.guild.members.cache.find(m => m.id.match(new RegExp(fullname, 'ui')));
         if(Array.isArray(info)) info = message.guild.members.cache.get(info[1])
-        if(!info) info = await client.users.fetch(fullname);
+        try {
+            if(!info) info = await client.users.fetch(fullname);
+        } catch(e) {}
         if(!info) return message.channel.send("No user found.");
         info = await client.users.cache.get(info.id) || await client.users.fetch(info.id)
     } else {
@@ -23,11 +25,14 @@ exports.execute = async (client, message, args) => {
             .setThumbnail(info.displayAvatarURL())
             .setColor('FF00FF')
             .setDescription(info.toString())
-            .addField("Id", info.id, true)
-            .addField("Bot", (info.bot?"Yes":"No"), true)
-            .addField("Created", client.formatDate(info.createdAt))
-            .setFooter(`Requested by ${message.author.tag}`)
-            .setTimestamp()
+            if(info.flags.toArray().length) {
+                embed.addField("Badges",info.flags.toArray().map(v=>v.toLowerCase().replace(/_/g, " ")).join(", ").replace(/\b(.)/g, c=>c.toUpperCase()))
+            }
+            embed.addField("Id", info.id, true)
+            embed.addField("Bot", (info.flags.has("SYSTEM")?"System":(info.bot?"Yes":"No")), true)
+            embed.addField("Created", client.formatDate(info.createdAt))
+            embed.setFooter(`Requested by ${message.author.tag}`)
+            embed.setTimestamp()
         return message.channel.send(embed)
     }
 
@@ -40,16 +45,19 @@ exports.execute = async (client, message, args) => {
        .setThumbnail(info.displayAvatarURL())
        .setColor('FF00FF')
        .setDescription(info.toString())
-       .addField("Nickname", nickname, true)
-       .addField("Id", info.id, true)
-       .addField("Status", status, true)
-       .addField("Bot", (info.bot?"Yes":"No"), true)
-       .addField("Join Position", (message.guild.members.cache.array().sort((m,m2)=>{return m.joinedTimestamp-m2.joinedTimestamp}).map(m=>m.id).indexOf(info.id)+1)+"/"+ message.guild.memberCount, true)
-       .addField("Created", client.formatDate(info.createdAt))
-       .addField("Joined", client.formatDate(member.joinedAt))
-       .addField("Roles", roles)
-       .setFooter(`Requested by ${message.author.tag}`)
-       .setTimestamp()
+        if(info.flags.toArray().length) {
+            embed.addField("Badges",info.flags.toArray().map(v=>v.toLowerCase().replace(/_/g, " ")).join(", ").replace(/\b(.)/g, c=>c.toUpperCase()))
+        }
+       embed.addField("Nickname", nickname, true)
+       embed.addField("Id", info.id, true)
+       embed.addField("Status", status, true)
+       embed.addField("Bot", (info.flags.has("SYSTEM")?"System":(info.bot?"Yes":"No")), true)
+       embed.addField("Join Position", (message.guild.members.cache.array().sort((m,m2)=>{return m.joinedTimestamp-m2.joinedTimestamp}).map(m=>m.id).indexOf(info.id)+1)+"/"+ message.guild.memberCount, true)
+       embed.addField("Created", client.formatDate(info.createdAt))
+       embed.addField("Joined", client.formatDate(member.joinedAt))
+       embed.addField("Roles", roles)
+       embed.setFooter(`Requested by ${message.author.tag}`)
+       embed.setTimestamp()
     message.channel.send(embed)
 };
   
