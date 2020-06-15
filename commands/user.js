@@ -8,6 +8,7 @@ exports.execute = async (client, message, args) => {
                     || message.guild.members.cache.find(m => m.user.username.match(new RegExp(fullname, 'ui')))
                     || message.guild.members.cache.find(m => m.id.match(new RegExp(fullname, 'ui')));
         if(Array.isArray(info)) info = message.guild.members.cache.get(info[1])
+        if(!info) info = await client.users.fetch(fullname);
         if(!info) return message.channel.send("No user found.");
         info = await client.users.cache.get(info.id) || await client.users.fetch(info.id)
     } else {
@@ -15,6 +16,21 @@ exports.execute = async (client, message, args) => {
     }
  
     let member = message.guild.members.cache.get(info.id)
+
+    if(!member) {
+        let embed = new Discord.MessageEmbed()
+            .setTitle(info.tag)
+            .setThumbnail(info.displayAvatarURL())
+            .setColor('FF00FF')
+            .setDescription(info.toString())
+            .addField("Id", info.id, true)
+            .addField("Bot", (info.bot?"Yes":"No"), true)
+            .addField("Created", client.formatDate(info.createdAt))
+            .setFooter(`Requested by ${message.author.tag}`)
+            .setTimestamp()
+        return message.channel.send(embed)
+    }
+
     let roles = '‎';
     member.roles.cache.forEach(role => {if (role.name==='@everyone') return; roles += `<@&${role.id}> `});
     let nickname = member.nickname || "No nickname"
@@ -39,7 +55,7 @@ exports.execute = async (client, message, args) => {
   
 exports.data = {
     guildOnly: true,
-    aliases: ["info"],
+    aliases: ["info", "userinfo"],
     category: "misc",
     name: "user",
     desc: "Gives you info about a user.",
