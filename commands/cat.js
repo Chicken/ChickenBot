@@ -1,8 +1,7 @@
+const bent = require("bent")
 const Discord = require("discord.js")
 exports.execute = async (client, message, args) => {
-    const fetch = require("node-fetch")
-    let res = await fetch("https://api.thecatapi.com/v1/images/search")
-    let body = await res.json()
+    let body = await bent("GET", 200, "json")("https://api.thecatapi.com/v1/images/search")
     let embed = new Discord.MessageEmbed()
     .setTitle("UwU here's a cat for u")
     .setImage(body[0].url)
