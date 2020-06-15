@@ -6,6 +6,7 @@ const config = {
     "hostname": process.env.hostname,
     "youtube": process.env.youtube,
     "weatherapi": process.env.weatherapi,
+    "thecatapi": process.env.thecatapi,
     "log": "520602366240882697",
     "defaultSettings": {
         "settings": {
