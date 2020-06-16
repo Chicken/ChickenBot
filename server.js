@@ -2,6 +2,8 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 require('dotenv').config();
 client.config = require("./config.js")
+const DBL = require("dblapi.js");
+const dbl = new DBL(client.config.topgg, client);
 const readdir = require("util").promisify(require("fs").readdir);
 const Enmap = require('enmap')
 const express = require("express")
@@ -19,7 +21,13 @@ client.aliases = new Enmap();
 client.cooldown = new Set();
 client.bantimers = {};
 client.remindtimers = {};
-client.login(client.config.token)
+
+try {
+    client.login(client.config.token);
+} catch(e) {
+    console.error(e);
+    process.exit(1);
+}
 
 client.perm = message => {
     let permlvl = 0;
@@ -56,6 +64,10 @@ client.colors = {
     Cyan: "\x1b[36m",
     White: "\x1b[37m",
 };
+
+dbl.on('error', e => {
+   console.log(`Oops! ${e}`);
+})
 
 app.get("/", async (req, res)=>{
     res.sendFile(__dirname + "/web/index.html")
@@ -120,5 +132,3 @@ async function init() {
     });
     console.log(`${client.colors.Green}Done.${client.colors.Reset}`)
 }
-
-init()
