@@ -132,3 +132,5 @@ async function init() {
     });
     console.log(`${client.colors.Green}Done.${client.colors.Reset}`)
 }
+
+init();
