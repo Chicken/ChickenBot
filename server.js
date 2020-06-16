@@ -66,7 +66,7 @@ client.colors = {
 };
 
 dbl.on('error', e => {
-   console.log(`Oops! ${e}`);
+   console.error(`Dbl error\n${e}`);
 })
 
 app.get("/", async (req, res)=>{
