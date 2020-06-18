@@ -4,7 +4,8 @@ require('dotenv').config();
 client.config = require("./config.js")
 const DBL = require("dblapi.js");
 const dbl = new DBL(client.config.topgg, client);
-const readdir = require("util").promisify(require("fs").readdir);
+const fs = require("fs");
+const readdir = require("util").promisify(fs.readdir);
 const Enmap = require('enmap')
 const express = require("express")
 const app = new express()
@@ -89,6 +90,44 @@ app.get("/auth", async (req, res)=>{
     let user = await getApi("/users/@me", null, {"Authorization": `Bearer ${token.access_token}`})
     res.send(`${user.username}#${user.discriminator}`)
 })
+
+app.get("/ytdl/audio/:id", async (req, res)=>{
+    res.sendFile(__dirname + "/ytdl/audio/"+req.params.id+".mp3")
+})
+
+app.get("/ytdl/video/:id", async (req, res)=>{
+    res.sendFile(__dirname + "/ytdl/video/"+req.params.id+".mp4")
+})
+
+async function deleteOldDownloads() {
+    let audios = await readdir("./ytdl/audio");
+    let videos = await readdir("./ytdl/video");
+    audios.forEach(f=>{
+        fs.stat("./ytdl/audio/"+f, (err,stats)=>{
+            if (err) throw err;
+            if((Date.now()-stats.birthtime)>1000*60*60*24*7) {
+                fs.unlink("./ytdl/audio/"+f, (err)=>{
+                    if (err) throw err;
+                    console.log(`${client.colors.Green}Deleted downloaded file ${f} for being too old.${client.colors.Reset}`)
+                })
+            }
+        })
+    })
+    videos.forEach(f=>{
+        fs.stat("./ytdl/video/"+f, (err,stats)=>{
+            if (err) throw err;
+            if((Date.now()-stats.birthtime)>1000*60*60*24*7) {
+                fs.unlink("./ytdl/video/"+f, (err)=>{
+                    if (err) throw err;
+                    console.log(`${client.colors.Green}Deleted downloaded file ${f} for being too old.${client.colors.Reset}`)
+                })
+            }
+        })
+    })
+}
+
+deleteOldDownloads()
+setInterval(deleteOldDownloads, 1000*60*60*12)
 
 process.on('uncaughtException', async (err, origin) => {
     console.error(err, origin)
