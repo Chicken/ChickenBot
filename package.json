@@ -19,6 +19,7 @@
     "dotenv": "^8.2.0",
     "enmap": "^5.2.9",
     "express": "^4.17.1",
+    "fluent-ffmpeg": "^2.1.2",
     "form-urlencoded": "^4.1.4",
     "moment": "^2.26.0",
     "moment-duration-format": "^2.3.2",
