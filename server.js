@@ -92,11 +92,11 @@ app.get("/auth", async (req, res)=>{
 })
 
 app.get("/ytdl/audio/:id", async (req, res)=>{
-    res.sendFile(__dirname + "/ytdl/audio/"+req.params.id+".mp3")
+    res.download(__dirname + "/ytdl/audio/"+req.params.id+".mp3")
 })
 
 app.get("/ytdl/video/:id", async (req, res)=>{
-    res.sendFile(__dirname + "/ytdl/video/"+req.params.id+".mp4")
+    res.download(__dirname + "/ytdl/video/"+req.params.id+".mp4")
 })
 
 async function deleteOldDownloads() {
