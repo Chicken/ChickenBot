@@ -27,7 +27,7 @@ exports.execute = async (client, message, args) => {
     }
 
     if(audioOnly) {
-        let stream = ytdl.downloadFromInfo(info, { filter: "audioonly", quality: 'highestaudio' })
+        let stream = ytdl.downloadFromInfo(info, { filter: "audioonly", quality: "highestaudio", highWaterMark: 8388608 })
         ffmpeg(stream)
         .audioBitrate(128)
         .save("/home/antti/ChickenBot/ytdl/audio/" + info.player_response.videoDetails.videoId + ".mp3")
@@ -35,7 +35,7 @@ exports.execute = async (client, message, args) => {
             return message.reply("Done! Here's a link you can download from! (expires someday in the future) <http://antti.codes:8080/ytdl/audio/" + info.player_response.videoDetails.videoId + ">")
         })
     } else {
-        ytdl.downloadFromInfo(info, { filter: format => format.container === 'mp4' }).pipe(fs.createWriteStream("/home/antti/ChickenBot/ytdl/video/" + info.player_response.videoDetails.videoId + ".mp4")).on("close", ()=>{
+        ytdl.downloadFromInfo(info, { filter: format => format.container === "mp4", quality: "highest", highWaterMark: 8388608 }).pipe(fs.createWriteStream("/home/antti/ChickenBot/ytdl/video/" + info.player_response.videoDetails.videoId + ".mp4")).on("close", ()=>{
             return message.reply("Done! Here's a link you can download from! (expires someday in the future) <http://antti.codes:8080/ytdl/video/" + info.player_response.videoDetails.videoId + ">")
         })
     }
@@ -47,7 +47,7 @@ exports.data = {
     aliases: ["download", "youtube-dl", "youtubedownloader"],
     category: "fun",
     name: "ytdl",
-    desc: "download a youtube video",
+    desc: "Download a youtube video. Maximum of 20 minutes. Audio only works fine but video download resolution is questionable. Audio is mp3 and video is mp4.",
     usage: "ytdl [-a (audio only)] <url>",
     perm: 0
 };
