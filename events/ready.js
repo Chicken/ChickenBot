@@ -19,7 +19,7 @@ module.exports = async (client) => {
             if(id=="num") return;
             let {reason, created, channel, user, time} = e[1]
             let timeout = client.setTimeout(()=>{
-                client.db.deleteProp("REMINDERS", `${user}.${id}`)
+                client.db.delete("REMINDERS", `${user}.${id}`)
                 delete client.remindtimers[`${user}-${id}`]
                 let embed = new Discord.MessageEmbed()
                 .setTitle("Reminder")
