@@ -12,8 +12,8 @@ const app = new express()
 app.listen(8080);
 const bent = require('bent')
 const formurlencoded = require('form-urlencoded').default;
-const postApi = bent('https://discordapp.com/api/v6', 'POST', 'json', 200);
-const getApi = bent('https://discordapp.com/api/v6', 'GET', 'json', 200);
+const postApi = bent('https://discord.com/api/v6', 'POST', 'json', 200);
+const getApi = bent('https://discord.com/api/v6', 'GET', 'json', 200);
 client.yt = require("ytdl-core")
 
 client.db = new Enmap({name: "settings", ensureProps: true})
@@ -86,8 +86,13 @@ app.get("/auth", async (req, res)=>{
     let headers = {
         'Content-Type': 'application/x-www-form-urlencoded'
     }
+    try {
     let token = await postApi("/oauth2/token", formurlencoded(data), headers)
     let user = await getApi("/users/@me", null, {"Authorization": `Bearer ${token.access_token}`})
+    } catch(e) {
+        console.error(e)
+        res.sendStatus(500)
+    }
     res.send(`${user.username}#${user.discriminator}`)
 })
 
