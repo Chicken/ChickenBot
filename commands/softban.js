@@ -2,9 +2,9 @@ const Discord = require("discord.js")
 exports.execute = async (client, message, args) => {
     if(!args[0]) return message.channel.send("Mention someone!")
     let user = args[0].match(/^<@!?(\d+)>/)
-                    || message.guild.members.cache.find(m => {if(m.nickname) {return m.nickname.match(new RegExp(args[0], 'ui'))}})
                     || message.guild.members.cache.find(m => m.user.username.match(new RegExp(args[0], 'ui')))
-                    || message.guild.members.cache.find(m => m.id.match(new RegExp(args[0], 'ui')));
+                    || message.guild.members.cache.find(m => m.id.match(new RegExp(args[0], 'ui')))
+                    || message.guild.members.cache.find(m => {if(m.nickname) {return m.nickname.match(new RegExp(args[0], 'ui'))}});
     if(Array.isArray(user)) user = message.guild.members.cache.get(user[1])
     if(!user) return message.channel.send("No user found.");
     if(!user.bannable) return message.channel.send("Can't ban that user!")

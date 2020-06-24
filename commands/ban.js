@@ -3,9 +3,9 @@ exports.execute = async (client, message, args) => {
     let member;
     if(args[0]) {
         member = args[0].match(/^<@!?(\d+)>/)
-                    || message.guild.members.cache.find(m => {if(m.nickname) {return m.nickname.match(new RegExp(args[0], 'ui'))}})
                     || message.guild.members.cache.find(m => m.user.username.match(new RegExp(args[0], 'ui')))
-                    || message.guild.members.cache.find(m => m.id.match(new RegExp(args[0], 'ui')));
+                    || message.guild.members.cache.find(m => m.id.match(new RegExp(args[0], 'ui')))
+                    || message.guild.members.cache.find(m => {if(m.nickname) {return m.nickname.match(new RegExp(args[0], 'ui'))}});
         if(Array.isArray(member)) member = message.guild.members.cache.get(member[1])
         if(!member) return message.channel.send('No user found.');
         args.shift()
