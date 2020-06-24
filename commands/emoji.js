@@ -1,9 +1,9 @@
 const Discord = require("discord.js")
 exports.execute = async (client, message, args) => {
-        if(!args[0]) return message.channel.send("You must give me the emoji to download duh!");
+        if(!args[0]) return message.channel.send("You must give me the custom emoji to download duh!");
         let result = args[0].match(/<(a)?:(.+):(\d+)>/)
         if(result==null) {
-            return message.channel.send("Not a valid emoji!")
+            return message.channel.send("Not a valid emoji! (Or non custom)")
         }
         let animated = result[1] ? true : false;
         let name = result[2]
@@ -17,7 +17,7 @@ exports.data = {
     aliases: ["steal", "stealemoji"],
     category: "fun",
     name: "emoji",
-    desc: "turns emoji into a downloadable file",
+    desc: "turns custom emoji into a downloadable file",
     usage: "emoji <emoji>",
     perm: 0
 };
