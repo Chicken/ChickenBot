@@ -7,7 +7,7 @@ exports.execute = async (client, message, args) => {
   
 exports.data = {
     guildOnly: true,
-    aliases: ["l", "leave", "d"],
+    aliases: ["l", "leave", "dc"],
     category: "music",
     name: "disconnect",
     desc: "Disconnect from my current voice channel and clear the queue",
