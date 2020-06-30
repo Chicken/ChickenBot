@@ -4,3 +4,6 @@ dashboard
 seek
 mute
 lockdown
+more logs
+more options to customize
+handle permissions better
