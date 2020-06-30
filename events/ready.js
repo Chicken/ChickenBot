@@ -13,22 +13,30 @@ module.exports = async (client) => {
         })
     })
 
-    Object.entries(client.db.get("REMINDERS")).forEach(u=>{
-        Object.entries(u[1]).forEach(e=>{
-            let id = e[0]
-            if(id=="num") return;
-            let {reason, created, channel, user, time} = e[1]
-            let timeout = client.setTimeout(()=>{
-                client.db.delete("REMINDERS", `${user}.${id}`)
-                delete client.remindtimers[`${user}-${id}`]
-                let embed = new Discord.MessageEmbed()
+    function remind(id, reason, created, channel, user, time) {
+        if(client.db.has("REMINDERS", `${user}.${id}`) && client.db.get("REMINDERS", `${user}.${id}.repeating`)) {
+            let timeout = client.setTimeout(remind, time-created, id, reason, created, channel, user, time)
+            client.remindtimers[`${user}-${id}`] = timeout;
+        } else {
+            client.db.delete("REMINDERS", `${user}.${id}`)
+            delete client.remindtimers[`${user}-${id}`]
+        }
+        let embed = new Discord.MessageEmbed()
                 .setTitle("Reminder")
                 .setDescription(reason)
                 .setColor("LUMINOUS_VIVID_PINK")
                 .setTimestamp(created)
                 .setFooter(`Set on `)
                 client.channels.cache.get(channel).send(client.users.cache.get(user).toString(), {embed})
-            }, time-Date.now())
+    }
+
+    Object.entries(client.db.get("REMINDERS")).forEach(u=>{
+        Object.entries(u[1]).forEach(e=>{
+            let id = e[0]
+            if(id=="num") return;
+            let {reason, created, channel, user, time} = e[1]
+            let firstTime= ((Date.now()-created)/(time-created) - Math.floor((Date.now()-created)/(time-created)))*(time-created);
+            let timeout = client.setTimeout(remind, firstTime, id, reason, created, channel, user, time)
             client.remindtimers[`${user}-${id}`] = timeout;
         })
     })
