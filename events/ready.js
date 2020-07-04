@@ -27,7 +27,12 @@ module.exports = async (client) => {
                 .setColor("LUMINOUS_VIVID_PINK")
                 .setTimestamp(created)
                 .setFooter(`Set on `)
-                client.channels.cache.get(channel).send(client.users.cache.get(user).toString(), {embed})
+                let ch = client.channels.cache.get(channel);
+                if(ch) {
+                    ch.send(client.users.cache.get(user).toString(), {embed});
+                } else {
+                    client.users.cache.get(user).send(embed)
+                }
     }
 
     Object.entries(client.db.get("REMINDERS")).forEach(u=>{
@@ -36,8 +41,8 @@ module.exports = async (client) => {
             if(id=="num") return;
             let {reason, created, channel, user, time} = e[1]
 
-            let firstTime = time - ((Date.now() - created) % time);
-
+            let firstTime = (time-Date.now()) - ((Date.now() - created) % (time-Date.now()));
+            console.log(firstTime, time, Date.now(), created)
             let timeout = client.setTimeout(remind, firstTime, id, reason, created, channel, user, time)
             client.remindtimers[`${user}-${id}`] = timeout;
         })

@@ -69,7 +69,12 @@ exports.execute = async (client, message, args) => {
                 .setColor("LUMINOUS_VIVID_PINK")
                 .setTimestamp(client.db.get("REMINDERS", `${message.author.id}.${num}.created`))
                 .setFooter(`Set on `)
-                message.channel.send(message.author.toString(), {embed})
+                let ch = client.channels.cache.get(client.db.get("REMINDERS", `${message.author.id}.${num}.channel`));
+                if(ch) {
+                    ch.send(client.users.cache.get(message.author.id).toString(), {embed});
+                } else {
+                    client.users.cache.get(message.author.id).send(embed)
+                }
             }, time)
 
             client.remindtimers[`${message.author.id}-${num}`] = timeout;
@@ -98,7 +103,12 @@ exports.execute = async (client, message, args) => {
                 .setColor("LUMINOUS_VIVID_PINK")
                 .setTimestamp(client.db.get("REMINDERS", `${message.author.id}.${num}.created`))
                 .setFooter(`Set on `)
-                message.channel.send(message.author.toString(), {embed})
+                let ch = client.channels.cache.get(client.db.get("REMINDERS", `${message.author.id}.${num}.channel`));
+                if(ch) {
+                    ch.send(client.users.cache.get(message.author.id).toString(), {embed});
+                } else {
+                    client.users.cache.get(message.author.id).send(embed)
+                }
             }, client.db.get("REMINDERS", `${message.author.id}.${num}.time`)-Date.now())
 
             client.remindtimers[`${message.author.id}-${num}`] = timeout;
@@ -153,7 +163,12 @@ exports.execute = async (client, message, args) => {
         .setColor("LUMINOUS_VIVID_PINK")
         .setTimestamp(message.createdTimestamp)
         .setFooter(`Set on `)
-        message.channel.send(message.author.toString(), {embed})
+        let ch = client.channels.cache.get(client.db.get("REMINDERS", `${message.author.id}.${num}.channel`));
+        if(ch) {
+            ch.send(client.users.cache.get(message.author.id).toString(), {embed});
+        } else {
+            client.users.cache.get(message.author.id).send(embed)
+        }
     }
 
     let timeout = client.setTimeout(remind, time)
@@ -171,6 +186,7 @@ exports.execute = async (client, message, args) => {
   
 exports.data = {
     guildOnly: false,
+    disabled: true,
     aliases: ["remind-me", "reminder", "notif", "notif-me"],
     category: "fun",
     name: "remind",
