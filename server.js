@@ -151,7 +151,7 @@ async function init() {
         console.log(`${client.colors.Yellow}Trying to load command ${f.split(" ")[0]}${client.colors.Reset}`)
         try {
             let props = require(`./commands/${f}`);
-            if(props.data.disabled) return console.log(`${client.colors.Red}Command not loaded because it's disabled.${client.colors.Reset}`);
+            if(props.data.disabled) console.log(`${client.colors.Red}Command is disabled.${client.colors.Reset}`);
             client.commands.set(props.data.name, props)
             props.data.aliases.forEach(a=>{
                 client.aliases.set(a, props.data.name)

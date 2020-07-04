@@ -30,7 +30,8 @@ module.exports = async (client, message) => {
     const command = args.shift().toLowerCase();
     let perm = client.perm(message)
     const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
-    if (!cmd) return;    
+    if (!cmd) return; 
+    if(cmd.data.disabled) return message.channel.send("Hey! Sorry but that command is currently disabled (This usually means it's broken!) To get it fixed spam ping the dev!")
     if(message.guild && !message.channel.permissionsFor(message.guild.me).has(37088454, true)){
         let txt = "Hey! I am missing some permissions to run commands!\nEasiest way is to just give me admin but I know alot of you don't want that!\nMissing permissions listed below!\n"
         message.channel.permissionsFor(message.guild.me).missing(37088454).forEach(p=>{txt+=p.toLowerCase().replace(/_/g, " ")+", "})
