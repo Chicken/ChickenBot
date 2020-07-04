@@ -35,7 +35,9 @@ module.exports = async (client) => {
             let id = e[0]
             if(id=="num") return;
             let {reason, created, channel, user, time} = e[1]
-            let firstTime= ((Date.now()-created)/(time-created) - Math.floor((Date.now()-created)/(time-created)))*(time-created);
+
+            let firstTime = time - ((Date.now() - created) % time);
+
             let timeout = client.setTimeout(remind, firstTime, id, reason, created, channel, user, time)
             client.remindtimers[`${user}-${id}`] = timeout;
         })
