@@ -7,6 +7,7 @@ exports.execute = async (client, message, args) => {
 };
   
 exports.data = {
+    permissions: 18432,
     guildOnly: false,
     aliases: ["invite"],
     category: "system",

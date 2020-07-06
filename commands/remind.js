@@ -185,6 +185,7 @@ exports.execute = async (client, message, args) => {
 };
   
 exports.data = {
+    permissions: 281600,
     guildOnly: false,
     disabled: true,
     aliases: ["remind-me", "reminder", "notif", "notif-me"],

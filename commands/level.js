@@ -28,6 +28,7 @@ exports.execute = async (client, message, args) => {
 };
   
 exports.data = {
+    permissions: 18432,
     guildOnly: false,
     aliases: ["rank", "xp"],
     category: "xp",

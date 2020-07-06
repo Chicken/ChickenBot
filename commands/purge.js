@@ -20,6 +20,7 @@ exports.execute = async (client, message, args) => {
 };
   
 exports.data = {
+    permissions: 76800,
     guildOnly: true,
     aliases: [],
     category: "mod",

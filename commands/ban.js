@@ -41,9 +41,19 @@ exports.execute = async (client, message, args) => {
     }
 
     message.channel.send(`Banned \`${member.user.tag}\` for reason \`${reason}\`${time?`\nLength of ban: ${ms(time, {long: true})}`:""}`)
+    let embed = new Discord.MessageEmbed()
+    .setTitle("Banned")
+    .setDescription(`\`${user.user.tag}\` was banned by \`${message.author.tag}\` for reason "${reason}"${time?`\nLength of ban: ${ms(time, {long: true})}`:""}`)
+    .setColor("RED")
+    .setTimestamp()
+    let log = client.db.get(message.guild.id).settings.log;
+    if(log){
+      client.channels.cache.get(log).send(embed)
+    }
 };
   
 exports.data = {
+    permissions: 18436,
     guildOnly: true,
     aliases: [],
     category: "mod",

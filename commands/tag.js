@@ -2,7 +2,7 @@ exports.execute = async (client, message, args) => {
     let perm = client.perm(message)
     let tags = client.db.get(message.guild.id, "tags")
     if(!args[0] || !["list", "add", "remove"].concat(Object.keys(tags)).includes(args[0])) {
-        return message.channel.send("Valid options are tagname, list, add, remove and all tag names.")
+        return message.channel.send("Valid options are list, add, remove and all the tag names.")
     }
     if(["list", "add", "remove"].includes(args[0]) && perm<1) {
         return message.channel.send("You don't have permission for that!")
@@ -30,7 +30,7 @@ exports.execute = async (client, message, args) => {
                 return message.channel.send("Must supply content for tag.")
             }
             message.channel.send(`Set tag ${name}`)
-            client.db.set(message.guild.id, {content: args.join(" "), attachments: message.attachments ? message.attachments.map(a=>a.url) : []}, `tags.${name}`)
+            client.db.set(message.guild.id, {content: message.cleanContent.split(" ").slice(3).join(" "), attachments: message.attachments ? message.attachments.map(a=>a.url) : []}, `tags.${name}`)
             break;
         case "remove":
             if(!Object.keys(tags).includes(args[1])){
@@ -51,6 +51,7 @@ exports.execute = async (client, message, args) => {
 };
   
 exports.data = {
+    permissions: 313344,
     guildOnly: true,
     aliases: ["tags", "t"],
     category: "misc",

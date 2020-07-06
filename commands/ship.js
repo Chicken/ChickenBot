@@ -64,6 +64,7 @@ exports.execute = async (client, message, args) => {
 };
   
 exports.data = {
+    permissions: 34816,
     guildOnly: false,
     aliases: [],
     category: "fun",

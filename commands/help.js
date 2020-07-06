@@ -34,6 +34,7 @@ exports.execute = async (client, message, args) => {
 };
   
 exports.data = {
+    permissions: 3072,
     guildOnly: false,
     aliases: ["hjelp", "commands"],
     category: "system",

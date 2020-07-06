@@ -6,6 +6,7 @@ exports.execute = async (client, message, args) => {
 };
   
 exports.data = {
+    permissions: 36718592,
     guildOnly: true,
     aliases: [],
     category: "music",

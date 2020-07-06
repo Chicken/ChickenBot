@@ -32,12 +32,14 @@ module.exports = async (client, message) => {
     const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
     if (!cmd) return; 
     if(cmd.data.disabled) return message.channel.send("Hey! Sorry but that command is currently disabled (This usually means it's broken!) To get it fixed spam ping the dev!")
-    if(message.guild && !message.channel.permissionsFor(message.guild.me).has(37088454, true)){
-        let txt = "Hey! I am missing some permissions to run commands!\nEasiest way is to just give me admin but I know alot of you don't want that!\nMissing permissions listed below!\n"
-        message.channel.permissionsFor(message.guild.me).missing(37088454).forEach(p=>{txt+=p.toLowerCase().replace(/_/g, " ")+", "})
+
+    if(message.guild && !message.channel.permissionsFor(message.guild.me).has(cmd.data.permissions, true)){
+        let txt = "Hey! I am missing some permissions to run this command!\nMissing permissions listed below!\n"
+        message.channel.permissionsFor(message.guild.me).missing(cmd.data.permissions, true).forEach(p=>{txt+=p.toLowerCase().replace(/_/g, " ")+", "})
         txt = `${txt.substring(0, txt.length - 2)}.`;
         return message.channel.send(txt)
     }
+
     if (!message.guild && cmd.data.guildOnly) {
         return message.channel.send("This is a server only command. Please use it in a server.");
     }
