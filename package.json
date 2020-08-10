@@ -2,12 +2,11 @@
   "name": "chicken_bot",
   "version": "2.0.0",
   "description": "Classic ChickenBot upgraded to 2020 standards.",
-  "main": "server.js",
+  "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node ./src/index.js"
   },
-  "author": "Chicken#4127",
+  "author": "antti@antti.codes",
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.2.1",
@@ -15,7 +14,6 @@
     "bent": "^7.3.2",
     "better-sqlite3": "^7.0.1",
     "canvas": "^2.6.1",
-    "dblapi.js": "^2.4.0",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "enmap": "^5.3.1",

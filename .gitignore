@@ -1,7 +1,6 @@
 data/
 .env
 node_modules/
-file.js
 .git
 npm-debug.log
 ytdl/audio/*

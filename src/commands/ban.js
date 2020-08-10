@@ -55,6 +55,7 @@ exports.execute = async (client, message, args) => {
 exports.data = {
     permissions: 18436,
     guildOnly: true,
+    disabled: true,
     aliases: [],
     category: "mod",
     name: "ban",
