@@ -11,11 +11,11 @@ exports.execute = async (client, message, args) => {
     switch(args[0]) {
         case "list":
             let taglist = ""
-            taglist = Object.keys(tags).join(", ")
+            taglist = Object.keys(tags).map(t=>`\`${t}\``).join(", ")
             if(taglist=="") {
                 return message.channel.send("There isn't any tags on this server.")
             }
-            message.channel.send("Tags on this server: " + taglist)
+            message.channel.send(`Tags on this server (\`${Object.keys(tags).length}\` total): ` + taglist)
             break;
         case "add":
             args.shift()
