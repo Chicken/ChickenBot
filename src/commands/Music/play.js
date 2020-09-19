@@ -6,12 +6,15 @@ exports.execute = async (client, message, args) => {
     while(args[0] && args[0].startsWith("-")) {
         flags.push(args.shift()[1])
     }
+    if(!client.queues[message.guild.id]) {
+        client.queues[message.guild.id] = [];
+    }
     if(!message.member.voice.channel) return message.channel.send("You must be in a voice channel to play music!") 
     if(message.guild.me.voice.channel && message.guild.me.voice.channel !== message.member.voice.channel) return message.channel.send("I am already in a different voice channel!")
     if(!args[0]) return message.channel.send("What song should I play?")
     let querry = args.join(" ")
     let meta, msg;
-
+    
     if(ytdl.validateURL(querry)){
         msg = await message.channel.send("Loading video...")
         meta = await ytdl.getBasicInfo(querry)
@@ -34,7 +37,7 @@ exports.execute = async (client, message, args) => {
                     if(!ytdl.validateURL(vurl)) return;
                     meta = await ytdl.getBasicInfo(vurl)
                     if(!meta) return;
-                    client.db.push(message.guild.id, {name: meta.player_response.videoDetails.title, url:vurl, length: meta.player_response.videoDetails.lengthSeconds, user: message.author.id, image: meta.player_response.videoDetails.thumbnail.thumbnails[meta.player_response.videoDetails.thumbnail.thumbnails.length-1]}, "queue")
+                    client.queues[message.guild.id].push({name: meta.player_response.videoDetails.title, url:vurl, length: meta.player_response.videoDetails.lengthSeconds, user: message.author.id, image: meta.player_response.videoDetails.thumbnail.thumbnails[meta.player_response.videoDetails.thumbnail.thumbnails.length-1]})
                 } catch(e) {return}
             })()
         }
@@ -60,13 +63,13 @@ exports.execute = async (client, message, args) => {
     if(!meta) return message.channel.send("No song found with that name!")
 
     if(flags.includes("s")) {
-        let q = client.db.get(message.guild.id, "queue")
-        let cur = q.shift()
-        q.unshift({name: meta.player_response.videoDetails.title, url:url, length: meta.player_response.videoDetails.lengthSeconds, user: message.author.id, image: meta.player_response.videoDetails.thumbnail.thumbnails[meta.player_response.videoDetails.thumbnail.thumbnails.length-1]})
-        q.unshift(cur)
-        client.db.set(message.guild.id, q, "queue")
+        let q = client.queues[message.guild.id];
+        let cur = q.shift();
+        q.unshift({name: meta.player_response.videoDetails.title, url:url, length: meta.player_response.videoDetails.lengthSeconds, user: message.author.id, image: meta.player_response.videoDetails.thumbnail.thumbnails[meta.player_response.videoDetails.thumbnail.thumbnails.length-1]});
+        q.unshift(cur);
+        client.queues[message.guild.id] = q;
     } else {
-        client.db.push(message.guild.id, {name: meta.player_response.videoDetails.title, url:url, length: meta.player_response.videoDetails.lengthSeconds, user: message.author.id, image: meta.player_response.videoDetails.thumbnail.thumbnails[meta.player_response.videoDetails.thumbnail.thumbnails.length-1]}, "queue")
+        client.queues[message.guild.id].push({name: meta.player_response.videoDetails.title, url:url, length: meta.player_response.videoDetails.lengthSeconds, user: message.author.id, image: meta.player_response.videoDetails.thumbnail.thumbnails[meta.player_response.videoDetails.thumbnail.thumbnails.length-1]})
     }
     
     msg.edit(`Added \`${meta.player_response.videoDetails.title}\` to the queue.`)
@@ -81,28 +84,28 @@ exports.execute = async (client, message, args) => {
 
 
     async function playNext(connection) {
-        let songs = client.db.get(message.guild.id).queue
+        let songs = client.queues[message.guild.id]
         let current = songs[0]
         if(!current) return message.guild.me.voice.channel.leave()
         let dispatcher = connection.play(await ytdlDiscord(current.url, { begin: (current.time?current.time:"0"), filter: "audioonly", quality: "highestaudio", highWaterMark: 1 << 25 }), { type: 'opus', highWaterMark: 25, volume: client.db.get(message.guild.id, "settings.volume") })
         dispatcher.on("finish", ()=>{
-            let songs = client.db.get(message.guild.id).queue
+            let songs = client.queues[message.guild.id]
             if(client.db.get(message.guild.id, "settings.loop")){
                 songs.push(songs.shift())
             } else {
                 songs.shift()
             }
-            client.db.set(message.guild.id, songs, "queue")
+            client.queues[message.guild.id] = songs;
             playNext(connection)
         })
         dispatcher.on("close", ()=>{
-            let songs = client.db.get(message.guild.id).queue
+            let songs = client.queues[message.guild.id]
             if(client.db.get(message.guild.id, "settings.loop")){
                 songs.push(songs.shift())
             } else {
                 songs.shift()
             }
-            client.db.set(message.guild.id, songs, "queue")
+            client.queues[message.guild.id] = songs;
             playNext(connection)
         })
     }

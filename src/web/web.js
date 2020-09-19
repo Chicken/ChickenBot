@@ -37,7 +37,7 @@ module.exports = async client => {
     })
     
     app.get("/ytdl/audio/:id", async (req, res)=>{
-        let path = __dirname + "../../../ytdl/audio/"+req.params.id+".mp3";
+        let path = __dirname + "/../../ytdl/audio/"+req.params.id+".mp3";
         if(!fs.existsSync(path)) {
             res.status(404).end();
         } else {
@@ -46,7 +46,7 @@ module.exports = async client => {
     })
     
     app.get("/ytdl/video/:id", async (req, res)=>{
-        let path = __dirname + "../../../ytdl/video/"+req.params.id+".mp4";
+        let path = __dirname + "/../../ytdl/video/"+req.params.id+".mp4";
         if(!fs.existsSync(path)) {
             res.status(404).end();
         } else {

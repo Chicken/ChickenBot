@@ -3,11 +3,12 @@ exports.execute = async (client, message, args) => {
     let resultPerPage = 10
     if(!args[0]) args[0] = 1;
     args[0] = parseInt(args[0])
-    if(isNaN(args[0]) || Math.ceil((client.db.get(message.guild.id).queue.length?client.db.get(message.guild.id).queue.length:1)/resultPerPage)<args[0] || parseInt(args[0])<1) return message.channel.send("Not valid page number")
+    let queue = client.queues[message.guild.id]
+    if(isNaN(args[0]) || Math.ceil((queue.length?queue.length:1)/resultPerPage)<args[0] || parseInt(args[0])<1) return message.channel.send("Not valid page number")
     let moment = require("moment");
     require("moment-duration-format")(moment)
     let txt = ""
-    client.db.get(message.guild.id).queue.forEach((s, i)=>{
+    queue.forEach((s, i)=>{
         let length = moment.duration(parseInt(s.length), "seconds").format("HH:mm:ss", { trim:false })
         if(length[0] === "0" && length[1] === "0") length = length.substring(3)
         if(message.guild.me.voice.connection.dispatcher === null) message.guild.me.voice.connection.dispatcher = {streamTime: s.length}
@@ -36,7 +37,7 @@ exports.execute = async (client, message, args) => {
     .setColor("BLUE")
     .setDescription(txt)
     .setTimestamp()
-    .setFooter(`Page ${args[0]} out of ${Math.ceil(lines.length/resultPerPage)} | Total lenght: ${client.db.get(message.guild.id, "queue").length>0?moment.duration(client.db.get(message.guild.id, "queue").map(v=>parseInt(v.length)).reduce((a,c)=>a+c), "seconds").format("HH:mm:ss", { trim:true }):"0s"}`)
+    .setFooter(`Page ${args[0]} out of ${Math.ceil(lines.length/resultPerPage)} | Total lenght: ${queue.length>0?moment.duration(queue.map(v=>parseInt(v.length)).reduce((a,c)=>a+c), "seconds").format("HH:mm:ss", { trim:true }):"0s"}`)
     message.channel.send(embed)
 };
   

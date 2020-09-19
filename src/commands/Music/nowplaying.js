@@ -1,7 +1,7 @@
 const Discord = require("discord.js")
 exports.execute = async (client, message, args) => {
     if(!message.guild.me.voice.channel) return message.channel.send("I am not playing anything.")
-    let s = client.db.get(message.guild.id, "queue")[0]
+    let s = client.queues[message.guild.id][0]
 
     let moment = require("moment");
     require("moment-duration-format")(moment)
