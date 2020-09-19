@@ -6,6 +6,7 @@ const config = {
     "hostname": process.env.hostname,
     "weatherapi": process.env.weatherapi,
     "thecatapi": process.env.thecatapi,
+    "webport": process.env.port,
     "log": "520602366240882697",
     "defaultSettings": {
         "settings": {
@@ -18,7 +19,6 @@ const config = {
             "xp": false
         },
         "users": {},
-        "queue": [],
         "tags": {},
         "banned": {}
     },
@@ -27,43 +27,43 @@ const config = {
             "guildOnly": false,
             "level": 0,
             "name": "User",
-            "check": ()=>{return true;}
+            "check": () => true
         },
         {
             "guildOnly": true,
             "level": 1,
             "name": "Server mod",
-            "check": (message, client)=>{return (message.member.roles.cache.some(r=>r.id==client.db.get(message.guild.id).settings.mod))}
+            "check": (message, client) => message.member.roles.cache.some(r=>r.id==client.db.get(message.guild.id).settings.mod)
         },
         {
             "guildOnly": true,
             "level": 2,
             "name": "Server Admin",
-            "check": (message)=>{try{return (message.member.hasPermission("ADMINISTRATOR"))}catch(e){return false;}}
+            "check": message => {try{return (message.member.hasPermission("ADMINISTRATOR"))}catch(e){return false;}}
         },
         {
             "guildOnly": true,
             "level": 3,
             "name": "Server Owner",
-            "check": (message)=>{return (message.author.id === message.guild.owner.id)}
+            "check": message => message.author.id === message.guild.owner.id
         },
         {
             "guildOnly": false,
             "level": 4,
             "name": "Bot Support",
-            "check": (message)=>{return (config.support.includes(message.author.id))}
+            "check": message => config.support.includes(message.author.id)
         },
         {
             "guildOnly": false,
             "level": 5,
             "name": "Bot Admin",
-            "check": (message)=>{return (config.admins.includes(message.author.id))}
+            "check": message => config.admins.includes(message.author.id)
         },
         {
             "guildOnly": false,
             "level": 6,
             "name": "Bot Owner",
-            "check": (message)=>{return (message.author.id === config.owner)}
+            "check": message => message.author.id === config.owner
         },
     ]
 };

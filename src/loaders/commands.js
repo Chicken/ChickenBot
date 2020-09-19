@@ -1,20 +1,29 @@
-const fs = require("fs");
-const readdir = require("util").promisify(fs.readdir);
+const readdir = require("fs").readdirSync;
+
 module.exports = async (client) => {
-    console.log(`${client.colors.Green}Starting to load commands${client.colors.Reset}`)
-    const cmdFiles = await readdir("./src/commands/");
-    cmdFiles.forEach(f => {
-        if (!f.endsWith(".js")) return;
-        console.log(`${client.colors.Yellow}Trying to load command ${f.split(" ")[0]}${client.colors.Reset}`)
-        try {
-            let props = require(`../commands/${f}`);
-            if(props.data.disabled) console.log(`${client.colors.Red}Command is disabled.${client.colors.Reset}`);
-            client.commands.set(props.data.name, props)
-            props.data.aliases.forEach(a=>{
-                client.aliases.set(a, props.data.name)
-            })
-        } catch (e) {
-            console.error(`${client.colors.Red}Failed to load command ${f.split(" ")[0]}\n${e.stack}${client.colors.Reset}`)
-        }
+    client.logger.infoHeader("Starting to load commands");
+
+    let categories = readdir("./src/commands/");
+    categories.forEach(cat=>{
+        client.logger.infoHeader(`Starting to load ${cat} commands`);
+
+        let cmdFiles = readdir(`./src/commands/${cat}`);
+        cmdFiles.forEach(f => {
+            if (!f.endsWith(".js")) return;
+            client.logger.info(`Loading command ${f.split(" ")[0]}`)
+            try {
+                let props = require(`../commands/${cat}/${f}`);
+                props.data.category = cat;
+                if(props.data.disabled) client.logger.error("Command is disabled");
+                client.commands.set(props.data.name, props)
+                props.data.aliases.forEach(a=>{
+                    client.aliases.set(a, props.data.name)
+                })
+            } catch (e) {
+                client.logger.error(`Failed to load command ${f.split(" ")[0]}\n${e.stack}`)
+            }
+        });
     });
+
+    client.logger.success("Succesfully loaded commands");
 }

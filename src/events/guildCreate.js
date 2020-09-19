@@ -1,11 +1,12 @@
 const Discord = require("discord.js");
-module.exports = async (client, guild) => {
-    console.log(`${client.colors.Yellow}Joined guild ${guild.name} (${guild.id})${client.colors.Reset}`);
+
+module.exports = async (client) => {
+    client.logger.info("Joined a server.")
     client.user.setActivity(`people on ${client.guilds.cache.size} servers`, { type: "WATCHING" });
+
     const embed = new Discord.MessageEmbed()
-    .setTitle('Server joined')
-    .setDescription(`Joined a server called ${guild.name} (${guild.id})`)
-    .setColor('00ffff')
+    .setDescription("Joined a server.")
+    .setColor("6f43ba")
     .setTimestamp()
-    client.channels.cache.get(client.config.log).send(embed)
+    client.channels.cache.get(client.config.log).send(embed);
 }

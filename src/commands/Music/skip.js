@@ -1,0 +1,21 @@
+exports.execute = async (client, message, args) => {
+    if(!message.guild.me.voice.connection.dispatcher) return message.channel.send("I am not playing anything.")
+    if(message.guild.me.voice.channel !== message.member.voice.channel) return message.channel.send("You are not in the same voice channel as me.")
+    let songs = client.db.get(message.guild.id, "queue")
+    let num = parseInt(args[0]) || 1
+    if(isNaN(num) || num < 1 || num > songs.length) return message.channel.send("Invalid amount")
+    let removed = songs.splice(0, num-1)
+    client.db.set(message.guild.id, songs, "queue")
+    message.guild.me.voice.connection.dispatcher.destroy()
+    message.channel.send("Skipping...")
+};
+  
+exports.data = {
+    permissions: 36718592,
+    guildOnly: true,
+    aliases: ["s"],
+    name: "skip",
+    desc: "Skips current song",
+    usage: "skip",
+    perm: 0
+};

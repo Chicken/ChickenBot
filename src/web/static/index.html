@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ChickenBot</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>ChickenBot</h1>
+    </body>
+    <p>
+        Nothing to see here (yet)! <br>
+        Placeholder for a website.
+    </p>
+    <a id="login" href=""><button>Log in with discord (Just a test, no dashboard)</button></a>
+    <br><br>
+    <a href="privacy">Privacy Policy</a>
+    <script>
+        document.getElementById("login").href = "https://discordapp.com/api/oauth2/authorize?client_id=512663078819725313&redirect_uri="+encodeURIComponent(location.href)+"auth&response_type=code&scope=identify%20guilds"
+    </script>
+</html>

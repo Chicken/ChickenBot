@@ -1,6 +1,10 @@
 const fs = require("fs");
+const Discord = require("discord.js");
 const readdir = require("util").promisify(fs.readdir);
-module.exports = (client) => {
+
+module.exports = async client => {
+    client.logger = require("./logger");;
+
     client.perm = message => {
         let permlvl = 0;
         let permOrder = client.config.perms.slice()
@@ -16,28 +20,10 @@ module.exports = (client) => {
     };
     
     client.formatDate = (date) => {
-        return `${date.getUTCDate()}.${date.getUTCMonth()+1}.${date.getUTCFullYear()} ${date.getUTCHours().toString().padStart(2,'0')}:${date.getUTCMinutes().toString().padStart(2,'0')}:${date.getUTCSeconds().toString().padStart(2,'0')} UTC+0`
+        return `${date.getUTCDate()}.${date.getUTCMonth()+1}.${date.getUTCFullYear()} ${date.getUTCHours().toString().padStart(2,'0')}:${date.getUTCMinutes().toString().padStart(2,'0')}:${date.getUTCSeconds().toString().padStart(2,'0')} UTC`
     }
-    
-    client.colors = {
-        Reset: "\x1b[0m",
-        Bright: "\x1b[1m",
-        Dim: "\x1b[2m",
-        Underscore: "\x1b[4m",
-        Blink: "\x1b[5m",
-        Reverse: "\x1b[7m",
-        Hidden: "\x1b[8m",
-        Black: "\x1b[30m",
-        Red: "\x1b[31m",
-        Green: "\x1b[32m",
-        Yellow: "\x1b[33m",
-        Blue: "\x1b[34m",
-        Magenta: "\x1b[35m",
-        Cyan: "\x1b[36m",
-        White: "\x1b[37m",
-    };
 
-    client.deleteOldDownloads = async () => {
+    let deleteOldDownloads = async () => {
         let audios = await readdir("./ytdl/audio");
         let videos = await readdir("./ytdl/video");
         audios.forEach(f=>{
@@ -46,7 +32,7 @@ module.exports = (client) => {
                 if((Date.now()-stats.birthtime)>1000*60*60*24*7) {
                     fs.unlink("./ytdl/audio/"+f, (err)=>{
                         if (err) throw err;
-                        console.log(`${client.colors.Green}Deleted downloaded file ${f} for being too old.${client.colors.Reset}`)
+                        client.logger.info(`Deleted downloaded file ${f} for being too old.`)
                     })
                 }
             })
@@ -57,22 +43,30 @@ module.exports = (client) => {
                 if((Date.now()-stats.birthtime)>1000*60*60*24*7) {
                     fs.unlink("./ytdl/video/"+f, (err)=>{
                         if (err) throw err;
-                        console.log(`${client.colors.Green}Deleted downloaded file ${f} for being too old.${client.colors.Reset}`)
+                        client.logger.info(`Deleted downloaded file ${f} for being too old.`)
                     })
                 }
             })
         })
     }
-    client.deleteOldDownloads();
-    setInterval(client.deleteOldDownloads, 1000*60*60*12);
+    deleteOldDownloads();
+    setInterval(deleteOldDownloads, 1000*60*60*12);
 
     process.on('uncaughtException', async (err, origin) => {
-        console.error(err, origin)
+        client.logger.error(`${err}\n${origin}`)
     })
     
-    process.on('beforeExit', async (code) => {
-        client.destroy()
-        console.log(client.colors.Magenta + "Exiting script with code " + code);
+    let handleClose = async () => {
+        await client.db.close();
+        await client.destroy();
+        process.exit(0)
+    }
+
+    process.on('SIGINT', handleClose);
+    process.on('SIGTERM', handleClose);
+    process.on('beforeExit', handleClose)
+
+    process.on('exit', async code =>{
+        client.logger.error("Script exited with code " + code);
     });
-    
 }

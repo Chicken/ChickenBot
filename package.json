@@ -1,6 +1,6 @@
 {
   "name": "chicken_bot",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Classic ChickenBot upgraded to 2020 standards.",
   "main": "./src/index.js",
   "scripts": {
@@ -11,19 +11,20 @@
   "dependencies": {
     "@discordjs/opus": "^0.2.1",
     "@lavacord/discord.js": "0.0.7",
-    "bent": "^7.3.2",
-    "better-sqlite3": "^7.0.1",
+    "bent": "^7.3.10",
+    "better-sqlite3": "^7.1.0",
     "canvas": "^2.6.1",
-    "discord.js": "^12.2.0",
+    "chalk": "^4.1.0",
+    "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
-    "enmap": "^5.3.1",
+    "enmap": "^5.7.1",
     "express": "^4.17.1",
     "fluent-ffmpeg": "^2.1.2",
-    "form-urlencoded": "^4.1.4",
-    "moment": "^2.26.0",
+    "form-urlencoded": "^4.2.1",
+    "moment": "^2.27.0",
     "moment-duration-format": "^2.3.2",
     "ms": "^2.1.2",
-    "ytdl-core": "^2.1.6",
-    "ytdl-core-discord": "^1.2.0"
+    "ytdl-core": "^2.1.7",
+    "ytdl-core-discord": "^1.2.1"
   }
 }

@@ -1,9 +1,15 @@
 const Enmap = require('enmap')
 require('dotenv').config();
-module.exports = (client) => {
-    client.yt = require("ytdl-core");
+
+module.exports = async client => {
     client.config = require("../config.js");
-    client.db = new Enmap({name: "settings", ensureProps: true})
+    client.db = new Enmap({
+        name: "guilds",
+        ensureProps: true
+    })
+    client.reminders = new Enmap({
+        name: "reminders"
+    })
     client.commands = new Enmap();
     client.aliases = new Enmap();
     client.cooldown = new Set();
