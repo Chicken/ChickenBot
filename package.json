@@ -7,7 +7,7 @@
     "start": "node ./src/index.js"
   },
   "author": "antti@antti.codes",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@discordjs/opus": "^0.2.1",
     "@lavacord/discord.js": "0.0.7",
