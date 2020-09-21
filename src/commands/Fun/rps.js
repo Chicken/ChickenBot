@@ -17,16 +17,16 @@ exports.execute = async (client, message, args) => {
     if(bot == 2 && user == 0) status = 1;
     if(bot == 2 && user == 1) status = 0;
 
-    message.channel.send(`I chose ${bot ? (bot==1 ? "`Paper`" : "`Scissors`") : "`Rock`"}, `
+    message.channel.send(`I chose ${bot ? (bot==1 ? "`paper`" : "`scissors`") : "`rock`"}, `
                         +`${status==2 ? "we tie" :  (status ? "you win" : "you lose")}`)
 };
   
 exports.data = {
-    permissions: 51200,
+    permissions: 2048,
     guildOnly: false,
     aliases: [],
     name: "rps",
     desc: "Fight the bot in rock paper scissors.",
-    usage: "rps <r, p, s>",
+    usage: "rps <r | p | s>",
     perm: 0
 };
