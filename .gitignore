@@ -3,5 +3,3 @@ data/
 node_modules/
 .git
 npm-debug.log
-ytdl/audio/*
-ytdl/video/*
