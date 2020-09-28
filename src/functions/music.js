@@ -87,7 +87,16 @@ Query: ${query}`)
         });
         await player.play(query);
 
-        player.on("error", error => console.error(error));
+        //TODO: Handel errors
+        // know errors:
+        // `WebSocketClosedEvent` Manually disconnecting the bot.
+        // `TrackExceptionEvent` Youtube messed up
+        player.on("error", error => {
+            const goodErrors = ['WebSocketClosedEvent']
+            if (!goodErrors.includes(error.type))
+                if (options.error && typeof options.error === 'function')
+                    options.error(error)
+        });
         player.on("end", async data => {
             if (data.reason === "REPLACED") return;
             if (data.reason === "CLEANUP")
