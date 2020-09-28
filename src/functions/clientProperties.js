@@ -3,13 +3,8 @@ require('dotenv').config();
 
 module.exports = async client => {
     client.config = require("../config.js");
-    client.db = new Enmap({
-        name: "guilds",
-        ensureProps: true
-    })
-    client.reminders = new Enmap({
-        name: "reminders"
-    })
+    client.db = new Enmap("guilds")
+    client.reminders = new Enmap("reminders")
     client.commands = new Enmap();
     client.aliases = new Enmap();
     client.cooldown = new Set();

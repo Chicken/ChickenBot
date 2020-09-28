@@ -8,8 +8,6 @@ exports.execute = async (client, message, args) => {
     let command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0])) || args[0];
     let commandName = typeof command == "object" ? command.data.name : command;
 
-    console.log(commandName)
-
     message.channel.send(`Attemping to reload command \`${commandName}\``)
 
     if(typeof command == "object") {

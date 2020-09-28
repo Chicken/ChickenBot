@@ -24,36 +24,6 @@ module.exports = async client => {
         return `${date.getUTCDate()}.${date.getUTCMonth()+1}.${date.getUTCFullYear()} ${date.getUTCHours().toString().padStart(2,'0')}:${date.getUTCMinutes().toString().padStart(2,'0')}:${date.getUTCSeconds().toString().padStart(2,'0')} UTC`
     }
 
-    client.getVideoData = async (query) => {
-        let data
-        try {
-            data = await (await fetch(`http://${process.env.lavalink_host}:${process.env.lavalink_port}/loadtracks?identifier=${encodeURIComponent(query)}`, { headers: { Authorization: process.env.lavalink_pass } })).json()
-            if (data.error) data = {
-                "loadType": "LOAD_FAILED",
-                "playlistInfo": {},
-                "tracks": [],
-                "exception": {
-                    "message": data.message,
-                    "severity": data.error
-                }
-            }
-        } catch (e) {
-            client.logger.error(`Error querying lavalink. 
-Error: ${e}
-Query: ${query}`)
-            data = {
-                "loadType": "LOAD_FAILED",
-                "playlistInfo": {},
-                "tracks": [],
-                "exception": {
-                    "message": "Error contacting the server.",
-                    "severity": "FATAL"
-                }
-            }
-        } finally {
-            return data;
-        }
-    }
     let deleteOldDownloads = async () => {
         let audios = await readdir("./ytdl/audio");
         let videos = await readdir("./ytdl/video");

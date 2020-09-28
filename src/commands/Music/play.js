@@ -20,9 +20,9 @@ exports.execute = async (client, message, args) => {
     let msg = await message.channel.send('Loading...')
     let meta;
     const video = /(http(s)?:\/\/)?(www\.|music\.|gaming\.|m\.)?youtu(?:be\.com\/watch\?(.+=.+&)*v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?(&.+=.+)*/ // modified from https://stackoverflow.com/questions/3717115/regular-expression-for-youtube-links
-    const playlist = /(http(s)?:\/\/)?(www\.|music\.|gaming\.|m\.)?youtube\.com\/playlist\?(.+=.+&)*list=([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?(&.+=.+)*/
+    const list = /(http(s)?:\/\/)?(www\.|music\.|gaming\.|m\.)?youtube\.com\/playlist\?(.+=.+&)*list=([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?(&.+=.+)*/
  
-    if (video.test(query) || playlist.test(query))
+    if (video.test(query) || list.test(query))
         meta = await client.getVideoData(query)
     // else if (/^.*(youtu.be\/|list=)([^#\&\?]*).*/.test(query)) {
     //     let url = query.match(/^.*(youtu.be\/|list=)([^#\&\?]*).*/)[0]
@@ -68,12 +68,26 @@ exports.execute = async (client, message, args) => {
       }
     }
     */
-    let track = meta.tracks[0]?.info
-
-    let url = track.uri
-
     if (!meta) return message.channel.send("A unexpected error occurred!")
-    if (meta.exception) return message.channel.send(`I'm sorry an error occurred!\`\`\` ${exception.message}\`\`\``)
+    let track, playlist
+    switch (meta.loadType) {
+        case "TRACK_LOADED":
+        case "SEARCH_RESULT":
+            track = meta.tracks[0]
+            break;
+        case "PLAYLIST_LOADED":
+            track = meta.tracks
+            playlist = meta.playlistInfo.name
+            break;
+        case "NO_MATCHES":
+        case "LOAD_FAILED":
+        default:
+            if (meta.exception) return message.channel.send(`I'm sorry an error occurred!\`\`\` ${exception.message}\`\`\``)
+            else return message.channel.send("A unexpected error occurred!");
+            break;
+
+
+    }
 
     //todo fix this
     // if(flags.includes("s")) {c
@@ -85,53 +99,27 @@ exports.execute = async (client, message, args) => {
     // } else {
     //     client.queues[message.guild.id].push({name: meta.player_response.videoDetails.title, url:url, length: meta.player_response.videoDetails.lengthSeconds, user: message.author.id, image: meta.player_response.videoDetails.thumbnail.thumbnails[meta.player_response.videoDetails.thumbnail.thumbnails.length-1]})
     // }
+    if (!track) return message.channel.send("A unexpected error occurred!");
+
     const embed = new MessageEmbed()
+    if (!playlist) {
+        embed
         .setTitle('Added to queue')
-        .setDescription(`[${track.title}](${track.uri}) by ${track.author} has been added to the queue.
-        Requested by ${message.author}
-${moment.duration(track.length).format("HH:mm:ss", { trim: false })}`)
-        .setThumbnail(`https://img.youtube.com/vi/${track.identifier}/hqdefault.jpg`)
-        .setColor('GREEN')
-
-    msg.edit('', embed)
-
-
-    let connection
-    if(!message.guild.me.voice.channel) {
-        connection = await message.member.voice.channel.join()
+            .setDescription(`[${track.info.title}](${track.info.uri}) has been added to the queue.
+Requested by ${message.author}
+${moment.duration(track.info.length).format("HH:mm:ss", { trim: false })}`)
+            .setThumbnail(`https://img.youtube.com/vi/${track.info.identifier}/hqdefault.jpg`)
+            .setColor('GREEN')
     } else {
-        return;
+        embed
+            .setTitle('Added to queue')
+            .setDescription(`${track.length} songs from ${playlist} have been added to the queue.
+Requested by ${message.author}`)
+            .setThumbnail(`https://img.youtube.com/vi/${track[0].info.identifier}/hqdefault.jpg`)
+            .setColor('GREEN')
     }
-
-
-    async function playNext(connection) {
-        let songs = client.queues[message.guild.id]
-        let current = songs[0]
-        if(!current) return message.guild.me.voice.channel.leave()
-        let dispatcher = connection.play(await ytdlDiscord(current.url, { begin: (current.time?current.time:"0"), filter: "audioonly", quality: "highestaudio", highWaterMark: 1 << 25 }), { type: 'opus', highWaterMark: 25, volume: client.db.get(message.guild.id, "settings.volume") })
-        dispatcher.on("finish", ()=>{
-            let songs = client.queues[message.guild.id]
-            if(client.db.get(message.guild.id, "settings.loop")){
-                songs.push(songs.shift())
-            } else {
-                songs.shift()
-            }
-            client.queues[message.guild.id] = songs;
-            playNext(connection)
-        })
-        dispatcher.on("close", ()=>{
-            let songs = client.queues[message.guild.id]
-            if(client.db.get(message.guild.id, "settings.loop")){
-                songs.push(songs.shift())
-            } else {
-                songs.shift()
-            }
-            client.queues[message.guild.id] = songs;
-            playNext(connection)
-        })
-    }
-
-    playNext(connection)
+    msg.edit('', embed)
+    await client.addToQueue(track, message)
 };
   
 exports.data = {

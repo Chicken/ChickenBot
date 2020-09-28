@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 
 module.exports = async (client) => {
-
+    await require("../functions/lavalink.js")(client);
     client.reminders.keyArray().forEach(u => {
         Object.entries(client.reminders.get(u))
         .filter(e=>e[0]!=="num")

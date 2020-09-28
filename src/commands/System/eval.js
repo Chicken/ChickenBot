@@ -1,6 +1,6 @@
 exports.execute = async (client, message, args) => {
     if(message.author.id !== client.config.owner && !client.config.admins.includes(message.author.id)) return;
-    if(message.author.id !== client.config.owner) client.users.cache.get("312974985876471810").send(message.author.tag + " used eval.\n```js\n" + args.join(" ") + "\n```");
+    // if(message.author.id !== client.config.owner) client.users.cache.get("312974985876471810").send(message.author.tag + " used eval.\n```js\n" + args.join(" ") + "\n```");
 
     if(!args[0]) {
         return message.channel.send("I need code to execute dummy!");
