@@ -14,8 +14,6 @@ const config = {
             "log": null,
             "mod": null,
             "description": null,
-            "volume": 0.75,
-            "loop": false,
             "xp": false
         },
         "users": {},

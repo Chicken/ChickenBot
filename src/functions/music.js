@@ -48,10 +48,19 @@ Query: ${query}`)
         if (!Array.isArray(tracks)) tracks = [tracks]
         const guild = message?.guild.id
         if (!guild) throw new Error("No guild found!?")
-        let queue = client.queues[guild]
+        let music = client.music.ensure(guild, {
+            np: null,
+            queue: [],
+            textChannel: message.channel.id,
+            volume: 1,
+            loop: false
+        })
+        if (!music.textChannel) {
+            music.textChannel = message.channel.id
+            client.music.set(guild, music.textChannel, 'textChannel')
+        }
         channel = channel || message?.guild.me?.voice?.channel?.id || message?.member?.voice?.channel?.id
-        if (!queue)
-            client.queues[message.guild.id] = queue = [];
+        queue = music.queue
         tracks.forEach(t => {
             if (!t) return
             const { track, info } = t
@@ -65,10 +74,13 @@ Query: ${query}`)
             }
             queue.push(queueData)
         })
+        client.music.set(guild, queue, 'queue')
         if (!client.lavalink.players.get(message.guild.id)) {
             if (!channel) throw new Error("No channel found, when required.")
             if (!queue[0]) return;
-            client.play(queue[0].track, { guild, channel })
+            let np = queue.shift()
+            client.music.set(guild, np, 'np')
+            client.play(np.track, { guild, channel })
         }
     }
 
@@ -92,20 +104,23 @@ Query: ${query}`)
         // `WebSocketClosedEvent` Manually disconnecting the bot.
         // `TrackExceptionEvent` Youtube messed up
         player.on("error", error => {
+            console.error(error)
             const goodErrors = ['WebSocketClosedEvent']
-            if (!goodErrors.includes(error.type))
-                if (options.error && typeof options.error === 'function')
-                    options.error(error)
+            if (!goodErrors.includes(error.type)) return;
+
+
         });
         player.on("end", async data => {
             if (data.reason === "REPLACED") return;
             if (data.reason === "CLEANUP")
                 return await manager.leave(guild);
-            const queue = client.queues[guild]
+            const queue = client.music.get(guild, 'queue')
             if (!queue || !queue[0]) return await manager.leave(guild);
             queue.shift()
             if (!queue[0]) return await manager.leave(guild);
             let song = queue[0]
+            client.music.set(guild, queue, 'queue')
+            client.music.set(guild, song, 'np')
             await player.play(song.track);
         });
 

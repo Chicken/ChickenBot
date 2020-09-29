@@ -10,9 +10,6 @@ exports.execute = async (client, message, args) => {
     while(args[0] && args[0].startsWith("-")) {
         flags.push(args.shift()[1])
     }
-    if(!client.queues[message.guild.id]) {
-        client.queues[message.guild.id] = [];
-    }
     if(!message.member.voice.channel) return message.channel.send("You must be in a voice channel to play music!") 
     if(message.guild.me.voice.channel && message.guild.me.voice.channel !== message.member.voice.channel) return message.channel.send("I am already in a different voice channel!")
     if(!args[0]) return message.channel.send("What song should I play?")
@@ -24,50 +21,8 @@ exports.execute = async (client, message, args) => {
  
     if (video.test(query) || list.test(query))
         meta = await client.getVideoData(query)
-    // else if (/^.*(youtu.be\/|list=)([^#\&\?]*).*/.test(query)) {
-    //     let url = query.match(/^.*(youtu.be\/|list=)([^#\&\?]*).*/)[0]
-    //     let result = await bent(url, "string", "GET")();
-    //     let videos = result.match(/watch\?v=([a-zA-Z0-9-_]{11})/g)
-    //     if(videos.length<0){
-    //         return message.channel.send("No playlist found!")
-    //     }
-    //     videos = [...new Set(videos)]
-    //     for (let i = 0; i < videos.length; i++) {
-    //         let v = videos[i]
-    //         await (async()=>{
-    //             try{
-    //                 let vurl = "https://www.youtube.com/"+v
-    //                 if(!ytdl.validateURL(vurl)) return;
-    //                 meta = await ytdl.getBasicInfo(vurl)
-    //                 if(!meta) return;
-    //                 client.queues[message.guild.id].push({name: meta.player_response.videoDetails.title, url:vurl, length: meta.player_response.videoDetails.lengthSeconds, user: message.author.id, image: meta.player_response.videoDetails.thumbnail.thumbnails[meta.player_response.videoDetails.thumbnail.thumbnails.length-1]})
-    //             } catch(e) {return}
-    //         })()
-    //     }
-    //     let connection;
-    //     if(!message.guild.me.voice.channel) {
-    //         connection = await message.member.voice.channel.join()
-    //     } else {
-    //         return;
-    //     }
-    //     await msg.edit(`Added \`${videos.length}\` songs from \´${result.match(/<title>(.*)<\/title>/)[1].split(" - ")[0]}\` to the queue`)
-    //     playNext(connection)
-    //     return;
-    // } 
     else
         meta = await client.getVideoData(`ytsearch: ${query}`)
-
-            /*
-    {
-      "loadType": "LOAD_FAILED",
-      "playlistInfo": {},
-      "tracks": [],
-      "exception": {
-        "message": "The uploader has not made this video available in your country.",
-        "severity": "COMMON"
-      }
-    }
-    */
     if (!meta) return message.channel.send("A unexpected error occurred!")
     let track, playlist
     switch (meta.loadType) {
@@ -82,7 +37,7 @@ exports.execute = async (client, message, args) => {
         case "NO_MATCHES":
         case "LOAD_FAILED":
         default:
-            if (meta.exception) return message.channel.send(`I'm sorry an error occurred!\`\`\` ${exception.message}\`\`\``)
+            if (meta.exception) return message.channel.send(`I'm sorry an error occurred!\`\`\`\n${meta.exception.message}\`\`\``)
             else return message.channel.send("A unexpected error occurred!");
             break;
 

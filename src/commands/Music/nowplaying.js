@@ -1,17 +1,17 @@
 const Discord = require("discord.js")
 exports.execute = async (client, message, args) => {
     if(!message.guild.me.voice.channel) return message.channel.send("I am not playing anything.")
-    let s = client.queues[message.guild.id][0]
-
+    let s = client.music.get(message.guild.id, 'np')
+    if (!s) return message.channel.send("I am not playing anything.")
     let moment = require("moment");
     require("moment-duration-format")(moment)
 
-    let length = moment.duration(parseInt(s.length), "seconds").format("HH:mm:ss", { trim:false })
+    let length = moment.duration(s.length).format("HH:mm:ss", { trim: false })
     if(length[0] === "0" && length[1] === "0") length = length.substring(3)
 
     let current
     try{
-        current = moment.duration(message.guild.me.voice.connection.dispatcher.streamTime, "milliseconds").format("HH:mm:ss", { trim:false })
+        current = moment.duration(client?.lavalink?.players?.get(message.guild.id)?.state?.position || 0).format("HH:mm:ss", { trim: false })
     } catch(e){
         current = "00:00"
     }
