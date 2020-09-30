@@ -8,10 +8,10 @@ const fs = require("fs");
 
 module.exports = async client => {
     app.listen(client.config.webport, () => {
-        client.logger.success(`Webserver online.`)
+        client.logger.success(`Webserver online.`);
     });
 
-    app.use(express.static(__dirname + '/static'))
+    app.use(express.static(__dirname + '/static'));
     
     app.get("/auth", async (req, res)=>{
         let data = {
@@ -21,10 +21,10 @@ module.exports = async client => {
             'code': req.query.code,
             'redirect_uri': `${client.config.hostname}/auth`,
             'scope': 'identify guilds'
-        }
+        };
         let headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        };
         let user;
         try {
             let token = await postApi("/oauth2/token", formurlencoded(data), headers);
@@ -34,7 +34,7 @@ module.exports = async client => {
             res.sendStatus(500).end();
         }
         res.send(`${user.username}#${user.discriminator}`);
-    })
+    });
     
     app.get("/ytdl/audio/:id", async (req, res)=>{
         let path = __dirname + "/../../ytdl/audio/"+req.params.id+".mp3";
@@ -43,7 +43,7 @@ module.exports = async client => {
         } else {
             res.download(path);
         }
-    })
+    });
     
     app.get("/ytdl/video/:id", async (req, res)=>{
         let path = __dirname + "/../../ytdl/video/"+req.params.id+".mp4";
@@ -52,5 +52,5 @@ module.exports = async client => {
         } else {
             res.download(path);
         }
-    })
+    });
 }
