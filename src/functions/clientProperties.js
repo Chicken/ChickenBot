@@ -1,5 +1,5 @@
-const Enmap = require('enmap')
-require('dotenv').config();
+const Enmap = require("enmap");
+require("dotenv").config();
 
 module.exports = async client => {
     client.config = require("../config.js");
@@ -11,4 +11,4 @@ module.exports = async client => {
     client.music = new Enmap();
     client.bantimers = {};
     client.remindtimers = {};
-}
+};
