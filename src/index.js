@@ -1,7 +1,7 @@
 const { Client } = require("discord.js");
 const client = new Client();
 
-(async()=>{
+(async () => {
     await require("./functions/clientProperties.js")(client);
     await require("./functions/util.js")(client);
     await require("./loaders/events.js")(client);
