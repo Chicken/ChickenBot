@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
     if(!message.guild.me.voice.channel) return message.channel.send("I am not playing anything.");
     let songs = client.queues[message.guild.id];

@@ -1,3 +1,3 @@
 module.exports = async (client, error) => {
-    client.logger.error(`${error}\n${error.stack}`)
-}
+    client.logger.error(`${error}\n${error.stack}`);
+};
