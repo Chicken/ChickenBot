@@ -1,19 +1,20 @@
-const Discord = require("discord.js")
+const Discord = require("discord.js");
+// eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
     let moment = require("moment");
-    require("moment-duration-format")(moment)
+    require("moment-duration-format")(moment);
     let duration = moment.duration(client.uptime, "milliseconds").format(" D [days], H [hrs], m [mins], s [secs]");
     let embed = new Discord.MessageEmbed()
-    .setTitle('Stats')
-    .addField(`<:js:525156067743891486>node.js version`, `${process.version}`, true)
-    .addField('<:bot:520718822152470530>discord.js version', `${Discord.version}`, true)
-    .addField('⏱Uptime', duration, true)
-    .addField('💽Ram', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
-    .addField(`${client.ws.ping>100?'<a:e:525001588935360522>':'<a:e:524998745721536514>'}Ping`, `${Math.floor(client.ws.ping)}ms!`, true)
-    .addField('👥Users', `${client.users.cache.size} users, in ${client.channels.cache.size} channels of ${client.guilds.cache.size} servers.`, true)
-    .setFooter(`Requested by ${message.author.tag}`)
-    .setTimestamp()
-    message.channel.send(embed)
+        .setTitle("Stats")
+        .addField("<:js:525156067743891486>node.js version", `${process.version}`, true)
+        .addField("<:bot:520718822152470530>discord.js version", `${Discord.version}`, true)
+        .addField("⏱Uptime", duration, true)
+        .addField("💽Ram", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
+        .addField(`${client.ws.ping > 100 ? "<a:e:525001588935360522>" : "<a:e:524998745721536514>"}Ping`, `${Math.floor(client.ws.ping)}ms!`, true)
+        .addField("👥Users", `${client.users.cache.size} users, in ${client.channels.cache.size} channels of ${client.guilds.cache.size} servers.`, true)
+        .setFooter(`Requested by ${message.author.tag}`)
+        .setTimestamp();
+    message.channel.send(embed);
 };
   
 exports.data = {

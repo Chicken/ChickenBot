@@ -39,7 +39,7 @@ const config = {
             "guildOnly": true,
             "level": 2,
             "name": "Server Admin",
-            "check": message => {try{return (message.member.hasPermission("ADMINISTRATOR"))}catch(e){return false;}}
+            "check": message => { try { return (message.member.hasPermission("ADMINISTRATOR")); } catch (e) { return false; } }
         },
         {
             "guildOnly": true,

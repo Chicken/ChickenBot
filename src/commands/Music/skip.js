@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
     if(!message.guild.me.voice?.connection?.dispatcher) return message.channel.send("I am not playing anything.");
     if(message.guild.me.voice.channel !== message.member.voice.channel) return message.channel.send("You are not in the same voice channel as me.");

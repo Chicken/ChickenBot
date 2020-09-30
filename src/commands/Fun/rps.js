@@ -1,5 +1,4 @@
-const Discord = require("discord.js");
-
+// eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
     if(!args[0]) return message.channel.send("Choose `rock`, `paper` or `scissors`");
     let user,
@@ -18,7 +17,7 @@ exports.execute = async (client, message, args) => {
     if(bot == 2 && user == 1) status = 0;
 
     message.channel.send(`I chose ${bot ? (bot==1 ? "`paper`" : "`scissors`") : "`rock`"}, `
-                        +`${status==2 ? "we tie" :  (status ? "you win" : "you lose")}`)
+        + `${status == 2 ? "we tie" : (status ? "you win" : "you lose")}`);
 };
   
 exports.data = {

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
     
 };
