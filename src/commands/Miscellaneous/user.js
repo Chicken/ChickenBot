@@ -20,10 +20,10 @@ exports.execute = async (client, message, args) => {
  
     let member = message.guild.members.cache.get(info.id);
     
-    if(!    member) {
+    if(!member) {
         let embed = new Discord.MessageEmbed()
             .setTitle(info.tag)
-            .setThumbnail(info.displayAvatarURL())
+            .setThumbnail(info.displayAvatarURL({dynamic: true}))
             .setColor("FF00FF")
             .setDescription(info.toString());
         if(info.flags.toArray().length) {
@@ -39,11 +39,11 @@ exports.execute = async (client, message, args) => {
 
     let roles = "‎";
     member.roles.cache.forEach(role => { if (role.name === "@everyone") return; roles += `<@&${role.id}> `; });
-    let     nickname = member.nickname || "No nickname";
-    let     status = info.presence.status === "dnd" ? "do not disturb" : info.presence.status;
+    let nickname = member.nickname || "No nickname";
+    let status = info.presence.status === "dnd" ? "do not disturb" : info.presence.status;
     let embed = new Discord.MessageEmbed()
         .setTitle(info.tag)
-        .setThumbnail(info.displayAvatarURL())
+        .setThumbnail(info.displayAvatarURL({dynamic: true}))
         .setColor("FF00FF")
         .setDescription(info.toString());
     if(info.flags.toArray().length) {
