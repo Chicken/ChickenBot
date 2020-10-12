@@ -58,5 +58,10 @@ module.exports = async (client) => {
             let channel = client.channels.cache.get(textChannel);
             if (channel) channel.send("It looks like your session was interrupted. I've restarted where we left off.");
         });
+    } else {
+        client.commands.filter(c => c.data.category == "Music").forEach(c => {
+            c.data.disabled = true;
+            client.commands.set(c.data.name, c);
+        });
     }
 };
