@@ -8,7 +8,7 @@ module.exports = async client => {
     client.commands = new Enmap();
     client.aliases = new Enmap();
     client.cooldown = new Set();
-    client.music = new Enmap();
+    client.music = new Enmap("music");
     client.bantimers = {};
     client.remindtimers = {};
 };

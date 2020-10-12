@@ -1,6 +1,5 @@
 const fs = require("fs");
 const readdir = require("util").promisify(fs.readdir);
-const fetch = require('node-fetch')
 
 module.exports = async client => {
     client.logger = require("./logger");
@@ -27,6 +26,7 @@ module.exports = async client => {
         let audios = await readdir("./ytdl/audio");
         let videos = await readdir("./ytdl/video");
         audios.forEach(f=>{
+            if (f === ".gitignore") return;
             fs.stat("./ytdl/audio/"+f, (err,stats)=>{
                 if (err) throw err;
                 if((Date.now()-stats.birthtime)>1000*60*60*24*7) {
@@ -56,15 +56,27 @@ module.exports = async client => {
         client.logger.error(`${err}\n${origin}`);
     });
     
-    let handleClose = async () => {
+    client.handleClose = async () => {
         await client.db.close();
+        await client.reminders.close();
+        client.music.filter(v => v.np).forEach((v, id) => {
+            const player = client?.lavalink?.players?.get(id);
+            if (!player) return;
+            if (player.paused) return;
+            const time = player?.state?.position;
+            const channel = client?.lavalink?.voiceStates?.get(id)?.channel_id;
+            if (!channel) return;
+            client.music.set(id, time, "np.resume");
+            client.music.set(id, channel, "np.channel");
+        });
+        await client.music.close();
         await client.destroy();
         process.exit(0);
     };
 
-    process.on("SIGINT", handleClose);
-    process.on("SIGTERM", handleClose);
-    process.on("beforeExit", handleClose);
+    process.on("SIGINT", client.handleClose);
+    process.on("SIGTERM", client.handleClose);
+    process.on("beforeExit", client.handleClose);
 
     process.on("exit", async code => {
         client.logger.error("Script exited with code " + code);
