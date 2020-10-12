@@ -2,7 +2,13 @@ const Discord = require("discord.js");
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
     let server = message.guild;
-    let bans = await message.guild.fetchBans();
+    let bans;
+    try {
+        bans = await message.guild.fetchBans();
+        bans = bans.size;
+    } catch(e) {
+        bans = "Data not available.";
+    }
     let embed = new Discord.MessageEmbed()
         .setAuthor(`${server.name}`, `${server.iconURL()}`)
         .setThumbnail(`${server.iconURL()}`)
@@ -12,7 +18,7 @@ exports.execute = async (client, message, args) => {
         .addField("Channels", `${message.guild.channels.cache.filter(c=>c.type!="category").size} [${message.guild.channels.cache.filter(c=>c.type==="text").size} text | ${message.guild.channels.cache.filter(c=>c.type==="voice").size} voice]`)
         .addField("Roles", message.guild.roles.cache.size, true)
         .addField("Region", server.region)
-        .addField("Ban count", bans.size)
+        .addField("Ban count", bans)
         .addField("Boost Tier", server.premiumTier)
         .addField("Created", client.formatDate(server.createdAt))
         .setFooter(`Requested by ${message.author.tag}`)
