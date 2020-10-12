@@ -1,26 +1,19 @@
 const Discord = require("discord.js");
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
-    if (!message.guild.me.voice.channel) return message.channel.send("I am not playing anything.");
-    let s = client.queues[message.guild.id][0];
-
+    const player = client?.lavalink?.players?.get(message.guild.id);
+    if(!message.guild.me.voice.channel) return message.channel.send("I am not playing anything.");
+    let s = client.music.get(message.guild.id, "np");
+    if (!s) return message.channel.send("I am not playing anything.");
     let moment = require("moment");
     require("moment-duration-format")(moment);
-
-    let length = moment.duration(parseInt(s.length), "seconds").format("HH:mm:ss", { trim: false });
-    if (length[0] === "0" && length[1] === "0") length = length.substring(3);
-
-    let current;
-    try{
-        current = moment.duration(message.guild.me.voice.connection.dispatcher.streamTime, "milliseconds").format("HH:mm:ss", { trim: false });
-    } catch(e){
-        current = "00:00";
-    }
-    if (current[0] === "0" && current[1] === "0") current = current.substring(3);
-
+    const format = (time) => time >= 3600000 ? "h:mm:ss" : time < 60000 ? "[0:]ss" : "m:ss";
+    let length = moment.duration(s.length).format(format(s.length), { trim: false });
+    let currentTime = player.state?.position || 0;
+    let current = moment.duration(currentTime).format(format(currentTime), { trim: false });
     let embed = new Discord.MessageEmbed()
         .setTitle("Now Playing")
-        .setDescription(`[${s.name}](${s.url}) \`[${current}/${length}]\`\nQueued by \`${client.users.cache.get(s.user).tag}\``)
+        .setDescription(`[${s.name}](${s.url}) \`[${current}/${length}]\`\nQueued by <@${s.user}>`)
         .setTimestamp();
     if (s.image) { embed.setImage(s.image.url); }
     message.channel.send(embed);

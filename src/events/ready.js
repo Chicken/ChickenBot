@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 
 module.exports = async (client) => {
-
+    let music = await require("../functions/lavalink.js")(client);
     client.reminders.keyArray().forEach(u => {
         Object.entries(client.reminders.get(u))
             .filter(e=>e[0]!=="num")
@@ -44,4 +44,24 @@ module.exports = async (client) => {
         .setColor("ffaa00")
         .setTimestamp();
     client.channels.cache.get(client.config.log).send(embed);
+    if (music) {
+        client.music.filter(v => v?.np?.channel).forEach((v, id) => {
+            const { np, volume, textChannel } = v;
+            client.m.play(np.track, {
+                guild: id,
+                channel: np.channel,
+                volume,
+                startTime: np.resume
+            });
+            client.music.delete(id, "np.resume");
+            client.music.delete(id, "np.channel");
+            let channel = client.channels.cache.get(textChannel);
+            if (channel) channel.send("It looks like your session was interrupted. I've restarted where we left off.");
+        });
+    } else {
+        client.commands.filter(c => c.data.category == "Music").forEach(c => {
+            c.data.disabled = true;
+            client.commands.set(c.data.name, c);
+        });
+    }
 };
