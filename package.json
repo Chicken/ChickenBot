@@ -18,10 +18,12 @@
     "dotenv": "^8.2.0",
     "enmap": "^5.7.1",
     "express": "^4.17.1",
+    "fluent-ffmpeg": "^2.1.2",
     "form-urlencoded": "^4.2.1",
     "moment": "^2.27.0",
     "moment-duration-format": "^2.3.2",
-    "ms": "^2.1.2"
+    "ms": "^2.1.2",
+    "ytdl-core": "^3.3.0"
   },
   "devDependencies": {
     "eslint": "^7.10.0"
