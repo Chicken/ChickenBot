@@ -14,6 +14,7 @@ exports.execute = async (client, message, args) => {
     let embed = new Discord.MessageEmbed()
         .setTitle("Now Playing")
         .setDescription(`[${s.name}](${s.url}) \`[${current}/${length}]\`\nQueued by <@${s.user}>`)
+        .setThumbnail(s.image)
         .setTimestamp();
     if (s.image) { embed.setImage(s.image.url); }
     message.channel.send(embed);
