@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
+    if(!message.guild.me.voice.channel) return message.channel.send("I am not playing anything.");
     let resultPerPage = 10;
     if (!args[0]) args[0] = 1;
     args[0] = parseInt(args[0]);
