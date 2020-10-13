@@ -1,11 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
     if (!message.guild.me.voice.channel) return message.channel.send("I am not playing anything.");
-    if (message.guild.me.voice.channel !== message.member.voice.channel) return message.channel.send("You are not in the same voice channel as me.");    let songs = client.db.get(message.guild.id).queue;
+    if (message.guild.me.voice.channel !== message.member.voice.channel) return message.channel.send("You are not in the same voice channel as me.");
     const player = client.lavalink.players.get(message.guild.id);
     if (!player) return message.channel.send("I am not playing anything.");
     const { length } = client.music.get(message.guild.id, "np");
-    let userTime = args.join(' ').split(":");
+    let userTime = args.join(" ").split(":");
     if (userTime.length > 3) return message.channel.send("Invalid time.");
     while (userTime.length < 3) {
         userTime.unshift("00");

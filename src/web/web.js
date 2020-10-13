@@ -1,29 +1,29 @@
-const express = require("express")
+const express = require("express");
 const app = new express();
-const bent = require('bent');
-const formurlencoded = require('form-urlencoded').default;
-const postApi = bent('https://discord.com/api/v6', 'POST', 'json', 200);
-const getApi = bent('https://discord.com/api/v6', 'GET', 'json', 200);
+const bent = require("bent");
+const formurlencoded = require("form-urlencoded").default;
+const postApi = bent("https://discord.com/api/v6", "POST", "json", 200);
+const getApi = bent("https://discord.com/api/v6", "GET", "json", 200);
 const fs = require("fs");
 
 module.exports = async client => {
     app.listen(client.config.webport, () => {
-        client.logger.success(`Webserver online.`);
+        client.logger.success("Webserver online.");
     });
 
-    app.use(express.static(__dirname + '/static'));
+    app.use(express.static(__dirname + "/static"));
     
     app.get("/auth", async (req, res)=>{
         let data = {
-            'client_id': "512663078819725313",
-            'client_secret': process.env.client_secret,
-            'grant_type': 'authorization_code',
-            'code': req.query.code,
-            'redirect_uri': `${client.config.hostname}/auth`,
-            'scope': 'identify guilds'
+            "client_id": "512663078819725313",
+            "client_secret": process.env.client_secret,
+            "grant_type": "authorization_code",
+            "code": req.query.code,
+            "redirect_uri": `${client.config.hostname}/auth`,
+            "scope": "identify guilds"
         };
         let headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            "Content-Type": "application/x-www-form-urlencoded"
         };
         let user;
         try {
@@ -53,4 +53,4 @@ module.exports = async client => {
             res.download(path);
         }
     });
-}
+};
