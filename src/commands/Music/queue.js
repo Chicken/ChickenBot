@@ -6,7 +6,7 @@ exports.execute = async (client, message, args) => {
     if (!args[0]) args[0] = 1;
     args[0] = parseInt(args[0]);
     let { np, queue } = client.music.get(message.guild.id);
-    if (isNaN(args[0]) || Math.ceil((queue.length ? queue.length : 1) / resultPerPage) < args[0] || parseInt(args[0]) < 1) return message.channel.send("Not valid page number");
+    if (isNaN(args[0]) || Math.ceil((queue.length + 1) / resultPerPage) < args[0] || parseInt(args[0]) < 1) return message.channel.send("Not valid page number");
     let page = args[0] - 1;
     let moment = require("moment");
     require("moment-duration-format")(moment);
