@@ -127,7 +127,15 @@ Query: ${query}`);
         }, {
             selfdeaf: true
         });
-        await player.play(query, { volume, startTime });
+        try {
+            await player.play(query, { volume, startTime });
+        } catch (e) {
+            let channel = client.channels.cache.get(client.music.get(guild, "textChannel"));
+            if (channel) channel.send(`I'm sorry an error occurred.
+${e.message}`);
+            e.disconnect(guild);
+        }
+
 
         player.on("error", error => {
             console.error(error);
@@ -155,13 +163,13 @@ Query: ${query}`);
                 return await player.stop();
             const { queue, loop, np, textChannel } = client.music.get(guild);
             let channel = client.channels.cache.get(textChannel);
-            if (!queue || !queue[0]) {
+            if (!queue || !queue[0] && !loop) {
                 manager.leave(guild);
                 if (channel) channel.send("Look like thats the last song. Hope you had a good session.");
                 return;
             }
-            const song = queue.shift();
             if (loop) queue.push(np);
+            const song = queue.shift();
             client.music.set(guild, queue, "queue");
             client.music.set(guild, song, "np");
             const format = (time) => time >= 3600000 ? "h:mm:ss" : time < 60000 ? "[0:]ss" : "m:ss";
@@ -199,7 +207,7 @@ ${moment.duration(song.length).format(format(song.length), { trim: false })}`)
         };
 
         /**
-         * Disconnect from a guild and clear the queue.
+         * Disconnect from a guild and clear the queue. May be used anytime you want to destroy the music data and disconnect.
          * @param {string} guild - The id of the guild to disconnect in.
          * @returns {boolean} Whether or not it was able to disconnect.
          */
@@ -207,9 +215,10 @@ ${moment.duration(song.length).format(format(song.length), { trim: false })}`)
             if (!client.lavalink) throw new Error("Lavalink failed to initialize.");
             if (!guild) throw new Error("Missing guild.");
             const player = client.lavalink.players.get(guild);
-            if (!player) return false;
             client.music.set(guild, [], "queue");
             client.music.set(guild, null, "np");
+            client.music.set(guild, false, "loop");
+            if (!player) return false;
             player.emit("end", { reason: "ENDED" });
             return true;
         };
