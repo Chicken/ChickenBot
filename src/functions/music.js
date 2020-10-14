@@ -165,6 +165,7 @@ ${e.message}`);
             let channel = client.channels.cache.get(textChannel);
             if (!queue || !queue[0] && !loop) {
                 manager.leave(guild);
+                m.disconnect(guild);
                 if (channel) channel.send("Look like thats the last song. Hope you had a good session.");
                 return;
             }
@@ -218,6 +219,7 @@ ${moment.duration(song.length).format(format(song.length), { trim: false })}`)
             client.music.set(guild, [], "queue");
             client.music.set(guild, null, "np");
             client.music.set(guild, false, "loop");
+            client.music.set(guild, null, "textChannel");
             if (!player) return false;
             player.emit("end", { reason: "ENDED" });
             return true;
