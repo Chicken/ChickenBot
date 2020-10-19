@@ -17,8 +17,5 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install dependencies 
-        run: npm ci
-
       - name: Run eslint
-        run: ./node_modules/eslint/bin/eslint.js .
+        run: npx eslint .
