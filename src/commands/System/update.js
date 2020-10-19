@@ -3,20 +3,13 @@ const { exec } = require("child_process");
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
     let repo = args[0] ?? "origin";
-    let gitReg = /^https?:\/\/github.com\/(?:[a-z0-9-_.]+)\/(?:[a-z0-9-_.]+)\/?(?:\/tree\/(?:[a-z0-9-_.]+)\/?)?$/im;
-    if(repo != "origin") {
-        let result = repo.match(gitReg);
-        if(result == null) {
-            await message.channel.send("Invalid github repo link!");
-            return;
-        }
-    }
-    exec(`git pull ${repo} master`, async (err, stdout) => {
+    let branch = args[1] ?? "master";
+    exec(`git pull ${repo} ${branch}`, async (err, stdout) => {
         if(err != null) {
             await message.channel.send(`**ERROR**\n\`\`\`js\n${err}\n\`\`\``);
             return;
         }
-        if (stdout.startsWith("Already up to date.")) {
+        if ((/Already up to date/i).test(stdout)) {
             await message.channel.send(":white_check_mark: Up to date!");
             return;
         }
