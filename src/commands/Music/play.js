@@ -33,6 +33,7 @@ exports.execute = async (client, message, args) => {
         playlist = meta.playlistInfo.name;
         break;
     case "NO_MATCHES":
+        return message.channel.send("No matches found!");
     case "LOAD_FAILED":
     default:
         if (meta.exception) return message.channel.send(`I'm sorry an error occurred!\`\`\`\n${meta.exception.message}\`\`\``);
