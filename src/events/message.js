@@ -24,7 +24,7 @@ module.exports = async (client, message) => {
         settings = client.config.defaultSettings.settings;
     }
 
-    let pingRegExp = new RegExp(`<@!?${client.user.id}>`);
+    let pingRegExp = new RegExp(`^<@!?${client.user.id}>$`, "m");
 
     if(pingRegExp.test(message.content)) {
         return message.channel.send(`My prefix in this guild is \`${settings.prefix}\``);
