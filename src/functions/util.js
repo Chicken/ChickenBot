@@ -39,6 +39,7 @@ module.exports = async client => {
         });
         videos.forEach(f=>{
             fs.stat("./ytdl/video/"+f, (err,stats)=>{
+                if (f === ".gitignore") return;
                 if (err) throw err;
                 if((Date.now()-stats.birthtime)>1000*60*60*24*7) {
                     fs.unlink("./ytdl/video/"+f, (err)=>{
