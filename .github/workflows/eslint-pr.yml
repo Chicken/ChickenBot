@@ -6,9 +6,12 @@ jobs:
     name: Review with ESLint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      
       - name: Install ESLint
         run: npm install --no-package-lock --no-save eslint
+        
       - name: Check Code
         uses: reviewdog/action-eslint@v1
         with:
