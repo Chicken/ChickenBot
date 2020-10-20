@@ -4,11 +4,14 @@ const Discord = require("discord.js");
 exports.execute = async (client, message, args) => {
     try{
 
+        let name1 = args[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        let name2 = args[1]?.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
         if (!args[0]) return message.channel.send("Mention someone!");
         let user = args[0].match(/^<@!?(\d+)>/)
-            || message.guild.members.cache.find(m => m.user.username.match(new RegExp(args[0], "ui")))
-            || message.guild.members.cache.find(m => m.id.match(new RegExp(args[0], "ui")))
-            || message.guild.members.cache.find(m => { if (m.nickname) { return m.nickname.match(new RegExp(args[0], "ui")); } });
+            || message.guild.members.cache.find(m => m.user.username.match(new RegExp(name1, "ui")))
+            || message.guild.members.cache.find(m => m.id.match(new RegExp(name1, "ui")))
+            || message.guild.members.cache.find(m => { if (m.nickname) { return m.nickname.match(new RegExp(name1, "ui")); } });
         if (Array.isArray(user)) user = message.guild.members.cache.get(user[1]);
         if(!user) return message.channel.send("No user found.");
         user = await client.users.fetch(user.id);
@@ -16,9 +19,9 @@ exports.execute = async (client, message, args) => {
         let user2;
         if(args[1]){
             user2 = args[1].match(/^<@!?(\d+)>/)
-                || message.guild.members.cache.find(m => m.user.username.match(new RegExp(args[1], "ui")))
-                || message.guild.members.cache.find(m => m.id.match(new RegExp(args[1], "ui")))
-                || message.guild.members.cache.find(m => { if (m.nickname) { return m.nickname.match(new RegExp(args[1], "ui")); } });
+                || message.guild.members.cache.find(m => m.user.username.match(new RegExp(name2, "ui")))
+                || message.guild.members.cache.find(m => m.id.match(new RegExp(name2, "ui")))
+                || message.guild.members.cache.find(m => { if (m.nickname) { return m.nickname.match(new RegExp(name2, "ui")); } });
             if (Array.isArray(user2)) user2 = message.guild.members.cache.get(user2[1]);
             if(!user2) return message.channel.send("No user found.");
             user2 = await client.users.fetch(user2.id);

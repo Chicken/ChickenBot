@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
-    let fullname = args.join(" ");
+    let fullname = args.join(" ").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     let user;
     if(args[0]) {
         user = args[0].match(/^<@!?(\d+)>/)

@@ -2,10 +2,11 @@ const Discord = require("discord.js");
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
     if (!args[0]) return message.channel.send("Mention someone!");
+    let name = args[0]?.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     let user = args[0].match(/^<@!?(\d+)>/)
-    || message.guild.members.cache.find(m => { if (m.nickname) { return m.nickname.match(new RegExp(args[0], "ui")); } })
-    || message.guild.members.cache.find(m => m.user.username.match(new RegExp(args[0], "ui")))
-    || message.guild.members.cache.find(m => m.id.match(new RegExp(args[0], "ui")));
+    || message.guild.members.cache.find(m => { if (m.nickname) { return m.nickname.match(new RegExp(name, "ui")); } })
+    || message.guild.members.cache.find(m => m.user.username.match(new RegExp(name, "ui")))
+    || message.guild.members.cache.find(m => m.id.match(new RegExp(name, "ui")));
     if (Array.isArray(user)) user = message.guild.members.cache.get(user[1]);
     if(!user) return message.channel.send("No user found.");
     if (!user.kickable) return message.channel.send("Can't kick that user!");
