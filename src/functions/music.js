@@ -54,6 +54,7 @@ Query: ${query}`);
             queue: [],
             textChannel: textChannel || null,
             volume: 100,
+            announcePlaying: true,
             loop: false
         });
     };
@@ -176,7 +177,7 @@ ${e.message}`);
             const format = (time) => time >= 3600000 ? "h:mm:ss" : time < 60000 ? "[0:]ss" : "m:ss";
             await player.play(song.track, { volume });
 
-            if (channel)
+            if (channel && client.music.get(guild, "announcePlaying"))
                 channel.send(
                     new MessageEmbed()
                         .setTitle("Now Playing!")

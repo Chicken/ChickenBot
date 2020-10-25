@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
-    let {loop} = client.m.ensure(message.guild.id);
+    let { loop } = client.m.ensure(message.guild.id);
     client.music.set(message.guild.id, !loop, "loop");
-    message.channel.send("Looping status is now " + !loop);
+    message.channel.send("Looping status is now " + ((!loop) ? "**on**" : "**off**") + ".");
 };
   
 exports.data = {
