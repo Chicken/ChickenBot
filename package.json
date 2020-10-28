@@ -23,7 +23,7 @@
     "moment": "^2.27.0",
     "moment-duration-format": "^2.3.2",
     "ms": "^2.1.2",
-    "ytdl-core": "^3.3.0"
+    "ytdl-core": "^4.0.0"
   },
   "devDependencies": {
     "eslint": "^7.10.0"
