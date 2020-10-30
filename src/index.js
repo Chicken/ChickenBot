@@ -1,5 +1,10 @@
-const { Client } = require("discord.js");
-const client = new Client();
+const { Client, Intents } = require("discord.js");
+const client = new Client({
+    disableMentions: "everyone",
+    ws: {
+        intents: Intents.ALL
+    }
+});
 
 (async () => {
     await require("./functions/clientProperties.js")(client);
