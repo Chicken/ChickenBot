@@ -17,6 +17,44 @@ module.exports = async client => {
         }
         return permlvl;
     };
+
+    client.paginatedEmbed = async (message, pages, endpage, timeout = 150000) => {
+        let page = 0;
+        let arrows = ["⬅️", "➡️"];
+        let embedMsg = await message.channel.send(pages[page]);
+
+        for (let e of arrows) await embedMsg.react(e);
+
+        let collector = embedMsg.createReactionCollector((reaction, user) => {
+            return arrows.includes(reaction.emoji.name) && user.id == message.author.id;
+        }, {
+            time: timeout
+        });
+
+        collector.on("collect", reaction => {
+            reaction.users.remove(message.author);
+            switch (reaction.emoji.name) {
+            case arrows[0]: {
+                page = page > 0 ? page - 1 : pages.length - 1;
+                break;
+            }
+            case arrows[1]: {
+                page = page + 1 < pages.length ? page + 1 : 0;
+                break;
+            }
+            }
+            embedMsg.edit(pages[page]);
+        });
+
+        collector.on("end", () => {
+            if (!embedMsg.deleted) {
+                embedMsg.reactions.removeAll();
+                embedMsg.edit(endpage);
+            }
+        });
+
+        return embedMsg;
+    };
     
     client.formatDate = (date) => {
         return `${date.getUTCDate()}.${date.getUTCMonth() + 1}.${date.getUTCFullYear()} ${date.getUTCHours().toString().padStart(2, "0")}:${date.getUTCMinutes().toString().padStart(2, "0")}:${date.getUTCSeconds().toString().padStart(2, "0")} UTC`;
