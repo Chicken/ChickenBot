@@ -18,5 +18,5 @@ exports.data = {
     name: "toggle",
     desc: "toggles command's disabled status (current session only)",
     usage: "toggle <command>",
-    perm: 5
+    perm: 4
 };
