@@ -86,7 +86,7 @@ exports.execute = async (client, message, args) => {
 exports.data = {
     permissions: 280576,
     guildOnly: true,
-    aliases: ["info", "userinfo"],
+    aliases: ["info", "userinfo", "whois"],
     name: "user",
     desc: "Gives you info about a user.",
     usage: "user [user]",
