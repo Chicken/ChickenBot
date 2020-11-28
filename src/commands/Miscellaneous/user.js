@@ -22,15 +22,13 @@ exports.execute = async (client, message, args) => {
     
     if(!member) {
         let embed = new Discord.MessageEmbed()
-            .setTitle(info.tag)
+            .setTitle(info.tag + (info.flags && info.flags.has("SYSTEM") ? " :regional_indicator_s::regional_indicator_y::regional_indicator_s::regional_indicator_t::regional_indicator_e::regional_indicator_m:" : (info.bot ? " :regional_indicator_b::regional_indicator_o::regional_indicator_t:" : "")))
             .setThumbnail(info.displayAvatarURL({dynamic: true}))
-            .setColor("FF00FF")
             .setDescription(info.toString());
-        if(info.flags.toArray().length) {
+        if(info.flags && info.flags.toArray().length) {
             embed.addField("Badges", info.flags.toArray().map(v => v.toLowerCase().replace(/_/g, " ")).join(", ").replace(/\b(.)/g, c => c.toUpperCase()));
         }
-        embed.addField("Id", info.id, true);
-        embed.addField("Bot", (info.flags.has("SYSTEM") ? "System" : (info.bot ? "Yes" : "No")), true);
+        embed.addField("Id", info.id);
         embed.addField("Created", client.formatDate(info.createdAt));
         embed.setFooter(`Requested by ${message.author.tag}`);
         embed.setTimestamp();
@@ -39,23 +37,20 @@ exports.execute = async (client, message, args) => {
 
     let roles = "‎";
     member.roles.cache.forEach(role => { if (role.name === "@everyone") return; roles += `<@&${role.id}> `; });
-    let nickname = member.nickname || "No nickname";
     let status = info.presence.status === "dnd" ? "do not disturb" : info.presence.status;
     let embed = new Discord.MessageEmbed()
-        .setTitle(info.tag)
+        .setTitle(info.tag + (info.flags && info.flags.has("SYSTEM") ? " :regional_indicator_s::regional_indicator_y::regional_indicator_s::regional_indicator_t::regional_indicator_e::regional_indicator_m:" : (info.bot ? " :regional_indicator_b::regional_indicator_o::regional_indicator_t:" : "")))
         .setThumbnail(info.displayAvatarURL({dynamic: true}))
-        .setColor("FF00FF")
+        .setColor(member.displayHexColor)
         .setDescription(info.toString());
-    if(info.flags.toArray().length) {
+    if(info.flags && info.flags.toArray().length) {
         embed.addField("Badges", info.flags.toArray().map(v => v.toLowerCase().replace(/_/g, " ")).join(", ").replace(/\b(.)/g, c => c.toUpperCase()));
     }    
-    embed.addField("Nickname", nickname, true);
-    embed.addField("Id", info.id, true);
     embed.addField("Status", status, true);
-    embed.addField("Bot", (info.flags.has("SYSTEM") ? "System" : (info.bot ? "Yes" : "No")), true);
     embed.addField("Join Position", (message.guild.members.cache.array().sort((m, m2) => { return m.joinedTimestamp - m2.joinedTimestamp; }).map(m => m.id).indexOf(info.id) + 1) + "/" + message.guild.memberCount, true);
-    embed.addField("Created", client.formatDate(info.createdAt));
-    embed.addField("Joined", client.formatDate(member.joinedAt));
+    embed.addField("Id", info.id);
+    embed.addField("Created", client.formatDate(info.createdAt), true);
+    embed.addField("Joined", client.formatDate(member.joinedAt), true);
     embed.addField("Roles", roles);
     embed.setFooter(`Requested by ${message.author.tag}`);
     embed.setTimestamp();
