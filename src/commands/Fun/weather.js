@@ -58,6 +58,7 @@ exports.execute = async (client, message, args) => {
             .addField(":dash: Wind speed and direction:", `${weather.wind.speed}m/s, ${getDirectionText(weather.wind.deg)}`)
             .addField("Country:", `:flag_${weather.sys.country.toLowerCase()}: ${weather.sys.country}`)
             .setThumbnail(`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`)
+            .setFooter("Powered by openweathermap.org")
             .setTimestamp();
         message.channel.send(weatherEmbed);
     }
