@@ -21,10 +21,13 @@ exports.execute = async (client, message, args) => {
     let { xp, level } = client.db.get(message.guild.id, `users.${user.id}`);
     let embed = new Discord.MessageEmbed()
         .setColor("GREEN")
-        .setDescription(`**Level:** ${level}
-                    **Total xp:** ${xp}
-                    **Xp on this level:** ${xp-Math.pow((level*10), 2)}
-                    **Xp untill next level:** ${Math.pow(((level + 1) * 10), 2) - xp}`);
+        .setTitle(`**Stats for ${user.tag}**`)
+        .setThumbnail(user.displayAvatarURL({ size: 512, dynamic: true}))
+        .setFooter(`Requested by ${message.author.tag}`)
+        .setDescription(`**Level:** ${level}\n`
+        + `**Total xp:** ${xp}\n`
+        + `**Xp on this level:** ${xp-Math.pow((level*10), 2)}\n`
+        + `**Xp untill next level:** ${Math.pow(((level + 1) * 10), 2) - xp}`);
     message.channel.send(embed);
 };
   

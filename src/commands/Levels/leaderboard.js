@@ -16,12 +16,12 @@ exports.execute = async (client, message, args) => {
     users.sort((a, b) => b[1].xp - a[1].xp);
     
     let hoisted = users.slice(resultsPerPage * args[0] - resultsPerPage, resultsPerPage * args[0]);
-    hoisted.forEach((v) => leaderboard += `${users.indexOf(v) + 1}. ${client.users.cache.get(v[0]).tag} \`${v[1].xp}\`\n`);
+    hoisted.forEach((v) => leaderboard += `${users.indexOf(v) + 1}. ${client.users.cache.get(v[0]).tag} (\`${v[1].level}\` | \`${v[1].xp}\`)\n`);
 
     let embed = new Discord.MessageEmbed()
         .setTitle("Leaderboard")
         .setDescription(leaderboard)
-        .setColor("BLUE")
+        .setColor("GREEN")
         .setTimestamp()
         .setFooter(`Page ${args[0]} out of ${Math.ceil(users.length / resultsPerPage)}`);
     message.channel.send(embed);
