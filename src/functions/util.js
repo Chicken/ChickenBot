@@ -49,7 +49,7 @@ module.exports = async client => {
         collector.on("end", () => {
             if (!embedMsg.deleted) {
                 embedMsg.reactions.removeAll();
-                embedMsg.edit(endpage);
+                if(endpage != null) embedMsg.edit(endpage);
             }
         });
 
