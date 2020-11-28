@@ -23,7 +23,7 @@ exports.data = {
     guildOnly: false,
     aliases: ["upgrade", "pull"],
     name: "update",
-    desc: "pull changes from main repo or specified link and restarting the bot",
+    desc: "pull changes from main repo or specified link and restart the bot",
     usage: "update [github link]",
     perm: 5
 };
