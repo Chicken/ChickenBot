@@ -36,8 +36,10 @@ exports.execute = async (client, message, args) => {
     } else {
         let apikey = client.config.weatherapi;
         let location = encodeURI(args.join(" "));
-        let weather = await bent(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apikey}&units=metric`, "GET", "json")();
-        if(weather.cod == 404) {
+        let weather;
+        try {
+            weather = await bent(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apikey}&units=metric`, "GET", "json")();
+        } catch(e) {
             return message.channel.send("That city doesn't exist");
         }
         let weatherEmbed = new MessageEmbed()
