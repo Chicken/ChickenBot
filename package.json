@@ -23,6 +23,7 @@
     "moment": "^2.27.0",
     "moment-duration-format": "^2.3.2",
     "ms": "^2.1.2",
+    "quick-ms": "^1.0.0",
     "ytdl-core": "^4.1.0"
   },
   "devDependencies": {

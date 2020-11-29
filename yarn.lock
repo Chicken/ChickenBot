@@ -1390,6 +1390,11 @@ qs@6.7.0:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
 
+quick-ms@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/quick-ms/-/quick-ms-1.0.0.tgz#0160fdcbd3fd33266ff16f3fc48080b34a597b8b"
+  integrity sha512-QMFgZgc+dA0Ah+F2S5WWnFRMCJldd++YtusgiWub1yQUYPor426tTkav43WNXE9MhDkLl+lIoVwfakRsUmiwuw==
+
 randombytes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
