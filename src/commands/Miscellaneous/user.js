@@ -30,7 +30,7 @@ exports.execute = async (client, message, args) => {
             embed.addField("Badges", info.flags.toArray().map(v => v.toLowerCase().replace(/_/g, " ")).join(", ").replace(/\b(.)/g, c => c.toUpperCase()));
         }
         embed.addField("Id", info.id, true);
-        embed.addField("Bot Permission", client.perm({author: info}) + " | " + client.config.perms.find(p => p.level === client.perm(message)).name, true);
+        embed.addField("Bot Permission", client.perm({author: info}) + " | " + client.config.perms.find(p => p.level === client.perm({author: info})).name, true);
         embed.addField("Created", client.formatDate(info.createdAt) + `\n(${getReadableTime(Date.now() - info.createdAt)} ago)`);
         embed.setFooter(`Requested by ${message.author.tag}`);
         embed.setTimestamp();
@@ -79,7 +79,7 @@ exports.execute = async (client, message, args) => {
         .addField("Id", info.id)
         .addField("Created", client.formatDate(info.createdAt) + `\n(${getReadableTime(Date.now() - info.createdAt)} ago)`, true)
         .addField("Joined", client.formatDate(member.joinedAt) + `\n(${getReadableTime(Date.now() - member.joinedAt)} ago)`, true)
-        .addField("Bot Permission", client.perm({guild: message.guild, author: info, member}) + " | " + client.config.perms.find(p => p.level === client.perm(message)).name)
+        .addField("Bot Permission", client.perm({guild: message.guild, author: info, member}) + " | " + client.config.perms.find(p => p.level === client.perm({guild: message.guild, author: info, member})).name)
         .addField("Roles", roles)
         .setFooter(`Requested by ${message.author.tag}`)
         .setTimestamp();
