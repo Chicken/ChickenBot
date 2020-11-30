@@ -1390,10 +1390,10 @@ qs@6.7.0:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
 
-quick-ms@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/quick-ms/-/quick-ms-1.0.0.tgz#0160fdcbd3fd33266ff16f3fc48080b34a597b8b"
-  integrity sha512-QMFgZgc+dA0Ah+F2S5WWnFRMCJldd++YtusgiWub1yQUYPor426tTkav43WNXE9MhDkLl+lIoVwfakRsUmiwuw==
+quick-ms@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/quick-ms/-/quick-ms-1.1.1.tgz#15626bbaa55320539a94f3b6c95228eea1fecad5"
+  integrity sha512-bsymAb8jaGZo8E+Dxtr+EOo9Awt1dk3Q4y+pBm2cEsqFl7/fi/SOP+BHQ9L1dp8WKsSDjcMP+LjZLm/tzGS86w==
 
 randombytes@^2.1.0:
   version "2.1.0"
