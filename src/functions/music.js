@@ -254,5 +254,17 @@ ${moment.duration(song.length).format(format(song.length), { trim: false })}`)
             if (typeof pause != "boolean") pause = !player.paused;
             player.pause(pause);
         };
+        /**
+         * Shuffle the music in the queue.
+         * @param {string} guild - The id of the guild.
+         */
+        m.shuffle = (guild) => {
+            const queue = client.music.get(guild, "queue");
+            const temp = [];
+            for (; 0 < queue.length;) {
+                temp.push(queue.splice(Math.floor(Math.random() * queue.length), 1)[0]);
+            }
+            client.music.set(guild, temp, "queue");
+        };
     };
 };
