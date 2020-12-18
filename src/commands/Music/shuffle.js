@@ -11,7 +11,7 @@ exports.execute = async (client, message, args) => {
 exports.data = {
     permissions: 36718592,
     guildOnly: true,
-    aliases: [],
+    aliases: ["sh"],
     name: "shuffle",
     desc: "Shuffle the queue.",
     usage: "shuffle",
