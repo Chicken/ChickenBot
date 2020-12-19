@@ -28,11 +28,12 @@ module.exports = async client => {
         let collector = embedMsg.createReactionCollector((reaction, user) => {
             return arrows.includes(reaction.emoji.name) && user.id == message.author.id;
         }, {
-            time: timeout
+            time: timeout,
+            dispose: true
         });
 
-        collector.on("collect", reaction => {
-            reaction.users.remove(message.author);
+        let changePage = reaction => {
+            if(message.channel.permissionsFor(client.user.id).has("MANAGE_MESSAGES")) reaction.users.remove(message.author);
             switch (reaction.emoji.name) {
             case arrows[0]: {
                 page = page > 0 ? page - 1 : pages.length - 1;
@@ -44,11 +45,14 @@ module.exports = async client => {
             }
             }
             embedMsg.edit(pages[page]);
-        });
+        };
+
+        collector.on("collect", changePage);
+        if(!message.channel.permissionsFor(client.user.id).has("MANAGE_MESSAGES")) collector.on("remove", changePage);
 
         collector.on("end", () => {
             if (!embedMsg.deleted) {
-                embedMsg.reactions.removeAll();
+                if(message.channel.permissionsFor(client.user.id).has("MANAGE_MESSAGES")) embedMsg.reactions.removeAll();
                 if(endpage != null) embedMsg.edit(endpage);
             }
         });
