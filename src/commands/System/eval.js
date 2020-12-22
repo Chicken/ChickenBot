@@ -11,7 +11,7 @@ exports.execute = async (client, message, args) => {
     while(args[0].startsWith("-")) {
         flags.push(args.shift()[1]);
     }
-    if(flags.includes("S")) message.delete();
+    if(flags.includes("d")) message.delete();
 
     try{
         async1 = (flags.includes("A") ? "(async()=>{" : "");
