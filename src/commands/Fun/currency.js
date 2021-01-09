@@ -1,16 +1,12 @@
 const bent = require("bent");
 const fs = require("fs");
-const { getReadableTime } = require("quick-ms");
 const { MessageEmbed } = require("discord.js");
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
-    let now = false;
     if(!fs.existsSync("./data/currency.json") || fs.statSync("./data/currency.json").mtime < Date.now() - 1000 * 60 * 60) {
         let data = await bent("GET", 200, "json", `http://data.fixer.io/api/latest?access_key=${client.config.fixerapi}`)();
-
         if(data?.success) {
             fs.writeFileSync("./data/currency.json", JSON.stringify(data.rates, null, 4));
-            now = true;
         } else {
             if(!fs.existsSync("data.json")) return message.channel.send("Something went wrong fetching the latest data and no earlier data exists.");
         }
@@ -27,21 +23,18 @@ exports.execute = async (client, message, args) => {
     if(isNaN(sum)) return message.channel.send("The sum you provided is not a number.");
 
     let valid = Object.keys(data);
-
     if(!valid.includes(from)) return message.channel.send(`"${from}" is not a valid currency, make sure to use the 3 letter code.`);
-
     if(!valid.includes(to)) return message.channel.send(`"${to}" is not a valid currency, make sure to use the 3 letter code.`);
 
     let ans = sum * data[to] / data[from];
-
     if(isNaN(ans)) return message.channel.send("Something went really wrong.");
 
     let embed = new MessageEmbed()
         .setTitle("Currency Converter")
         .setColor("YELLOW")
         .setDescription(`${sum} ${from} in ${to} is ${Math.round(ans * 100) / 100} ${to}`)
-        .setFooter(`Data fetched from fixer.io ${now ? "just now" : `${getReadableTime(Date.now() - fs.statSync("./data/currency.json").mtime).split(", ").splice(0,3).join(", ")} ago`}`)
-        .setTimestamp();
+        .setFooter("Data fetched from fixer.io")
+        .setTimestamp(fs.statSync("./data/currency.json").mtime);
 
     message.channel.send(embed);
 };
