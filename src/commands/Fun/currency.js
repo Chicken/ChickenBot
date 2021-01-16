@@ -17,6 +17,7 @@ exports.execute = async (client, message, args) => {
     let sum = "";
     while(!isNaN(Number(args[0].replace(/,/g, "")))) sum += args.splice(0, 1)[0].replace(/,/g, "");
     sum = Number(sum);
+    if(!args[0] || !args[1]) return message.channel.send("You're missing some arguments.");
     let from = args[0].toUpperCase();
     let to = args[1].toUpperCase();
 
