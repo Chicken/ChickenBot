@@ -161,7 +161,7 @@ ${e.message}`);
             client.music.set(guild, v, "volume");
         });
         player.on("end", async data => {
-            if (state !== "ok") return m.disconnect(guild);
+            if (state !== "ok") return await manager.leave(guild);
             if (data.reason === "REPLACED") return;
             if (data.reason === "CLEANUP")
                 return await manager.leave(guild);
