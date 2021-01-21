@@ -137,15 +137,21 @@ ${e.message}`);
             e.disconnect(guild);
         }
 
-
+        let state = "ok";
         player.on("error", error => {
             console.error(error);
-            const goodErrors = ["WebSocketClosedEvent"];
-            if (!goodErrors.includes(error.type)) return;
             let message = "I'm sorry an unexpected error occurred!";
             if (error.error)
                 message = "I'm sorry an error occurred!\n" +
                     error.error;
+            if (error.type === "WebSocketClosedEvent") {
+                if (error.reason === "Disconnected.") return;
+                state = "crashed";
+                message = "There was a fatal error and I have to leave!\n" + error.reason;
+                // This gracefully handles disconnects so the bot doesn't get stuck.
+                // Clears the queue though so preferably shouldn't be used
+                m.disconnect(guild);
+            }
             let channel = client.channels.cache.get(client.music.get(guild, "textChannel"));
             if (channel) channel.send(message);
 
@@ -155,6 +161,7 @@ ${e.message}`);
             client.music.set(guild, v, "volume");
         });
         player.on("end", async data => {
+            if (state !== "ok") return m.disconnect(guild);
             if (data.reason === "REPLACED") return;
             if (data.reason === "CLEANUP")
                 return await manager.leave(guild);
