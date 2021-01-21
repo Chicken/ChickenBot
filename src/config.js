@@ -6,12 +6,20 @@ const config = {
     "hostname": process.env.hostname,
     "weatherapi": process.env.weatherapi,
     "thecatapi": process.env.thecatapi,
+    "fixerapi": process.env.fixerapi,
     "webport": process.env.port,
     "log": "520602366240882697",
     "defaultSettings": {
         "settings": {
             "prefix": "<",
             "log": null,
+            "logs": {
+                "join": false,
+                "leave": false,
+                "delete": false,
+                "bulkdelete": false,
+                "edit": false
+            },
             "mod": null,
             "description": null,
             "xp": false

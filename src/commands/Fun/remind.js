@@ -32,9 +32,15 @@ exports.execute = async (client, message, args) => {
         delete client.remindtimers[`${message.author.id}-${num}`];
         return message.channel.send(`Removed reminder with id of \`${num}\``);
     } else {
+        let repeat = false;
+        if(args[0]=="repeat") {
+            repeat = true;
+            args.shift();
+        }
+
         let time = ms(args[0]);
-        if(!time || time < 60000 || time > 1209600000) {
-            return message.channel.send("Please give a time in range from 1 minute to 14 days.");
+        if(!time || time < 15000 || time > 1209600000) {
+            return message.channel.send("Please give a time in range from 15 seconds to 14 days. Or use a valid subcommand.");
         }
 
         args.shift();
@@ -43,7 +49,7 @@ exports.execute = async (client, message, args) => {
         let num = client.reminders.get(message.author.id, "num");
         client.reminders.inc(message.author.id, "num");
 
-        client.reminders.set(message.author.id, { user: message.author.id, channel: message.channel.id, time, note, created: Date.now(), num }, num);
+        client.reminders.set(message.author.id, {user: message.author.id, channel: message.channel.id, time, note, created: Date.now(), num, repeat}, num);
 
         client.remindtimers[`${message.author.id}-${num}`] = client.setTimeout(async () => {
             let reminder = client.reminders.get(message.author.id, num);
