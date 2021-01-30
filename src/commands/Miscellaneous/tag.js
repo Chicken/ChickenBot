@@ -40,7 +40,7 @@ exports.execute = async (client, message, args) => {
             return message.channel.send("This tag doesnt exist.");
         }
         message.channel.send(`Removed tag ${args[1]}`);
-        client.db.deleteProp(message.guild.id, `tags.${args[1]}`);
+        client.db.delete(message.guild.id, `tags.${args[1]}`);
         break;
     }
     default: {
