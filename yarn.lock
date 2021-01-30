@@ -518,10 +518,10 @@ end-of-stream@^1.1.0, end-of-stream@^1.4.1:
   dependencies:
     once "^1.4.0"
 
-enmap@^5.8.2:
-  version "5.8.2"
-  resolved "https://registry.yarnpkg.com/enmap/-/enmap-5.8.2.tgz#dcb1c76247fa63317f1c070513c8ccec68226d6f"
-  integrity sha512-VduS/dZCOy3lGPrAaBzt/E3un8OJtRgqsF7grbWrOk4Ay2aU8BXqaO6ISngBgvnxa8y+8zhQs25r76Vl6acKuA==
+enmap@^5.8.4:
+  version "5.8.4"
+  resolved "https://registry.yarnpkg.com/enmap/-/enmap-5.8.4.tgz#1e007be1d9930f43d03e7306c2e2b3b49e35bd3a"
+  integrity sha512-36zXOIJrAvL6Dk03vz9PA4anpIkms3kelJhG+X1hw5HYlRv8yT6UEMvDH1yUaMYfsH4v3D04nLoBX4z2Vqambw==
   dependencies:
     better-sqlite3 "^7.1.0"
     lodash "^4.17.20"
@@ -1193,11 +1193,6 @@ ms@2.1.2, ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-ms@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
-  integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
-
 nan@^2.14.0:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
@@ -1452,7 +1447,7 @@ qs@6.7.0:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
 
-quick-ms@^1.2.0:
+quick-ms@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/quick-ms/-/quick-ms-1.2.5.tgz#d6471655c99d159f0ea6f544a694353f66b1421d"
   integrity sha512-Q8DyMFedrwvQ4Yb3dGMnbKemJkzEB+BR6NHv+dWXjRcPWOSKCiyZ35I9F5V1cK3PsgzQ317NMCF9XhkjaXcC9w==
@@ -1957,10 +1952,10 @@ yallist@^4.0.0:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
-ytdl-core@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/ytdl-core/-/ytdl-core-4.4.2.tgz#8bfa80477797a2747ae5b09273548b5e0c6b115e"
-  integrity sha512-T6eXIhDoDPqmxFKPu4R2LG+X/uWYh1wy/cfAf+OwJNHx6+cAYXbdyZ8j2el9yy1G3nDP1Dd4YN5BGRATJdQlFg==
+ytdl-core@^4.4.5:
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/ytdl-core/-/ytdl-core-4.4.5.tgz#761a6792f83e0fd2f2605874ea4c3d51ab717aab"
+  integrity sha512-/ugilIF2PskxNfQgkYZ/esvkp+fiB/mOPdIExW/En+1QTbq5VeTVqgf2hETTen0Co2lHMM4eRxPaczDHTmkb7A==
   dependencies:
     m3u8stream "^0.8.3"
     miniget "^4.0.0"
