@@ -16,7 +16,7 @@ exports.execute = async (client, message, args) => {
     try{
         await user.send(`You have been kicked from "${message.guild.name}" for reason "${reason}"`);
     } catch(e){}
-    await user.kick({ reason: `Kicked ${reason}` });
+    await user.kick(`Kicked for "${reason}"`);
     message.channel.send(`Kicked user \`${user.user.tag}\` with reason "${reason}".`);
     let embed = new Discord.MessageEmbed()
         .setTitle("Kicked")
