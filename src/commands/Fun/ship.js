@@ -1,4 +1,4 @@
-const canvas = require("canvas");
+const { createCanvas, loadImage } = require("canvas");
 const Discord = require("discord.js");
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
@@ -29,42 +29,43 @@ exports.execute = async (client, message, args) => {
             user2 = message.author;
         }
 
-        if(user2 && user2.id === message.author.id) {
+        if(user2.id === message.author.id) {
             let temp = { ...user2 };
             user2 = { ...user };
             user = { ...temp };
+            user = new Discord.User(client, { ...user });
+            user2 = new Discord.User(client, { ...user2 }); 
         }
-
-        user = new Discord.User(client, { ...user });
-        user2 = new Discord.User(client, { ...user2 }); 
-
-        user.displayAvatarURL({ format: "png", size: 512 });
 
         let love = Math.floor(Math.random() * 101);
 
-        let Canvas = canvas.createCanvas(512, 256);
-        let ctx = Canvas.getContext("2d");
+        let canvas = createCanvas(512, 256);
+        let ctx = canvas.getContext("2d");
 
-        await canvas.loadImage(user.displayAvatarURL({ format: "png", size: 512 })).then((image) => {
-            ctx.drawImage(image, 28, 28, 200, 200);
-        });
+        let [ image, image2 ] = await Promise.all([
+            loadImage(user.displayAvatarURL({ format: "png", size: 256 })),
+            loadImage(user2.displayAvatarURL({ format: "png", size: 256 }))
+        ]);
 
-        await canvas.loadImage(user2.displayAvatarURL({ format: "png", size: 512 })).then((image) => {
-            ctx.drawImage(image, 284, 28, 200, 200);
-        });
+        ctx.drawImage(image, 28, 28, 200, 200);
+        ctx.drawImage(image2, 284, 28, 200, 200);
 
-        let x = 224, y = 96, size = Math.round(40/100*love);
+        let x = 224,
+            y = 96,
+            size = Math.round(40 / 100 * love),
+            heart = await loadImage(__dirname + "/../../resources/heart.png");
 
-        await canvas.loadImage("https://cdn.glitch.com/0f219cf6-8874-4596-b103-fe60b57e709f%2F645px-Love_Heart_SVG.svg.png?v=1566059221064").then((image) => {
-            ctx.drawImage(image, x-size, y-size, 60+(size*2), 60+(size*2));
-        });
+        ctx.drawImage(heart, x - size, y - size, 60 + (size * 2), 60 + (size * 2));
     
-        ctx.font = "30px" + " " + "Consolas";
+        ctx.font = "30px 'Segoe UI'";
         ctx.fillStyle = "black";
         ctx.fillText(love + "%", love > 10 ? 223 : 241, 126);
-        message.channel.send(new Discord.MessageAttachment(Canvas.toBuffer(), "ship.png"));
+        message.channel.send(new Discord.MessageAttachment(canvas.toBuffer(), "ship.png"));
     
-    } catch (e) { console.error(e); }
+    } catch (e) {
+        console.error(e);
+        message.channel.send("Something went wrong!");
+    }
 };
   
 exports.data = {
