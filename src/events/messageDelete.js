@@ -11,5 +11,6 @@ module.exports = async (client, messageDelete) => {
     if (messageDelete.attachments.size != 0) {
         embed.addField("Attachments", messageDelete.attachments.map(v => `[${v.name}](${v.proxyURL})`).join(" "));
     }
-    client.channels.cache.get(log).send(embed);
+    let logChannel = client.channels.cache.get(log);
+    if(logChannel && logChannel.permissionsFor(client.user).has([ "SEND_MESSAGES", "EMBED_LINKS" ])) logChannel.send(embed);
 };

@@ -9,5 +9,6 @@ module.exports = async (client, member) => {
         .setColor("#34a2eb")
         .setDescription(`${member.toString()} ${member.user.tag} (\`${member.id}\`)`)
         .setTimestamp();
-    client.channels.cache.get(log).send(embed);
+    let logChannel = client.channels.cache.get(log);
+    if(logChannel && logChannel.permissionsFor(client.user).has([ "SEND_MESSAGES", "EMBED_LINKS" ])) logChannel.send(embed);
 };

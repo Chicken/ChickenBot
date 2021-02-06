@@ -9,5 +9,6 @@ module.exports = async (client, oldm, newm) => {
         .setDescription(`**Message Edited**\n**User:** ${oldm.author.toString()}\n**Channel:** ${oldm.channel.toString()} \`#${oldm.channel.name}\`\n\n**New message:**\n${newm.content}\n\n**Old message:**\n${oldm.content}`)
         .setColor("2a97f7")
         .setTimestamp();
-    client.channels.cache.get(log).send(embed);
+    let logChannel = client.channels.cache.get(log);
+    if(logChannel && logChannel.permissionsFor(client.user).has([ "SEND_MESSAGES", "EMBED_LINKS" ])) logChannel.send(embed);
 };

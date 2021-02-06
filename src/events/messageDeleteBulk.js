@@ -14,5 +14,6 @@ module.exports = async (client, deletedMessages) => {
         txt += `${m.author.tag}(${m.author.id}) at ${new Date(m.createdTimestamp).toLocaleString("en-GB", { timeZone: "UTC" })} UTC ID: ${m.id}\n${m.content}${attachments}\n\n`;
     });
     let buffer = new Buffer.from(txt, "utf-8");
-    client.channels.cache.get(log).send({ embed: embed, files: [{ name: "logs.txt", attachment: buffer }] });
+    let logChannel = client.channels.cache.get(log);
+    if(logChannel && logChannel.permissionsFor(client.user).has([ "SEND_MESSAGES", "EMBED_LINKS", "ATTACH_FILES" ])) logChannel.send({ embed: embed, files: [{ name: "logs.txt", attachment: buffer }] });
 };
