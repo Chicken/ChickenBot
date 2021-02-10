@@ -1,3 +1,4 @@
+const { performance } = require("perf_hooks");
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
     if(message.author.id !== client.config.owner && !client.config.admins.includes(message.author.id)) return;
@@ -7,25 +8,26 @@ exports.execute = async (client, message, args) => {
         return message.channel.send("I need code to execute dummy!");
     }
 
-    let flags = [], res, diff, start, us, async1, async2;
+    let flags = [];
     while(args[0].startsWith("-")) {
         flags.push(args.shift()[1]);
     }
     if(flags.includes("d")) message.delete();
 
     try{
-        async1 = (flags.includes("A") ? "(async()=>{" : "");
-        async2 = (flags.includes("A") ? "})()" : "");
+        let async1 = flags.includes("A") ? "(async()=>{" : "";
+        let async2 = flags.includes("A") ? "})()" : "";
+        let diff, start, res;
         if(flags.includes("a")) {
-            start = process.hrtime();
+            start = performance.now();
             res = await eval(async1 + args.join(" ") + async2);
-            diff = process.hrtime(start);
+            diff = performance.now() - start;
         } else {
-            start = process.hrtime();
+            start = performance.now();
             res = eval(async1 + args.join(" ") + async2);
-            diff = process.hrtime(start);
+            diff = performance.now() - start;
         }
-        us = diff[0] * 1000000 + diff[1] / 1000;
+        let us = diff / 1000;
 
         if (!flags.includes("s")) message.channel.send(`**SUCCESS**\n\`\`\`js\n${typeof res !== "string" ? require("util").inspect(res, { depth: 3 }).substring(0, 1800) : res.substring(0, 1800)}\n\`\`\`\n**Executed in**\n\`${us > 1000 ? (us / 1000).toFixed(3) : us.toFixed(3)}\`${us > 1000 ? "ms" : "μs"}`);
     } catch(e) {
