@@ -31,7 +31,7 @@ exports.execute = async (client, message, args) => {
 
         if (!flags.includes("s")) message.channel.send(`**SUCCESS**\n\`\`\`js\n${typeof res !== "string" ? require("util").inspect(res, { depth: 3 }).substring(0, 1800) : res.substring(0, 1800)}\n\`\`\`\n**Executed in**\n\`${us > 1000 ? (us / 1000).toFixed(3) : us.toFixed(3)}\`${us > 1000 ? "ms" : "μs"}`);
     } catch(e) {
-        if (!flags.includes("s")) message.channel.send(`**ERROR**\n\`\`\`js\n${e}\n\`\`\``);
+        if (!flags.includes("s")) message.channel.send(`**ERROR**\n\`\`\`js\n${e.toString().substring(0, 1800)}\n\`\`\``);
     }
 
 };

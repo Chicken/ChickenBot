@@ -134,7 +134,7 @@ Query: ${query}`);
             let channel = client.channels.cache.get(client.music.get(guild, "textChannel"));
             if (channel) channel.send(`I'm sorry an error occurred.
 ${e.message}`);
-            e.disconnect(guild);
+            m.disconnect(guild);
         }
 
         let state = "ok";
