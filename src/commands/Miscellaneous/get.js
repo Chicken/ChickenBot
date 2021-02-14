@@ -9,7 +9,7 @@ exports.execute = async (client, message, args) => {
         .setAuthor(`${quoted.author.tag}`, `${quoted.author.displayAvatarURL()}`)
         .setColor("FFFFFF")
         .setDescription(`${quoted.content}`)
-        .setFooter(`In ${quoted.guild.name}, #${quoted.channel.name}, at ${quoted.createdAt}`);
+        .setFooter(`In ${quoted.guild.name}, #${quoted.channel.name}, ${client.formatDate(quoted.createdAt)}`);
     if (quoted.attachments.size != 0) {
         embed.addField("Attachments", quoted.attachments.map(v => `[${v.name}](${v.proxyURL})`).join(" "));
     }
