@@ -15,5 +15,5 @@ module.exports = async (client, deletedMessages) => {
     });
     let buffer = new Buffer.from(txt, "utf-8");
     let logChannel = client.channels.cache.get(log);
-    if(logChannel && logChannel.permissionsFor(client.user).has([ "SEND_MESSAGES", "EMBED_LINKS", "ATTACH_FILES" ])) logChannel.send({ embed: embed, files: [{ name: "logs.txt", attachment: buffer }] });
+    if(logChannel && logChannel.permissionsFor(client.user).has([ "SEND_MESSAGES", "EMBED_LINKS", "ATTACH_FILES", "VIEW_CHANNEL" ])) logChannel.send({ embed: embed, files: [{ name: "logs.txt", attachment: buffer }] });
 };
