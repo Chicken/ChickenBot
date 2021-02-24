@@ -2,7 +2,7 @@ let Discord = require("discord.js");
 exports.execute = async (client, message, args) => {
     let gif = client.arrayRandom(client.gifs["hug"]);
     let outstr;
-    let ping = args[0].match(/<@!?(\d+)>/);
+    let ping = args[0]?.match(/<@!?(\d+)>/);
     let target;
     if (ping && ping[1]) {
         let user = await client.users.fetch(ping[1]);
@@ -17,12 +17,12 @@ exports.execute = async (client, message, args) => {
         name = message.author.username;
     }
     if (target) outstr = `${name} hugs ${target}`;
-    if (!outstr || outstr == "") outstr = `${name} needs hugs ...`;
+    if (!outstr || outstr == "") outstr = `${name} needs a hug...`;
     let embed = new Discord.MessageEmbed()
-        .setAuthor("hug")
         .setImage(gif)
         .setColor("RANDOM")
-        .setDescription(outstr);
+        .setTitle(outstr)
+        .setFooter("Hosted by weeb.sh");
     message.channel.send(embed);
 };
 

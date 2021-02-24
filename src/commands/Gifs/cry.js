@@ -9,10 +9,10 @@ exports.execute = (client, message, args) => {
         name = message.author.username;
     }
     let embed = new Discord.MessageEmbed()
-        .setAuthor("cry")
         .setImage(gif)
         .setColor("RANDOM")
-        .setDescription(`${name} cries...`);
+        .setTitle(`${name} cries...`)
+        .setFooter("Hosted by weeb.sh");
     message.channel.send(embed);
 };
 
