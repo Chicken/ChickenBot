@@ -11,4 +11,5 @@ module.exports = async client => {
     client.music = new Enmap("music");
     client.bantimers = {};
     client.remindtimers = {};
+    client.gifs = new Enmap("gifs");
 };

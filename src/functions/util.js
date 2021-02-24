@@ -124,4 +124,8 @@ module.exports = async client => {
     process.on("exit", async code => {
         client.logger.error("Script exited with code " + code);
     });
+    client.random_choice = (arr) => {
+        if (arr.length==0) return arr;
+        return arr[Math.floor(Math.random()*arr.length)];
+    };
 };
