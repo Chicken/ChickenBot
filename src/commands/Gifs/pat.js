@@ -1,6 +1,6 @@
 let Discord = require("discord.js");
 exports.execute = async (client, message, args) => {
-    let gif = client.random_choice(client.gifs.get("pat"));
+    let gif = client.arrayRandom(client.gifs["pat"]);
     let outstr;
     let ping = args[0].match(/<@!?(\d+)>/);
     let target;

@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 // eslint-disable-next-line no-unused-vars
 exports.execute = (client, message, args) => {
-    let gif = client.random_choice(client.gifs.get("cry"));
+    let gif = client.arrayRandom(client.gifs["cry"]);
     let name;
     if (message.member) {
         name = message.member.displayName;
