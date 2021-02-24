@@ -1,22 +1,28 @@
-let discord = require("discord.js");
+let Discord = require("discord.js");
 exports.execute = async (client, message, args) => {
-    let gif = await client.random_choice(client.gifs.get("hug"));
-    let embed = new discord.RichEmbed()
-        .setAuthor("hug")
-        .setImage(gif);
+    let gif = client.random_choice(client.gifs.get("hug"));
+    let outstr;
+    let ping = args[0].match(/<@!?(\d+)>/);
+    let target;
+    if (ping && ping[1]) {
+        let user = await client.users.fetch(ping[1]);
+        if (user) target = user.username;
+        else target = args.join(" ");
+    } else target = args.join(" ");
+
     let name;
-    let hugged;
-    let outstr = args.join(" ");
     if (message.member) {
         name = message.member.displayName;
     } else {
         name = message.author.username;
     }
-    if (args.length==1&&message.mentions.users.length==1) hugged = message.mentions.users.first().username;
-    if (hugged) outstr = `${name} hugs ${hugged}`;
-    if (!outstr||outstr=="") outstr = `${name} needs hugs ...`;
-    embed.setColor("RANDOM");
-    embed.setDescription(outstr);
+    if (target) outstr = `${name} hugs ${target}`;
+    if (!outstr || outstr == "") outstr = `${name} needs hugs ...`;
+    let embed = new Discord.MessageEmbed()
+        .setAuthor("hug")
+        .setImage(gif)
+        .setColor("RANDOM")
+        .setDescription(outstr);
     message.channel.send(embed);
 };
 
