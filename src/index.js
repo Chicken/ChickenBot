@@ -1,6 +1,9 @@
 const { Client, Intents } = require("discord.js");
 const client = new Client({
     disableMentions: "everyone",
+    messageCacheLifetime: 43200,
+    messageSweepInterval: 1800,
+    messageEditHistoryMaxSize: 1,
     ws: {
         intents: Intents.ALL
     }
