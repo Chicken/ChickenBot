@@ -93,7 +93,7 @@ Query: ${query}`);
         if (front) queue = tracks.concat(queue);
         else queue = queue.concat(tracks);
         client.music.set(guild, queue, "queue");
-        if ([0, 3].includes(client.lavalink.players.get(message.guild.id)?.status)) {
+        if ([0, 3, 6].includes(client.lavalink.players.get(message.guild.id)?.status)) {
             if (!channel) throw new Error("No channel found, when required.");
             if (!queue[0]) return;
             let np = queue.shift();
@@ -176,8 +176,9 @@ ${e.message}`);
             client.music.set(guild, v, "volume");
         });
         player.on("end", async data => {
+            if (["replaced", "ending"].includes(state)) return;
             if (state !== "ok") return await player.leave();
-            if (data.reason === "REPLACED") return;
+            if (data.reason === "REPLACED") return state = "replaced";
             if (data.reason === "CLEANUP")
                 return await player.leave();
             if (data.reason === "ENDED")
@@ -187,12 +188,15 @@ ${e.message}`);
             const { queue, loop, np, textChannel } = client.music.get(guild);
             let channel = client.channels.cache.get(textChannel);
             if (!queue || !queue[0] && !loop) {
+                state = "ending";
                 // Wait a little bit so the end of the song isn't cut off.
                 setTimeout(() => {
+                    // Something else has happened
+                    if(state !== "ending") return;
                     player.leave();
                     m.disconnect(guild);
                     if (channel) channel.send("Look like thats the last song. Hope you had a good session.");
-                }, 1000);
+                }, 5000);
                 return;
             }
             if (loop) queue.push(np);
@@ -264,7 +268,7 @@ ${moment.duration(song.length).format(format(song.length), { trim: false })}`)
             if (!queue) throw new Error("No queue found.");
             if (amount < 0 || amount > 150)
                 throw new Error("Please choose a value between 0 and 150.");
-            player.volume(amount);
+            player.setVolume(amount);
         };
         /**
          * Change the volume of the player.
