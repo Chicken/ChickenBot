@@ -31,26 +31,32 @@ module.exports = async client => {
             user = await getApi("/users/@me", null, {"Authorization": `Bearer ${token.access_token}`});
         } catch(e) {
             client.logger.error(e);
-            res.sendStatus(500).end();
+            res.sendStatus(500);
         }
-        res.send(`${user.username}#${user.discriminator}`);
+        res.send(`${user.username}#${user.discriminator}`.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"));
     });
     
-    app.get("/ytdl/audio/:id", async (req, res)=>{
-        let path = __dirname + "/../../ytdl/audio/"+req.params.id+".mp3";
-        if(!fs.existsSync(path)) {
-            res.status(404).end();
-        } else {
-            res.download(path);
-        }
+    app.get("/ytdl/audio/:id", async (req, res) => {
+        let id = req.params.id.replace(/[^0-9A-Za-z\-_]/g, "");
+        let path = __dirname + "/../../ytdl/audio/" + id + ".mp3";
+        fs.access(path, err => {
+            if(err) {
+                res.sendStatus(404);
+            } else {
+                res.download(path);
+            }
+        });
     });
     
     app.get("/ytdl/video/:id", async (req, res)=>{
-        let path = __dirname + "/../../ytdl/video/"+req.params.id+".mp4";
-        if(!fs.existsSync(path)) {
-            res.status(404).end();
-        } else {
-            res.download(path);
-        }
+        let id = req.params.id.replace(/[^0-9A-Za-z\-_]/g, "");
+        let path = __dirname + "/../../ytdl/video/" + id + ".mp4";
+        fs.access(path, err => {
+            if(err) {
+                res.sendStatus(404);
+            } else {
+                res.download(path);
+            }
+        });
     });
 };

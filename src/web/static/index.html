@@ -1,20 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>ChickenBot</title>
-        <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
+        <meta name="author" content="Antti">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta property="og:title" content="Home | ChickenBot"/>
+        <meta property="og:url" content="https://bot.antti.codes"/>
+        <meta property="og:description" content="ChickenBot is an amazing multipurpose Discord bot made with love by Antti and the opensource contributors."/>
+        <meta name="description" content="ChickenBot is an amazing multipurpose Discord bot made with love by Antti and the opensource contributors.">
+
+        <title>Home | ChickenBot</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" href="media/face_192.png" type="image/png" />
     </head>
     <body>
         <h1>ChickenBot</h1>
+        <p>Under construction.</p>
+        <a href="https://discordapp.com/api/oauth2/authorize?client_id=512663078819725313&redirect_uri=https%3A%2F%2Fbot.antti.codes%2Fauth&response_type=code&scope=identify%20guilds">
+            <button>
+                <span>
+                    <strong class="login-txt">Login with</strong> <img class="login-img" src="media/discord.svg"/>
+                </span>
+            </button>
+        </a>
+        <br>
+        <p>
+            <a href="privacy">Privacy Policy</a><br><br>
+            <a href="https://discordapp.com/oauth2/authorize?client_id=512663078819725313&scope=bot&permissions=37088454">Invite</a><br><br>
+            <a href="https://github.com/Chicken/ChickenBot">Github</a><br><br>
+            <a href="https://discord.gg/jRN7SZB">Support Server</a>
+        </p>
     </body>
-    <p>
-        Nothing to see here (yet)! <br>
-        Placeholder for a website.
-    </p>
-    <a id="login" href=""><button>Log in with discord (Just a test, no dashboard)</button></a>
-    <br><br>
-    <a href="privacy">Privacy Policy</a>
-    <script>
-        document.getElementById("login").href = "https://discordapp.com/api/oauth2/authorize?client_id=512663078819725313&redirect_uri="+encodeURIComponent(location.href)+"auth&response_type=code&scope=identify%20guilds"
-    </script>
 </html>

@@ -1,3 +1,50 @@
-body {
-    font-family: 'Roboto', sans-serif;
+html, body {
+    font-size: 16px;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #FFFFFF;
+    background: #424242;
+    position: relative;
+}
+
+h1 {
+    font-size: 3em;
+}
+
+a {
+    text-decoration: none;
+    color: #00C3FF;
+}
+
+.login-img {
+    float: right;
+    width: 100px;
+    margin: 2px;
+}
+
+.login-txt {
+    margin-top: 6px;
+    float: left;
+}
+
+button {
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin: 5px;
+    width: 200px;
+    font: inherit;
+    color: #7289DA;
+    outline: none !important;
+    border: none !important;
+    background-color: #23272A;
+}
+
+button:hover {
+    background-color: #2e3336
+}
+
+button:active {
+    background-color: #424446
 }

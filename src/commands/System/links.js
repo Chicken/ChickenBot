@@ -4,10 +4,10 @@ exports.execute = async (client, message, args) => {
     let embed = new Discord.MessageEmbed()
         .setTitle("Links")
         .setDescription("[Invite](https://discordapp.com/oauth2/authorize?client_id=512663078819725313&scope=bot&permissions=37088454)\n"
-                   +"[Support Server](https://discord.gg/jRN7SZB)\n"
-                   +"[Website](https://chickenbot.antti.codes)\n"
-                   +"[Privacy Policy](https://chickenbot.antti.codes/privacy)\n"
-            + "[Github](https://github.com/chicken/chickenbot)");
+            + "[Support Server](https://discord.gg/jRN7SZB)\n"
+            + "[Website](" + client.config.hostname + ")\n"
+            + "[Privacy Policy](" + client.config.hostname + "/privacy)\n"
+            + "[Github](https://github.com/Chicken/ChickenBot)");
     message.channel.send(embed);
 };
   
