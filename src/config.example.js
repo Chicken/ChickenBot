@@ -1,6 +1,6 @@
 const config = {
-    "owner": "312974985876471810",
-    "admins": ["517371142508380170"],
+    "owner": "YOUR ID HERE",
+    "admins": [],
     "support": [],
     "token": process.env.token,
     "hostname": process.env.hostname,
@@ -8,7 +8,7 @@ const config = {
     "thecatapi": process.env.thecatapi,
     "fixerapi": process.env.fixerapi,
     "webport": process.env.port,
-    "log": "520602366240882697",
+    "log": "YOUR LOG CHANNEL ID HERE",
     "defaultSettings": {
         "settings": {
             "prefix": "<",
@@ -39,13 +39,13 @@ const config = {
             "guildOnly": true,
             "level": 1,
             "name": "Server mod",
-            "check": (message, client) => message.member.roles.cache.some(r=>r.id==client.db.get(message.guild.id).settings.mod)
+            "check": (message, client) => message.member.roles.cache.some(r => r.id == client.db.get(message.guild.id).settings.mod)
         },
         {
             "guildOnly": true,
             "level": 2,
             "name": "Server Admin",
-            "check": message => { try { return (message.member.hasPermission("ADMINISTRATOR")); } catch (e) { return false; } }
+            "check": message => {try { return (message.member.hasPermission("ADMINISTRATOR")); } catch (e) { return false; } }
         },
         {
             "guildOnly": true,

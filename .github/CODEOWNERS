@@ -1,0 +1,19 @@
+# Chicken
+src @Chicken
+LICENSE @Chicken
+.gitignore @Chicken
+package.json @Chicken
+ecosystem.config.js @Chicken
+
+# WilsontheWolf
+.eslintrc.js @WilsontheWolf
+.github/workflows @WilsontheWolf
+src/functions/music.js @WilsontheWolf
+src/functions/lavalink.js @WilsontheWolf
+
+# Chicken & WilsontheWolf
+src/commands/Music @Chicken @WilsontheWolf
+
+# BlackDemonFire
+src/commands/Gifs @BlackDemonFire
+src/resources/gifs.json @BlackDemonFire

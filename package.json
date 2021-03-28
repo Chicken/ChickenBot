@@ -1,31 +1,51 @@
 {
-  "name": "chicken_bot",
-  "version": "3.0.0",
-  "description": "Classic ChickenBot upgraded to 2020 standards.",
-  "main": "./src/index.js",
-  "scripts": {
-    "start": "node ./src/index.js"
-  },
-  "author": "antti@antti.codes",
-  "license": "MIT",
-  "dependencies": {
-    "@lavacord/discord.js": "0.0.7",
-    "bent": "^7.3.12",
-    "better-sqlite3": "^7.1.1",
-    "canvas": "^2.6.1",
-    "chalk": "^4.1.0",
-    "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0",
-    "enmap": "^5.8.4",
-    "express": "^4.17.1",
-    "fluent-ffmpeg": "^2.1.2",
-    "form-urlencoded": "^4.2.1",
-    "moment": "^2.29.1",
-    "moment-duration-format": "^2.3.2",
-    "quick-ms": "^1.2.5",
-    "ytdl-core": "^4.5.0"
-  },
-  "devDependencies": {
-    "eslint": "^7.20.0"
-  }
+    "name": "chicken_bot",
+    "version": "3.0.0",
+    "description": "Classic ChickenBot upgraded to 2020 standards.",
+    "main": "src/index.js",
+    "scripts": {
+        "dev": "node src/index.js",
+        "start": "pm2 start ecosystem.config.js",
+        "lint": "eslint src --fix",
+        "update": "yarn upgrade-interactive --latest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Chicken/ChickenBot.git"
+    },
+    "bugs": {
+		"url": "https://github.com/Chicken/ChickenBot/issues"
+	},
+    "keyword": [
+        "discord.js",
+        "discord",
+        "bot"
+    ],
+    "engines": {
+        "node": ">=14",
+        "npm": ">=6"
+    },
+    "author": "Antti <antti@antti.codes>",
+    "license": "MIT",
+    "private:": true,
+    "dependencies": {
+        "@lavacord/discord.js": "0.0.7",
+        "bent": "^7.3.12",
+        "better-sqlite3": "^7.1.1",
+        "canvas": "^2.6.1",
+        "chalk": "^4.1.0",
+        "discord.js": "^12.5.1",
+        "dotenv": "^8.2.0",
+        "enmap": "^5.8.4",
+        "express": "^4.17.1",
+        "fluent-ffmpeg": "^2.1.2",
+        "form-urlencoded": "^4.2.1",
+        "moment": "^2.29.1",
+        "moment-duration-format": "^2.3.2",
+        "quick-ms": "^1.2.5",
+        "ytdl-core": "^4.5.0"
+    },
+    "devDependencies": {
+        "eslint": "^7.20.0"
+    }
 }
