@@ -14,8 +14,8 @@
         "url": "git+https://github.com/Chicken/ChickenBot.git"
     },
     "bugs": {
-		"url": "https://github.com/Chicken/ChickenBot/issues"
-	},
+        "url": "https://github.com/Chicken/ChickenBot/issues"
+    },
     "keyword": [
         "discord.js",
         "discord",
@@ -29,7 +29,7 @@
     "license": "MIT",
     "private:": true,
     "dependencies": {
-        "@lavacord/discord.js": "0.0.7",
+        "@skyra/audio": "^1.1.1",
         "bent": "^7.3.12",
         "better-sqlite3": "^7.1.1",
         "canvas": "^2.6.1",

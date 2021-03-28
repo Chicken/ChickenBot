@@ -15,7 +15,7 @@ module.exports = async client => {
         if (!query) throw new Error("Please provide a query.");
         let data;
         try {
-            data = await (await fetch(`http://${process.env.lavalink_host}:${process.env.lavalink_port}/loadtracks?identifier=${encodeURIComponent(query)}`, { headers: { Authorization: process.env.lavalink_pass } })).json();
+            data = await (await fetch(`http://${process.env.lavalink_host}/loadtracks?identifier=${encodeURIComponent(query)}`, { headers: { Authorization: process.env.lavalink_pass } })).json();
             if (data.error) data = {
                 "loadType": "LOAD_FAILED",
                 "playlistInfo": {},
@@ -93,7 +93,7 @@ Query: ${query}`);
         if (front) queue = tracks.concat(queue);
         else queue = queue.concat(tracks);
         client.music.set(guild, queue, "queue");
-        if (!client.lavalink.players.get(message.guild.id)) {
+        if ([0, 3].includes(client.lavalink.players.get(message.guild.id)?.status)) {
             if (!channel) throw new Error("No channel found, when required.");
             if (!queue[0]) return;
             let np = queue.shift();
@@ -117,19 +117,17 @@ Query: ${query}`);
         if (!client.lavalink) throw new Error("Lavalink failed to initialize.");
         const manager = client.lavalink;
         const { guild, channel, parse, startTime } = options;
+        const player = manager.players.get(guild);
         let { volume } = options;
         if (!guild) throw new Error("Missing guild.");
         if (!channel) throw new Error("Missing channel.");
         if (parse) query = (await m.getVideoData(query))?.tracks?.[0]?.track;
-        const player = await manager.join({
-            guild,
-            channel,
-            node: "1"
-        }, {
-            selfdeaf: true
+        await player.join(channel, {
+            deaf: true
         });
         try {
-            await player.play(query, { volume, startTime });
+            await player.setVolume(volume);
+            await player.play(query, { start: startTime });
         } catch (e) {
             let channel = client.channels.cache.get(client.music.get(guild, "textChannel"));
             if (channel) channel.send(`I'm sorry an error occurred.
@@ -138,6 +136,23 @@ ${e.message}`);
         }
 
         let state = "ok";
+        player.on("event", d => {
+            // this is cause I'm lazy and want to keep old code.
+            switch (d.type) {
+            case "TrackEndEvent":
+                player.emit("end", d);
+                break;
+            case "TrackExceptionEvent":
+                player.emit("error", d);
+                break;
+            case "TrackStuckEvent":
+                player.emit("end", d);
+                break;
+            case "WebSocketClosedEvent":
+                player.emit("error", d);
+                break;
+            }
+        });
         player.on("error", error => {
             console.error(error);
             let message = "I'm sorry an unexpected error occurred!";
@@ -161,20 +176,23 @@ ${e.message}`);
             client.music.set(guild, v, "volume");
         });
         player.on("end", async data => {
-            if (state !== "ok") return await manager.leave(guild);
+            if (state !== "ok") return await player.leave();
             if (data.reason === "REPLACED") return;
             if (data.reason === "CLEANUP")
-                return await manager.leave(guild);
+                return await player.leave();
             if (data.reason === "ENDED")
-                return await manager.leave(guild);
+                return await player.leave();
             if (data.reason === "SKIPPED")
                 return await player.stop();
             const { queue, loop, np, textChannel } = client.music.get(guild);
             let channel = client.channels.cache.get(textChannel);
             if (!queue || !queue[0] && !loop) {
-                manager.leave(guild);
-                m.disconnect(guild);
-                if (channel) channel.send("Look like thats the last song. Hope you had a good session.");
+                // Wait a little bit so the end of the song isn't cut off.
+                setTimeout(() => {
+                    player.leave();
+                    m.disconnect(guild);
+                    if (channel) channel.send("Look like thats the last song. Hope you had a good session.");
+                }, 1000);
                 return;
             }
             if (loop) queue.push(np);
@@ -182,7 +200,7 @@ ${e.message}`);
             client.music.set(guild, queue, "queue");
             client.music.set(guild, song, "np");
             const format = (time) => time >= 3600000 ? "h:mm:ss" : time < 60000 ? "[0:]ss" : "m:ss";
-            await player.play(song.track, { volume });
+            await player.play(song.track);
 
             if (channel && client.music.get(guild, "announcePlaying"))
                 channel.send(

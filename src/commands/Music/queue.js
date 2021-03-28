@@ -6,7 +6,7 @@ const format = (time) => time >= 3600000 ? "h:mm:ss" : time < 60000 ? "[0:]ss" :
 
 const parse = (s, i, client, message) => {
     let length = moment.duration(s.length).format(format(s.length), { trim: false });
-    let currentTime = client?.lavalink?.players?.get(message.guild.id)?.state?.position || 0;
+    let currentTime = client?.lavalink?.players?.get(message.guild.id)?.position || 0;
     let current = moment.duration(currentTime).format(format(currentTime), { trim: false });
     return `${i > 0 ? `${i}.` : "**Now playing**"} [${s.name}](${s.url}) \`[${i == 0 ? `${current}/` : ""}${length}]\`\n`
     + `Requested by <@${s.user}>`;

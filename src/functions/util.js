@@ -106,7 +106,7 @@ module.exports = async client => {
             const player = client?.lavalink?.players?.get(id);
             if (!player) return;
             if (player.paused) return;
-            const time = player?.state?.position;
+            const time = player?.position;
             const channel = client?.lavalink?.voiceStates?.get(id)?.channel_id;
             if (!channel) return;
             client.music.set(id, time, "np.resume");
