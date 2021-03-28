@@ -13,7 +13,3 @@ src/functions/lavalink.js @WilsontheWolf
 
 # Chicken & WilsontheWolf
 src/commands/Music @Chicken @WilsontheWolf
-
-# BlackDemonFire
-src/commands/Gifs @BlackDemonFire
-src/resources/gifs.json @BlackDemonFire
