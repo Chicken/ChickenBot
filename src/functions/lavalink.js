@@ -1,21 +1,41 @@
-const { Manager } = require("@lavacord/discord.js");
+const { Node } = require("@skyra/audio");
 require("dotenv").config();
 
 module.exports = async client => {
-    if (!process.env.lavalink_host || !process.env.lavalink_port) {
+    if (!process.env.lavalink_host) {
         client.logger.info("Lavalink is missing required info to start. Music commands are now disabled.");
         return false;
     } try {
-        client.lavalink = new Manager(client, [
-            { id: "1", host: process.env.lavalink_host, port: process.env.lavalink_port, password: process.env.lavalink_pass }],
-        { user: client.user.id, shards: 1 }
-        );
+        client.lavalink = new Node({
+            password: process.env.lavalink_pass,
+            userID: client.user.id, 
+            host: process.env.lavalink_host
+        }, (guildID, packet) => {
+            const guild = client.guilds.cache.get(guildID);
+            if (guild) return guild.shard.send(packet);
+        });
+
 
         await client.lavalink.connect();
+        client.ws.on("VOICE_STATE_UPDATE", async (data) => {
+            try {
+                await client.lavalink.voiceStateUpdate(data);
+            } catch (error) {
+                client.logger.error(error);
+            }
+        });
+
+        client.ws.on("VOICE_SERVER_UPDATE", async (data) => {
+            try {
+                await client.lavalink.voiceServerUpdate(data);
+            } catch (error) {
+                client.logger.error(error);
+            }
+        });
         client.logger.success("Lavalink successfully loaded!");
         return true;
     } catch (e) {
-        client.lavalink = undefined;
+        delete client.lavalink;
         client.logger.error(`Error loading Lavalink: ${e}.`);
         client.logger.info("Music commands are now disabled.");
         return false;
