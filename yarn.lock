@@ -775,10 +775,10 @@ fluent-ffmpeg@^2.1.2:
     async ">=0.2.9"
     which "^1.1.1"
 
-form-urlencoded@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/form-urlencoded/-/form-urlencoded-4.4.2.tgz#92913ec8e7375824fa1cc2d13093c8d30a122a8f"
-  integrity sha512-6sZj0HI9tCcGuzC9W/nkHvNLAjOo1G/jjnNluChOGMwn75Po6g5nGYASxQUJeSQHLng1SpovGjQr1f4xz1PqQw==
+form-urlencoded@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/form-urlencoded/-/form-urlencoded-6.0.0.tgz#c3d7c5b470664175fd3f8756fd05b46d86c6dc50"
+  integrity sha512-X8AvXpvwMZwbd3/qIegrkZLzPos6djGYaL0bm2nVREzEB/05csjKmdAPTDZMGcFYfVtV9hx5kbpo5Ze87n3HWA==
 
 forwarded@~0.1.2:
   version "0.1.2"
