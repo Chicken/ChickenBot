@@ -39,7 +39,7 @@
         "enmap": "^5.8.4",
         "express": "^4.17.1",
         "fluent-ffmpeg": "^2.1.2",
-        "form-urlencoded": "^6.0.0",
+        "form-urlencoded": "^6.0.3",
         "moment": "^2.29.1",
         "moment-duration-format": "^2.3.2",
         "quick-ms": "^1.2.5",
