@@ -43,7 +43,7 @@
         "moment": "^2.29.1",
         "moment-duration-format": "^2.3.2",
         "quick-ms": "^1.2.5",
-        "ytdl-core": "^4.5.0"
+        "ytdl-core": "^4.7.0"
     },
     "devDependencies": {
         "eslint": "^7.25.0"
