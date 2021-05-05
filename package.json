@@ -31,7 +31,7 @@
     "dependencies": {
         "@skyra/audio": "^1.1.1",
         "bent": "^7.3.12",
-        "better-sqlite3": "^7.2.0",
+        "better-sqlite3": "^7.3.0",
         "canvas": "^2.7.0",
         "chalk": "^4.1.1",
         "discord.js": "^12.5.3",
