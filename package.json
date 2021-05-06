@@ -35,7 +35,7 @@
         "canvas": "^2.7.0",
         "chalk": "^4.1.1",
         "discord.js": "^12.5.3",
-        "dotenv": "^8.5.1",
+        "dotenv": "^9.0.0",
         "enmap": "^5.8.5",
         "express": "^4.17.1",
         "fluent-ffmpeg": "^2.1.2",
