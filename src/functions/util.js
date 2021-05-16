@@ -18,15 +18,15 @@ module.exports = async client => {
         return permlvl;
     };
 
-    client.paginatedEmbed = async (message, pages, endpage, timeout = 150000) => {
+    client.paginatedEmbed = async (message, pages, endpage = null, timeout = 150000) => {
         let page = 0;
-        let arrows = ["⬅️", "➡️"];
+        let controls = ["⬅️", "➡️", "❌"];
         let embedMsg = await message.channel.send(pages[page]);
 
-        for (let e of arrows) await embedMsg.react(e);
+        for (let e of controls) await embedMsg.react(e);
 
         let collector = embedMsg.createReactionCollector((reaction, user) => {
-            return arrows.includes(reaction.emoji.name) && user.id == message.author.id;
+            return controls.includes(reaction.emoji.name) && user.id == message.author.id;
         }, {
             time: timeout,
             dispose: true
@@ -35,16 +35,21 @@ module.exports = async client => {
         let changePage = reaction => {
             if(message.channel.permissionsFor(client.user.id).has("MANAGE_MESSAGES")) reaction.users.remove(message.author);
             switch (reaction.emoji.name) {
-            case arrows[0]: {
+            case controls[0]: {
                 page = page > 0 ? page - 1 : pages.length - 1;
+                embedMsg.edit(pages[page]);
                 break;
             }
-            case arrows[1]: {
+            case controls[1]: {
                 page = page + 1 < pages.length ? page + 1 : 0;
+                embedMsg.edit(pages[page]);
+                break;
+            }
+            case controls[2]: {
+                collector.stop();
                 break;
             }
             }
-            embedMsg.edit(pages[page]);
         };
 
         collector.on("collect", changePage);
@@ -53,7 +58,13 @@ module.exports = async client => {
         collector.on("end", () => {
             if (!embedMsg.deleted) {
                 if(message.channel.permissionsFor(client.user.id).has("MANAGE_MESSAGES")) embedMsg.reactions.removeAll();
-                if(endpage != null) embedMsg.edit(endpage);
+                if(endpage != null) {
+                    embedMsg.edit(endpage);
+                } else {
+                    let modifiedPage = pages[page];
+                    modifiedPage.setFooter(`${modifiedPage.footer.text} | This session has ended`, modifiedPage.footer.iconURL);
+                    embedMsg.edit(modifiedPage);
+                }
             }
         });
 
