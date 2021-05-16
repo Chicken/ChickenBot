@@ -75,6 +75,34 @@ module.exports = async client => {
         return `${date.getUTCDate()}.${date.getUTCMonth() + 1}.${date.getUTCFullYear()} ${date.getUTCHours().toString().padStart(2, "0")}:${date.getUTCMinutes().toString().padStart(2, "0")}:${date.getUTCSeconds().toString().padStart(2, "0")} UTC`;
     };
 
+    client.arrayRandom = (arr) => {
+        if (!arr || arr.length == 0) return null;
+        return arr[Math.floor(Math.random()*arr.length)];
+    };
+
+    client.emojiText = (str) => {
+        let legend = {
+            "1": ":one:",
+            "2": ":two:",
+            "3": ":three:",
+            "4": ":four:",
+            "5": ":five:",
+            "6": ":six:",
+            "7": ":seven:",
+            "8": ":eight:",
+            "9": ":nine:",
+            "0": ":zero:",
+            "!": ":exclamation:",
+            "?": ":question:",
+            " ": "  "
+        };
+        return str
+            .split("")
+            .map(c => (/[a-z]/i).test(c) ? `:regional_indicator_${c.toLowerCase()}:` : (legend[c] ? legend[c] : null))
+            .filter(Boolean)
+            .join(String.fromCharCode(8203));
+    };
+
     let deleteOldDownloads = async () => {
         let audios = await readdir("./ytdl/audio");
         let videos = await readdir("./ytdl/video");
@@ -135,8 +163,4 @@ module.exports = async client => {
     process.on("exit", async code => {
         client.logger.error("Script exited with code " + code);
     });
-    client.arrayRandom = (arr) => {
-        if (!arr || arr.length == 0) return null;
-        return arr[Math.floor(Math.random()*arr.length)];
-    };
 };

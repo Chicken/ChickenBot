@@ -23,7 +23,7 @@ exports.execute = async (client, message, args) => {
     
     if(!member) {
         let embed = new Discord.MessageEmbed()
-            .setTitle(info.tag + (info.system ? " :regional_indicator_s:​:regional_indicator_y:​:regional_indicator_s:​:regional_indicator_t:​:regional_indicator_e:​:regional_indicator_m:" : (info.bot ? " :regional_indicator_b:​:regional_indicator_o:​:regional_indicator_t:" : "")))
+            .setTitle(info.tag + " " + (info.system ? client.emojiText("system") : (info.bot ? client.emojiText("bot") : "")))
             .setThumbnail(info.displayAvatarURL({dynamic: true}))
             .setDescription("Ping: " + info.toString());
         if(info.flags && info.flags.toArray().length) {
@@ -62,9 +62,10 @@ exports.execute = async (client, message, args) => {
     }
 
     let embed = new Discord.MessageEmbed()
-        .setTitle(info.tag + (info.system ?
-            " :regional_indicator_s:​:regional_indicator_y:​:regional_indicator_s:​:regional_indicator_t:​:regional_indicator_e:​:regional_indicator_m: "
-            : (info.bot ? " :regional_indicator_b:​:regional_indicator_o:​:regional_indicator_t: " : " "))
+        .setTitle(
+            info.tag
+            + " "
+            + (info.system ? client.emojiText("system") : (info.bot ? client.emojiText("bot") : ""))
             + status
         )
         .setThumbnail(info.displayAvatarURL({dynamic: true}))
