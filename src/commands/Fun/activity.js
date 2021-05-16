@@ -4,7 +4,7 @@ const legend = require("../../resources/activities.json");
 exports.execute = async (client, message, args) => {
     try {
         let [ activity, id ] = args;
-        if(!id && message.member.voice) id = message.member.voice.channel.id;
+        if(!id && message.member?.voice?.channel) id = message.member.voice.channel.id;
         
         let channel;
         try {
