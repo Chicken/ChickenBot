@@ -1,4 +1,3 @@
-const ms = require("quick-ms");
 const Discord = require("discord.js");
 
 // eslint-disable-next-line no-unused-vars
@@ -38,7 +37,7 @@ exports.execute = async (client, message, args) => {
             args.shift();
         }
 
-        let time = ms.getMilliseconds(args[0]);
+        let time = client.parseTime(args[0]);
         if(!time || time < 15000 || time > 2073600000) {
             return message.channel.send("Please give a time in range from 15 seconds to 24 days. Or use a valid subcommand.");
         }
@@ -78,7 +77,7 @@ exports.execute = async (client, message, args) => {
             client.reminders.delete(reminder.user, reminder.num);
         }, time);
 
-        message.channel.send(`Set reminder for \`${note}\` in \`${ms.getReadableTime(time, { compact: true })}\`.`);
+        message.channel.send(`Set reminder for \`${note}\` in \`${client.formatDuration(time, { short: true })}\`.`);
     }
 };
   

@@ -1,13 +1,9 @@
 const { MessageEmbed } = require("discord.js");
-const moment = require("moment");
-require("moment-duration-format")(moment);
-
-const format = (time) => time >= 3600000 ? "h:mm:ss" : time < 60000 ? "[0:]ss" : "m:ss";
 
 const parse = (s, i, client, message) => {
-    let length = moment.duration(s.length).format(format(s.length), { trim: false });
+    let length = client.formatLength(s.length);
     let currentTime = client?.lavalink?.players?.get(message.guild.id)?.position || 0;
-    let current = moment.duration(currentTime).format(format(currentTime), { trim: false });
+    let current = client.formatLength(currentTime);
     return `${i > 0 ? `${i}.` : "**Now playing**"} [${s.name}](${s.url}) \`[${i == 0 ? `${current}/` : ""}${length}]\`\n`
     + `Requested by <@${s.user}>`;
 };
@@ -33,7 +29,7 @@ exports.execute = async (client, message, args) => {
             .setColor("BLUE")
             .setDescription(txt)
             .setTimestamp()
-            .setFooter(`Page ${page + 1} out of ${totalPages} | Total length: ${moment.duration(totalTime).format(format(totalTime), { trim: true })}`);
+            .setFooter(`Page ${page + 1} out of ${totalPages} | Total length: ${client.formatLength(totalTime)}`);
         pages.push(embed);
     }
 

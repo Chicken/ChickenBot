@@ -1,6 +1,4 @@
 const { MessageEmbed } = require("discord.js");
-const moment = require("moment");
-require("moment-duration-format")(moment);
 
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
@@ -24,31 +22,30 @@ exports.execute = async (client, message, args) => {
     if (!meta) return message.channel.send("A unexpected error occurred!");
     let track, playlist;
     switch (meta.loadType) {
-    case "TRACK_LOADED":
-    case "SEARCH_RESULT":
-        track = meta.tracks[0];
-        break;
-    case "PLAYLIST_LOADED":
-        track = meta.tracks;
-        playlist = meta.playlistInfo.name;
-        break;
-    case "NO_MATCHES":
-        return message.channel.send("No matches found!");
-    case "LOAD_FAILED":
-    default:
-        if (meta.exception) return message.channel.send(`I'm sorry an error occurred!\`\`\`\n${meta.exception.message}\`\`\``);
-        else return message.channel.send("A unexpected error occurred!");
+        case "TRACK_LOADED":
+        case "SEARCH_RESULT":
+            track = meta.tracks[0];
+            break;
+        case "PLAYLIST_LOADED":
+            track = meta.tracks;
+            playlist = meta.playlistInfo.name;
+            break;
+        case "NO_MATCHES":
+            return message.channel.send("No matches found!");
+        case "LOAD_FAILED":
+        default:
+            if (meta.exception) return message.channel.send(`I'm sorry an error occurred!\`\`\`\n${meta.exception.message}\`\`\``);
+            else return message.channel.send("A unexpected error occurred!");
     }
 
     if (!track) return message.channel.send("A unexpected error occurred!");
-    const format = (time) => time >= 3600000 ? "h:mm:ss" : time < 60000 ? "[0:]ss" : "m:ss";
     const embed = new MessageEmbed();
     if (!playlist) {
         embed
             .setTitle("Added to queue")
             .setDescription(`[${track.info.title}](${track.info.uri}) has been added to the queue.
 Requested by ${message.author}
-${moment.duration(track.info.length).format(format(track.info.length), { trim: false })}`)
+${client.formatLength(track.info.length)}`)
             .setThumbnail(`https://img.youtube.com/vi/${track.info.identifier}/hqdefault.jpg`)
             .setColor("GREEN");
     } else {
@@ -57,7 +54,7 @@ ${moment.duration(track.info.length).format(format(track.info.length), { trim: f
             .setTitle("Added to queue")
             .setDescription(`${track.length} songs from ${playlist} have been added to the queue.
 Requested by ${message.author}
-Total time: ${moment.duration(time).format(format(time), { trim: false })}`)
+Total time: ${client.formatLength(time)}`)
             .setThumbnail(`https://img.youtube.com/vi/${track[0].info.identifier}/hqdefault.jpg`)
             .setColor("GREEN");
     }

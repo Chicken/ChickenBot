@@ -10,48 +10,48 @@ exports.execute = async (client, message, args) => {
     }
 
     switch(args[0]) {
-    case "list": {
-        let taglist = "";
-        taglist = Object.keys(tags).map(t => `\`${t}\``).join(", ");
-        if(taglist=="") {
-            return message.channel.send("There isn't any tags on this server.");
+        case "list": {
+            let taglist = "";
+            taglist = Object.keys(tags).map(t => `\`${t}\``).join(", ");
+            if(taglist=="") {
+                return message.channel.send("There isn't any tags on this server.");
+            }
+            message.channel.send(`Tags on this server (\`${Object.keys(tags).length}\` total): ` + taglist);
+            break;
         }
-        message.channel.send(`Tags on this server (\`${Object.keys(tags).length}\` total): ` + taglist);
-        break;
-    }
-    case "add": {
-        args.shift();
-        let name = args.shift();
-        if(["list", "add", "remove"].includes(name)){
-            return message.channel.send("This tag name is reserved for the tag commands.");
+        case "add": {
+            args.shift();
+            let name = args.shift();
+            if(["list", "add", "remove"].includes(name)){
+                return message.channel.send("This tag name is reserved for the tag commands.");
+            }
+            if(Object.keys(tags).includes(name)){
+                return message.channel.send("This tag already exist.");
+            }
+            if(!args[0] && !message.attachments) {
+                return message.channel.send("Must supply content for tag.");
+            }
+            message.channel.send(`Set tag ${name}`);
+            client.db.set(message.guild.id, { content: message.cleanContent.split(" ").slice(3).join(" "), attachments: message.attachments ? message.attachments.map(a => a.url) : [] }, `tags.${name}`);
+            break;
         }
-        if(Object.keys(tags).includes(name)){
-            return message.channel.send("This tag already exist.");
+        case "remove": {
+            if(!Object.keys(tags).includes(args[1])){
+                return message.channel.send("This tag doesnt exist.");
+            }
+            message.channel.send(`Removed tag ${args[1]}`);
+            client.db.delete(message.guild.id, `tags.${args[1]}`);
+            break;
         }
-        if(!args[0] && !message.attachments) {
-            return message.channel.send("Must supply content for tag.");
+        default: {
+            let tag = tags[args[0]];
+            let opt = {
+                content: tag.content,
+                files: tag.attachments
+            };
+            message.channel.send(opt);
+            break;
         }
-        message.channel.send(`Set tag ${name}`);
-        client.db.set(message.guild.id, { content: message.cleanContent.split(" ").slice(3).join(" "), attachments: message.attachments ? message.attachments.map(a => a.url) : [] }, `tags.${name}`);
-        break;
-    }
-    case "remove": {
-        if(!Object.keys(tags).includes(args[1])){
-            return message.channel.send("This tag doesnt exist.");
-        }
-        message.channel.send(`Removed tag ${args[1]}`);
-        client.db.delete(message.guild.id, `tags.${args[1]}`);
-        break;
-    }
-    default: {
-        let tag = tags[args[0]];
-        let opt = {
-            content: tag.content,
-            files: tag.attachments
-        };
-        message.channel.send(opt);
-        break;
-    }
     }
 };
   

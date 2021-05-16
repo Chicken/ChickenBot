@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 const { Message, MessageEmbed } = require("discord.js");
-const moment = require("moment");
 const fetch = require("node-fetch");
 
 module.exports = async client => {
@@ -139,18 +138,18 @@ ${e.message}`);
         player.on("event", d => {
             // this is cause I'm lazy and want to keep old code.
             switch (d.type) {
-            case "TrackEndEvent":
-                player.emit("end", d);
-                break;
-            case "TrackExceptionEvent":
-                player.emit("error", d);
-                break;
-            case "TrackStuckEvent":
-                player.emit("end", d);
-                break;
-            case "WebSocketClosedEvent":
-                player.emit("error", d);
-                break;
+                case "TrackEndEvent":
+                    player.emit("end", d);
+                    break;
+                case "TrackExceptionEvent":
+                    player.emit("error", d);
+                    break;
+                case "TrackStuckEvent":
+                    player.emit("end", d);
+                    break;
+                case "WebSocketClosedEvent":
+                    player.emit("error", d);
+                    break;
             }
         });
         player.on("error", error => {
@@ -203,7 +202,6 @@ ${e.message}`);
             const song = queue.shift();
             client.music.set(guild, queue, "queue");
             client.music.set(guild, song, "np");
-            const format = (time) => time >= 3600000 ? "h:mm:ss" : time < 60000 ? "[0:]ss" : "m:ss";
             await player.play(song.track);
 
             if (channel && client.music.get(guild, "announcePlaying"))
@@ -212,7 +210,7 @@ ${e.message}`);
                         .setTitle("Now Playing!")
                         .setDescription(`[${song.name}](${song.url}) is now playing.
 Requested by <@${song.user}>.
-${moment.duration(song.length).format(format(song.length), { trim: false })}`)
+${client.formatLength(song.length)}`)
                         .setThumbnail(song.image)
                         .setColor("GREEN")
                 );
