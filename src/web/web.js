@@ -1,7 +1,7 @@
 const express = require("express");
 const app = new express();
 const bent = require("bent");
-const formurlencoded = require("form-urlencoded").default;
+const formurlencoded = require("form-urlencoded");
 const postApi = bent("https://discord.com/api/v6", "POST", "json", 200);
 const getApi = bent("https://discord.com/api/v6", "GET", "json", 200);
 const fs = require("fs");
@@ -26,14 +26,17 @@ module.exports = async client => {
             "Content-Type": "application/x-www-form-urlencoded"
         };
         let user;
+        let guilds;
         try {
             let token = await postApi("/oauth2/token", formurlencoded(data), headers);
             user = await getApi("/users/@me", null, {"Authorization": `Bearer ${token.access_token}`});
+            guilds = await getApi("/users/@me/guilds", null, {"Authorization": `Bearer ${token.access_token}`});
         } catch(e) {
             client.logger.error(e);
             res.sendStatus(500);
         }
-        res.send(`${user.username}#${user.discriminator}`.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"));
+        let esc = d => d.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+        res.send(`Under development!\n<br>\nYour username is "${esc(user.username)}#${esc(user.discriminator)}" and you are in ${esc(guilds.length)} servers.`);
     });
     
     app.get("/ytdl/audio/:id", async (req, res) => {
