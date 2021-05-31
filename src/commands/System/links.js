@@ -7,7 +7,7 @@ exports.execute = async (client, message, args) => {
             + "[Support Server](https://discord.gg/jRN7SZB)\n"
             + "[Website](" + client.config.hostname + ")\n"
             + "[Privacy Policy](" + client.config.hostname + "/privacy)\n"
-            + "[Github](https://github.com/Chicken/ChickenBot)");
+            + "[GitHub](https://github.com/Chicken/ChickenBot)");
     message.channel.send(embed);
 };
   
