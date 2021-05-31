@@ -27,7 +27,7 @@ exports.execute = async (client, message, args) => {
             res = eval(async1 + args.join(" ") + async2);
             diff = performance.now() - start;
         }
-        let us = diff / 1000;
+        let us = diff * 1000;
 
         if (!flags.includes("s")) message.channel.send(`**SUCCESS**\n\`\`\`js\n${typeof res !== "string" ? require("util").inspect(res, { depth: 3 }).substring(0, 1800) : res.substring(0, 1800)}\n\`\`\`\n**Executed in**\n\`${us > 1000 ? (us / 1000).toFixed(3) : us.toFixed(3)}\`${us > 1000 ? "ms" : "μs"}`);
     } catch(e) {
