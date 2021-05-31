@@ -1,5 +1,6 @@
 const express = require("express");
 const app = new express();
+const rateLimit = require("express-rate-limit");
 const bent = require("bent");
 const formurlencoded = require("form-urlencoded");
 const postApi = bent("https://discord.com/api/v6", "POST", "json", 200);
@@ -39,7 +40,12 @@ module.exports = async client => {
         res.send(`Under development!\n<br>\nYour username is "${esc(user.username)}#${esc(user.discriminator)}" and you are in ${esc(guilds.length)} servers.`);
     });
     
-    app.get("/ytdl/audio/:id", async (req, res) => {
+    let downloadRatelimit = rateLimit({
+        windowsMs: 1000 * 60 * 10,
+        max: 5
+    });
+
+    app.get("/ytdl/audio/:id", downloadRatelimit, async (req, res) => {
         let id = req.params.id.replace(/[^0-9A-Za-z\-_]/g, "");
         let path = __dirname + "/../../ytdl/audio/" + id + ".mp3";
         fs.access(path)
@@ -51,7 +57,7 @@ module.exports = async client => {
             });
     });
     
-    app.get("/ytdl/video/:id", async (req, res)=>{
+    app.get("/ytdl/video/:id", downloadRatelimit, async (req, res)=>{
         let id = req.params.id.replace(/[^0-9A-Za-z\-_]/g, "");
         let path = __dirname + "/../../ytdl/video/" + id + ".mp4";
         fs.access(path)

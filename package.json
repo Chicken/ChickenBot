@@ -37,6 +37,7 @@
         "dotenv": "^10.0.0",
         "enmap": "^5.8.5",
         "express": "^4.17.1",
+        "express-rate-limit": "^5.2.6",
         "fluent-ffmpeg": "^2.1.2",
         "form-urlencoded": "^6.0.4",
         "ytdl-core": "^4.8.2"
