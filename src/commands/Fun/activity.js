@@ -13,8 +13,8 @@ exports.execute = async (client, message, args) => {
             return message.channel.send("No valid voice channel id provided.");
         }
 
-        if(channel.type != "voice") return message.channel.send("No valid voice channel id provided.");
         if(!activity || !Object.keys(legend).includes(activity)) return message.channel.send(`No valid activity provided.\nValid activities:\n${Object.keys(legend).map(name => `\`${name}\``).join(", ")}`);
+        if(channel.type !== "voice") return message.channel.send("No valid voice channel id provided.");
 
         if(!channel.permissionsFor(message.member).has("CREATE_INSTANT_INVITE"))
             return message.channel.send("You don't have the create invite permission on that channel.");
@@ -46,5 +46,8 @@ exports.data = {
     name: "activity",
     desc: "Undocumented and unstable Discord voice party activities.\nMight break randomly.\nRequires invite permission.",
     usage: "activity <activity> [channelid]",
-    perm: 0
+    perm: 0,
+    reload: () => {
+        delete require.cache[require.resolve("../../resources/activities.json")];
+    }
 };

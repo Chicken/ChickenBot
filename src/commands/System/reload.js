@@ -11,6 +11,7 @@ exports.execute = async (client, message, args) => {
 
     if (typeof command == "object") {
         delete require.cache[require.resolve(`../${command.data.category}/${commandName}.js`)];
+        if(command.data.reload) await command.data.reload();
         command.data.aliases.forEach(a => {
             client.aliases.delete(a);
         });
