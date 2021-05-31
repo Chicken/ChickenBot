@@ -4,7 +4,7 @@ const bent = require("bent");
 const formurlencoded = require("form-urlencoded");
 const postApi = bent("https://discord.com/api/v6", "POST", "json", 200);
 const getApi = bent("https://discord.com/api/v6", "GET", "json", 200);
-const fs = require("fs");
+const fs = require("fs").promises;
 
 module.exports = async client => {
     app.listen(client.config.webport, () => {
@@ -42,24 +42,24 @@ module.exports = async client => {
     app.get("/ytdl/audio/:id", async (req, res) => {
         let id = req.params.id.replace(/[^0-9A-Za-z\-_]/g, "");
         let path = __dirname + "/../../ytdl/audio/" + id + ".mp3";
-        fs.access(path, err => {
-            if(err) {
-                res.sendStatus(404);
-            } else {
+        fs.access(path)
+            .then(() => {
                 res.download(path);
-            }
-        });
+            })
+            .catch(() => {
+                res.sendStatus(404);
+            });
     });
     
     app.get("/ytdl/video/:id", async (req, res)=>{
         let id = req.params.id.replace(/[^0-9A-Za-z\-_]/g, "");
         let path = __dirname + "/../../ytdl/video/" + id + ".mp4";
-        fs.access(path, err => {
-            if(err) {
-                res.sendStatus(404);
-            } else {
+        fs.access(path)
+            .then(() => {
                 res.download(path);
-            }
-        });
+            })
+            .catch(() => {
+                res.sendStatus(404);
+            });
     });
 };
