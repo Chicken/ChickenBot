@@ -12,8 +12,8 @@ exports.execute = async (client, message, args) => {
     let query = args.join(" ");
     let msg = await message.channel.send("Loading...");
     let meta;
-    const video = /(http(s)?:\/\/)?(www\.|music\.|gaming\.|m\.)?youtu(?:be\.com\/watch\?(.+=.+&)*v=|\.be\/)([\w\-_]*)(&(amp;)?‌[\w?‌=]*)?(&.+=.+)*/; // modified from https://stackoverflow.com/questions/3717115/regular-expression-for-youtube-links
-    const list = /(http(s)?:\/\/)?(www\.|music\.|gaming\.|m\.)?youtube\.com\/playlist\?(.+=.+&)*list=([\w\-_]*)(&(amp;)?[\w?‌=]*)?(&.+=.+)*/;
+    const video = /^(?:https?:\/\/)?(?:www\.|music\.|gaming\.|m\.)?youtu(?:(?:\.be\/([a-z0-9\-_]{11})(?:&.*?)?)|(?:be\.com\/watch\?(?:[^=&]+=[^=&]+&)*?v=([a-z0-9\-_]{11})(?:&.*?)?))$/mi;
+    const list = /^(?:https?:\/\/)?(?:www\.|music\.|gaming\.|m\.)?youtube\.com\/playlist\?(?:[^=&]+=[^=&]+&)*?list=([a-z0-9\-_]{34})(?:&.*?)?$/mi;
 
     if (video.test(query) || list.test(query))
         meta = await client.m.getVideoData(query);
