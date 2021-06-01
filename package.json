@@ -29,7 +29,7 @@
     "license": "MIT",
     "private:": true,
     "dependencies": {
-        "@skyra/audio": "^1.1.2",
+        "@skyra/audio": "^1.2.0",
         "bent": "^7.3.12",
         "canvas": "^2.8.0",
         "colorette": "^1.2.2",
