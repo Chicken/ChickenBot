@@ -67,14 +67,14 @@
     semver "^7.3.4"
     tar "^6.1.0"
 
-"@skyra/audio@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@skyra/audio/-/audio-1.1.2.tgz#f1ab525c4924152ebe17ca9e601a3d8d2f47bf1f"
-  integrity sha512-TfvbRGp7tFVtPB/JLE0pvrsT5Lr4RkQ+IlGWTxTVGcX91eXQL5LXkQ+gIKdCJ6F3W4lTSPAIzuCzhWx1GCKrog==
+"@skyra/audio@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@skyra/audio/-/audio-1.2.0.tgz#a5adb9467628c3a9af24ebdb36d238389529bb62"
+  integrity sha512-qyw6KAK3QHrTsU0Tx/b8U01uLC//kwBscBPIfAH5q+bNDH9OEG9dY2QbQGd17VqQnDBo4Us6cjZbMFlwKASttg==
   dependencies:
     backoff "^2.5.0"
     tslib "^2.2.0"
-    ws "^7.4.5"
+    ws "^7.4.6"
 
 abbrev@1:
   version "1.1.1"
@@ -1865,10 +1865,10 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
 
-ws@^7.4.4, ws@^7.4.5:
-  version "7.4.5"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.5.tgz#a484dd851e9beb6fdb420027e3885e8ce48986c1"
-  integrity sha512-xzyu3hFvomRfXKH8vOFMU3OguG6oOvhXMo3xsGy3xWExqaM2dxBbVxuD99O7m3ZUFMvvscsZDqxfgMaRr/Nr1g==
+ws@^7.4.4, ws@^7.4.6:
+  version "7.4.6"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.6.tgz#5654ca8ecdeee47c33a9a4bf6d28e2be2980377c"
+  integrity sha512-YmhHDO4MzaDLB+M9ym/mDA5z0naX8j7SIlT8f8z+I0VtzsRbekxEutHSme7NPS2qE8StCYQNUnfWdXta/Yu85A==
 
 yallist@^4.0.0:
   version "4.0.0"
