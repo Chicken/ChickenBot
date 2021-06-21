@@ -67,14 +67,14 @@
     semver "^7.3.4"
     tar "^6.1.0"
 
-"@skyra/audio@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@skyra/audio/-/audio-1.2.0.tgz#a5adb9467628c3a9af24ebdb36d238389529bb62"
-  integrity sha512-qyw6KAK3QHrTsU0Tx/b8U01uLC//kwBscBPIfAH5q+bNDH9OEG9dY2QbQGd17VqQnDBo4Us6cjZbMFlwKASttg==
+"@skyra/audio@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@skyra/audio/-/audio-1.2.1.tgz#24f74df20fecdb17a7df0212a46a286e299aa7ae"
+  integrity sha512-C2CzdQkMTiVkqQAoCA+ScamWhLDXJUO+d4F1urqk8l4Yz3sZrMQzqNsgm+dJ0XP3lmdi1qhv0ce2NZVuwVZwaQ==
   dependencies:
     backoff "^2.5.0"
-    tslib "^2.2.0"
-    ws "^7.4.6"
+    tslib "^2.3.0"
+    ws "^7.5.0"
 
 abbrev@1:
   version "1.1.1"
@@ -1748,10 +1748,10 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-tslib@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.2.0.tgz#fb2c475977e35e241311ede2693cee1ec6698f5c"
-  integrity sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==
+tslib@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
+  integrity sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==
 
 tunnel-agent@^0.6.0:
   version "0.6.0"
@@ -1853,10 +1853,10 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
 
-ws@^7.4.4, ws@^7.4.6:
-  version "7.4.6"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.6.tgz#5654ca8ecdeee47c33a9a4bf6d28e2be2980377c"
-  integrity sha512-YmhHDO4MzaDLB+M9ym/mDA5z0naX8j7SIlT8f8z+I0VtzsRbekxEutHSme7NPS2qE8StCYQNUnfWdXta/Yu85A==
+ws@^7.4.4, ws@^7.5.0:
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.0.tgz#0033bafea031fb9df041b2026fc72a571ca44691"
+  integrity sha512-6ezXvzOZupqKj4jUqbQ9tXuJNo+BR2gU8fFRk3XCP3e0G6WT414u5ELe6Y0vtp7kmSJ3F7YWObSNr1ESsgi4vw==
 
 yallist@^4.0.0:
   version "4.0.0"
