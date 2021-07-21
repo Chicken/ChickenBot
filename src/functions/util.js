@@ -124,10 +124,15 @@ module.exports = async client => {
     client.parseTime = (str) => {
         if(typeof str !== "string") throw new TypeError("Str needs to be a string.");
 
-        let match = str.match(/([0-9.,_]+)(\w+)?/);
-        if(!match) return null;
-        let [ , value, unit ] = match;
-        if(!value) return null;
+        let times = str.match(/[0-9.,_]+[a-z]+/gi);
+
+        if(!times) return null;
+        if(times.length > 1) {
+            return times.reduce((a, t) => a + client.parseTime(t), 0); 
+        }
+
+        let [ , value, unit ] = times[0].match(/([0-9.,_]+)([a-z]+)/i);
+        if(!value || !unit) return null;
 
         value = parseFloat(value.replace(/_/g, "").replace(/,/g, "."));
         unit = unit?.toLowerCase();
@@ -137,7 +142,6 @@ module.exports = async client => {
             case "ms":
             case "millisecond":
             case "milliseconds":
-            case undefined:
                 multiple = multiples.MILLISECOND;
                 break;
             case "s":
