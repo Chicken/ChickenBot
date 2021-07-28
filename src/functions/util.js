@@ -57,7 +57,7 @@ module.exports = async client => {
         });
 
         let changePage = reaction => {
-            if(message.channel.permissionsFor(client.user.id).has("MANAGE_MESSAGES")) reaction.users.remove(message.author);
+            if(message.guild ? message.channel.permissionsFor(client.user).has("MANAGE_MESSAGES") : false) reaction.users.remove(message.author);
             switch (reaction.emoji.name) {
                 case controls[0]: {
                     page = page > 0 ? page - 1 : pages.length - 1;
@@ -77,16 +77,16 @@ module.exports = async client => {
         };
 
         collector.on("collect", changePage);
-        if(!message.channel.permissionsFor(client.user.id).has("MANAGE_MESSAGES")) collector.on("remove", changePage);
+        if(!(message.guild ? message.channel.permissionsFor(client.user).has("MANAGE_MESSAGES") : false)) collector.on("remove", changePage);
 
         collector.on("end", () => {
             if (!embedMsg.deleted) {
-                if(message.channel.permissionsFor(client.user.id).has("MANAGE_MESSAGES")) embedMsg.reactions.removeAll();
+                if(message.guild ? message.channel.permissionsFor(client.user).has("MANAGE_MESSAGES") : false) embedMsg.reactions.removeAll();
                 if(endpage != null) {
                     embedMsg.edit(endpage);
                 } else {
                     let modifiedPage = pages[page];
-                    modifiedPage.setFooter(`${modifiedPage.footer.text} | This session has ended`, modifiedPage.footer.iconURL);
+                    modifiedPage.setFooter(`${modifiedPage.footer?.text ?? ""} | This session has ended`, modifiedPage.footer?.iconURL ?? null);
                     embedMsg.edit(modifiedPage);
                 }
             }
