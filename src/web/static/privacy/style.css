@@ -1,10 +1,11 @@
-html, body {
+html,
+body {
     font-size: 16px;
     margin: 0px;
     padding: 0px;
     padding-top: 8px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #FFFFFF;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
     background: #424242;
     position: relative;
 }
@@ -36,7 +37,7 @@ p {
 
 a {
     text-decoration: none;
-    color: #00FFFF;
+    color: #00ffff;
 }
 
 #container {
@@ -48,14 +49,14 @@ a {
     padding-bottom: 32px;
 }
 
-
 @media only screen and (max-width: 960px) {
     #container {
         text-align: left;
         width: 100%;
         padding-bottom: 64px;
     }
-    html, body {
+    html,
+    body {
         padding-left: 10px;
         padding-right: 10px;
     }

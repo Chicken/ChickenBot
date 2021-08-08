@@ -1,10 +1,11 @@
-html, body {
+html,
+body {
     font-size: 16px;
     margin: 0px;
     padding: 0px;
     text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #FFFFFF;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
     background: #424242;
     position: relative;
 }
@@ -15,7 +16,7 @@ h1 {
 
 a {
     text-decoration: none;
-    color: #00C3FF;
+    color: #00c3ff;
 }
 
 .login-img {
@@ -35,16 +36,16 @@ button {
     margin: 5px;
     width: 200px;
     font: inherit;
-    color: #7289DA;
+    color: #7289da;
     outline: none !important;
     border: none !important;
-    background-color: #23272A;
+    background-color: #23272a;
 }
 
 button:hover {
-    background-color: #2e3336
+    background-color: #2e3336;
 }
 
 button:active {
-    background-color: #424446
+    background-color: #424446;
 }

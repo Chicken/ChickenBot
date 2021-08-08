@@ -4,7 +4,10 @@ exports.execute = async (client, message, args) => {
         args.shift();
         switch (args[0]) {
             case "mod": {
-                let role = message.guild.roles.cache.find(r => r.name.match(new RegExp(args[1], "iu"))) || message.guild.roles.cache.get(args[1]);
+                const role =
+                    message.guild.roles.cache.find((r) =>
+                        r.name.match(new RegExp(args[1], "iu"))
+                    ) || message.guild.roles.cache.get(args[1]);
                 if (!role) {
                     return message.channel.send("No role found");
                 }
@@ -26,10 +29,10 @@ exports.execute = async (client, message, args) => {
             }
             case "xp": {
                 args.shift();
-                if (args[0].toLowerCase() != "true" && args[0].toLowerCase() != "false") {
+                if (args[0].toLowerCase() !== "true" && args[0].toLowerCase() !== "false") {
                     return message.channel.send("Valid options are `true` and `false`");
                 }
-                client.db.set(message.guild.id, args[0].toLowerCase() == "true" ? true : false, "settings.xp");
+                client.db.set(message.guild.id, args[0].toLowerCase() === "true", "settings.xp");
                 if (client.db.get(message.guild.id, "settings.xp")) {
                     message.channel.send("Xp is now enabled!");
                 } else {
@@ -38,7 +41,10 @@ exports.execute = async (client, message, args) => {
                 break;
             }
             case "log": {
-                let channel = message.guild.channels.cache.find(c => c.name.match(new RegExp(args[1], "iu"))) || message.guild.channels.cache.get(args[1]);
+                const channel =
+                    message.guild.channels.cache.find((c) =>
+                        c.name.match(new RegExp(args[1], "iu"))
+                    ) || message.guild.channels.cache.get(args[1]);
                 if (!channel) {
                     return message.channel.send("No channel found");
                 }
@@ -47,21 +53,31 @@ exports.execute = async (client, message, args) => {
                 break;
             }
             default: {
-                return message.channel.send("Not a valid setting. Valid choices are log, mod, description, xp and prefix.");
+                return message.channel.send(
+                    "Not a valid setting. Valid choices are log, mod, description, xp and prefix."
+                );
             }
         }
     } else {
-        let settings = client.db.get(message.guild.id).settings;
-        message.channel.send(`Your current settings:\nPrefix: \`${settings.prefix}\`\nDescription: \`${settings.description ? settings.description : "None"}\`\nMod-Role: \`${settings.mod === null ? "None" : message.guild.roles.cache.get(settings.mod).name}\`\nLog: ${settings.log === null ? "No" : `<#${settings.log}>`}\nXp system enabled: \`${settings.xp}\``);
+        const { settings } = client.db.get(message.guild.id);
+        message.channel.send(
+            `Your current settings:\nPrefix: \`${settings.prefix}\`\nDescription: \`${
+                settings.description ? settings.description : "None"
+            }\`\nMod-Role: \`${
+                settings.mod === null ? "None" : message.guild.roles.cache.get(settings.mod).name
+            }\`\nLog: ${
+                settings.log === null ? "No" : `<#${settings.log}>`
+            }\nXp system enabled: \`${settings.xp}\``
+        );
     }
 };
 
 exports.data = {
-    permissions: 2048,
+    permissions: 2048n,
     guildOnly: true,
-    aliases: ["setting"],
+    aliases: ["set", "setting", "conf"],
     name: "settings",
     desc: "Changes bot settings in the server",
-    usage: "settings [set] <setting> <value>",
-    perm: 2
+    usage: "settings [set] [setting] [value]",
+    perm: 2,
 };

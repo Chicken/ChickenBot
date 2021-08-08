@@ -8,5 +8,5 @@ module.exports = async (client) => {
         .setDescription("Joined a server.")
         .setColor("6f43ba")
         .setTimestamp();
-    client.channels.cache.get(client.config.log).send(embed);
+    client.channels.cache.get(client.config.log).send({ embeds: [embed] });
 };

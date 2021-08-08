@@ -14,7 +14,6 @@ Contributors are welcome. Feel free to fork and submit a pull request for review
 1. Fork & clone
 1. Create a new branch
 1. Code away
-1. Run `yarn lint`
 1. Commit & push
 1. Submit the pull request
 
@@ -23,7 +22,6 @@ Contributors are welcome. Feel free to fork and submit a pull request for review
 To make sure that your pull request gets accepted you need to follow some guidelines.  
 This is not everything but a list of basic things. Think before you do.  
 
-* Use Eslint
 * Modularity is great
 * No inappropriate stuff
 * Follow "best practices" for javascript

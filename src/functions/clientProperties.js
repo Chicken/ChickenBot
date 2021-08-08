@@ -1,7 +1,7 @@
 const Enmap = require("enmap");
 require("dotenv").config();
 
-module.exports = async client => {
+module.exports = async (client) => {
     client.config = require("../config.js");
     client.db = new Enmap("guilds");
     client.reminders = new Enmap("reminders");

@@ -1,4 +1,2 @@
 // eslint-disable-next-line no-unused-vars
-module.exports = async (client, user) => {
-    
-};
+module.exports = async (client, user) => {};

@@ -9,5 +9,5 @@ module.exports = async (client, guild) => {
         .setDescription("Left a server.")
         .setColor("ffcc00")
         .setTimestamp();
-    client.channels.cache.get(client.config.log).send(embed);
+    client.channels.cache.get(client.config.log).send({ embeds: [embed] });
 };

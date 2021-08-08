@@ -1,11 +1,12 @@
-let Discord = require("discord.js");
+const Discord = require("discord.js");
+
 exports.execute = async (client, message, args) => {
-    let gif = client.arrayRandom(client.gifs["hug"]);
+    const gif = client.arrayRandom(client.gifs.hug);
     let outstr;
-    let ping = args[0]?.match(/<@!?(\d+)>/);
+    const ping = args[0]?.match(/<@!?(\d+)>/);
     let target;
     if (ping && ping[1]) {
-        let user = await client.users.fetch(ping[1]);
+        const user = await client.users.fetch(ping[1]);
         if (user) target = user.username;
         else target = args.join(" ");
     } else target = args.join(" ");
@@ -17,21 +18,21 @@ exports.execute = async (client, message, args) => {
         name = message.author.username;
     }
     if (target) outstr = `${name} hugs ${target}`;
-    if (!outstr || outstr == "") outstr = `${name} needs a hug...`;
-    let embed = new Discord.MessageEmbed()
+    if (!outstr || outstr === "") outstr = `${name} needs a hug...`;
+    const embed = new Discord.MessageEmbed()
         .setImage(gif)
         .setColor("RANDOM")
         .setTitle(outstr)
         .setFooter("Hosted by weeb.sh");
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
 };
 
 exports.data = {
-    permissions: 18432,
+    permissions: 18432n,
     guildOnly: false,
     aliases: [],
     name: "hug",
     desc: "Hug somebody",
     usage: "hug [Mention/Text]",
-    perm: 0
+    perm: 0,
 };

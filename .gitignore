@@ -1,7 +1,7 @@
 data
 .env
 node_modules
-npm-debug.log
 *.heapsnapshot
 package-lock.json
 src/config.js
+.husky/_

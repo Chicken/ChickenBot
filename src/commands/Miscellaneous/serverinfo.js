@@ -1,41 +1,52 @@
 const Discord = require("discord.js");
 // eslint-disable-next-line no-unused-vars
 exports.execute = async (client, message, args) => {
-    let server = message.guild;
+    const server = message.guild;
     let bans;
     try {
-        bans = await message.guild.fetchBans();
-        bans = bans.size;
-    } catch(e) {
+        bans = await message.guild.bans.fetch();
+        bans = bans.size.toString();
+    } catch (e) {
         bans = "Data not available.";
     }
-    let embed = new Discord.MessageEmbed()
+    const embed = new Discord.MessageEmbed()
         .setAuthor(`${server.name}`, `${server.iconURL()}`)
         .setThumbnail(`${server.iconURL()}`)
         .addField("Server ID", server.id, true)
-        .addField("Owner", server.owner.user.toString(), true)
-        .addField("Members", `${server.members.cache.size} [${server.members.cache.filter(m => !m.user.bot).size} users | ${server.members.cache.filter(m => m.user.bot).size} bots]\n${server.members.cache.filter(m => m.presence.status === "online").size} online`)
-        .addField("Channels", `${message.guild.channels.cache.filter(c=>c.type!="category").size} [${message.guild.channels.cache.filter(c=>c.type==="text").size} text | ${message.guild.channels.cache.filter(c=>c.type==="voice").size} voice]`)
-        .addField("Roles", message.guild.roles.cache.size, true)
-        .addField("Region", server.region)
-        .addField("Ban count", bans)
-        .addField("Boost Tier", server.premiumTier)
-        .addField("Created", client.formatDate(server.createdAt))
+        .addField("Owner", (await server.fetchOwner()).user.toString(), true)
+        .addField("Members", server.memberCount.toString())
+        .addField(
+            "Channels",
+            `${message.guild.channels.cache.filter((c) => c.type !== "GUILD_CATEGORY").size} [${
+                message.guild.channels.cache.filter((c) => c.type === "GUILD_TEXT").size
+            } text | ${
+                message.guild.channels.cache.filter((c) => c.type === "GUILD_VOICE").size
+            } voice]`
+        )
+        .addField("Roles", message.guild.roles.cache.size.toString(), true)
+        .addField("Ban count", bans, true)
+        .addField("Boost Tier", server.premiumTier.replaceAll("_", " ").toLowerCase(), true)
+        .addField(
+            "Created",
+            `<t:${client.toUnix(server.createdTimestamp)}> (<t:${client.toUnix(
+                server.createdTimestamp
+            )}:R>)`
+        )
         .setFooter(`Requested by ${message.author.tag}`)
         .setColor("AQUA")
         .setTimestamp();
-    if(client.db.get(message.guild.id).settings.description){
+    if (client.db.get(message.guild.id).settings.description) {
         embed.setDescription(client.db.get(message.guild.id).settings.description);
     }
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
 };
-  
+
 exports.data = {
-    permissions: 18432,
+    permissions: 18432n,
     guildOnly: true,
     aliases: ["server", "guild"],
     name: "serverinfo",
     desc: "Shows info about server.",
     usage: "serverinfo",
-    perm: 0
+    perm: 0,
 };

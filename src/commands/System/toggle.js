@@ -4,19 +4,19 @@ exports.execute = async (client, message, args) => {
     const cmd = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));
     if (!cmd) return message.channel.send("Did not find that command.");
 
-    let status = cmd.data.disabled ? cmd.data.disabled : false;
+    const status = cmd.data.disabled ? cmd.data.disabled : false;
 
     client.commands.set(cmd.data.name, !status, "data.disabled");
 
     message.channel.send(`\`${cmd.data.name}\` is now \`${status ? "enabled" : "disabled"}\``);
 };
-  
+
 exports.data = {
-    permissions: 2048,
+    permissions: 2048n,
     guildOnly: false,
     aliases: ["togglecmd"],
     name: "toggle",
     desc: "toggles command's disabled status (current session only)",
     usage: "toggle <command>",
-    perm: 4
+    perm: 4,
 };

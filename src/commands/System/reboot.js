@@ -3,13 +3,13 @@ exports.execute = async (client, message) => {
     await message.channel.send("Stopping the bot. Rebooting if under process manager.");
     await client.handleClose();
 };
-  
+
 exports.data = {
-    permissions: 2048,
+    permissions: 2048n,
     guildOnly: false,
     aliases: ["restart", "stop"],
     name: "reboot",
     desc: "Reboots the bot",
     usage: "reboot",
-    perm: 5
+    perm: 5,
 };

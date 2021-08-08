@@ -4,15 +4,16 @@ exports.execute = async (client, message, args) => {
         return message.channel.send("Give me a command name");
     }
 
-    let command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0])) || args[0];
-    let commandName = typeof command == "object" ? command.data.name : command;
+    const command =
+        client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0])) || args[0];
+    const commandName = typeof command === "object" ? command.data.name : command;
 
     message.channel.send(`Attemping to reload command \`${commandName}\``);
 
-    if (typeof command == "object") {
+    if (typeof command === "object") {
         delete require.cache[require.resolve(`../${command.data.category}/${commandName}.js`)];
-        if(command.data.reload) await command.data.reload();
-        command.data.aliases.forEach(a => {
+        if (command.data.reload) await command.data.reload();
+        command.data.aliases.forEach((a) => {
             client.aliases.delete(a);
         });
         client.commands.delete(commandName);
@@ -24,12 +25,12 @@ exports.execute = async (client, message, args) => {
     let found = false;
 
     try {
-        let props = require(`../${command.data.category}/${commandName}.js`);
+        const props = require(`../${command.data.category}/${commandName}.js`);
         found = true;
         props.data.category = command.data.category;
         if (props.data.disabled) client.logger.error("Command is disabled");
         client.commands.set(props.data.name, props);
-        props.data.aliases.forEach(a => {
+        props.data.aliases.forEach((a) => {
             client.aliases.set(a, props.data.name);
         });
     } catch (e) {
@@ -47,11 +48,11 @@ exports.execute = async (client, message, args) => {
 };
 
 exports.data = {
-    permissions: 2048,
+    permissions: 2048n,
     guildOnly: false,
     aliases: [],
     name: "reload",
     desc: "Reloads a command",
     usage: "reload <command>",
-    perm: 4
+    perm: 4,
 };

@@ -1,4 +1,4 @@
-name: ESLint Review
+name: Format review
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs: 
   review:
-    name: Review with ESLint
+    name: Review formatting
     runs-on: ubuntu-latest
     
     steps:
@@ -20,18 +20,21 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 16
 
       - name: Restore CI Cache
         uses: actions/cache@v2
         id: cache
         with:
           path: node_modules
-          key: ${{ runner.os }}-14-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-16-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Dependencies
         if: ${{ !steps.cache.outputs.cache-hit }}
         run: yarn --frozen-lockfile
         
       - name: Run ESLint
-        run: yarn lint --fix=false
+        run: yarn eslint src --ext js
+
+      - name: Run Prettier
+        run: yarn prettier --check src
