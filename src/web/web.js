@@ -3,8 +3,8 @@ const app = new express();
 const rateLimit = require("express-rate-limit");
 const bent = require("bent");
 const formurlencoded = require("form-urlencoded");
-const postApi = bent("https://discord.com/api/v6", "POST", "json", 200);
-const getApi = bent("https://discord.com/api/v6", "GET", "json", 200);
+const postApi = bent("https://discord.com/api/v9", "POST", "json", 200);
+const getApi = bent("https://discord.com/api/v9", "GET", "json", 200);
 const fs = require("fs").promises;
 
 module.exports = async client => {
@@ -16,7 +16,7 @@ module.exports = async client => {
     
     app.get("/auth", async (req, res)=>{
         let data = {
-            "client_id": "512663078819725313",
+            "client_id": client.user.id,
             "client_secret": process.env.client_secret,
             "grant_type": "authorization_code",
             "code": req.query.code,
