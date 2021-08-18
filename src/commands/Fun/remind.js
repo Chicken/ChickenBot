@@ -35,7 +35,7 @@ exports.execute = async (client, message, args) => {
             return message.channel.send("Not a valid id.");
         }
         client.reminders.delete(message.author.id, num);
-        client.clearTimeout(client.remindtimers[`${message.author.id}-${num}`]);
+        clearTimeout(client.remindtimers[`${message.author.id}-${num}`]);
         delete client.remindtimers[`${message.author.id}-${num}`];
         return message.channel.send(`Removed reminder with id of \`${num}\``);
     }
