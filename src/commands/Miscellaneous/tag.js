@@ -57,7 +57,7 @@ exports.execute = async (client, message, args) => {
         default: {
             const tag = tags[args[0]];
             const opt = {
-                content: tag.content,
+                content: tag.content || undefined,
                 files: tag.attachments,
             };
             message.channel.send(opt);
