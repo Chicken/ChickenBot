@@ -24,14 +24,16 @@ exports.execute = async (client, message, args) => {
         resultsPerPage * args[0] - resultsPerPage,
         resultsPerPage * args[0]
     );
-    const leaderboard = hoisted
-        .map(
-            (v) =>
-                `${users.indexOf(v) + 1}. ${client.users.cache.get(v[0]).tag} (\`${
-                    v[1].level
-                }\` | \`${v[1].xp}\`)`
+    const leaderboard = (
+        await Promise.all(
+            hoisted.map(
+                async (v) =>
+                    `${users.indexOf(v) + 1}. ${(await client.users.fetch(v[0])).tag} (\`${
+                        v[1].level
+                    }\` | \`${v[1].xp}\`)`
+            )
         )
-        .join("\n");
+    ).join("\n");
 
     const embed = new Discord.MessageEmbed()
         .setTitle("Leaderboard")
