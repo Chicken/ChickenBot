@@ -19,6 +19,18 @@
         "id": "832012586023256104",
         "name": "Chess"
     },
+    "doodle": {
+        "id": "878067389634314250",
+        "name": "Doodle Crew"
+    },
+    "word": {
+        "id": "879863976006127627",
+        "name": "Word Snacks"
+    },
+    "letter": {
+        "id": "879863686565621790",
+        "name": "Letter Tile"
+    },
     "game2": {
         "id": "832012682520428625",
         "name": "Discord Game 2"

@@ -7,7 +7,13 @@ module.exports = async (client, member) => {
     const embed = new MessageEmbed()
         .setTitle("Member joined!")
         .setColor("#34a2eb")
-        .setDescription(`${member.toString()} ${member.user.tag} (\`${member.id}\`)`)
+        .setDescription(
+            `${member.toString()} ${member.user.tag} (\`${
+                member.id
+            }\`)\nCreated: <t:${client.toUnix(member.user.createdTimestamp)}> (<t:${client.toUnix(
+                member.user.createdTimestamp
+            )}:R>)`
+        )
         .setTimestamp();
     const logChannel = client.channels.cache.get(log);
     if (
