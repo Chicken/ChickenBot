@@ -34,7 +34,7 @@
         "@skyra/audio": "^1.2.1",
         "bent": "^7.3.12",
         "canvas": "^2.8.0",
-        "colorette": "^1.3.0",
+        "colorette": "^2.0.14",
         "discord.js": "^13.1.0",
         "dotenv": "^10.0.0",
         "enmap": "^5.8.7",
