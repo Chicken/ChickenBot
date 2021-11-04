@@ -35,6 +35,10 @@
         "id": "852509694341283871",
         "name": "SpellCast"
     },
+    "checkers": {
+        "id": "832013003968348200",
+        "name": "Checkers in the Park"
+    },
     "game2": {
         "id": "832012682520428625",
         "name": "Discord Game 2"
