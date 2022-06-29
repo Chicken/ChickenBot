@@ -7,7 +7,10 @@ RUN apk update && \
     apk add \
     make \
     g++ \
-    python3
+    python3 \
+    cairo \
+    pango \
+    libjpeg
 
 COPY yarn.lock package.json ./
 
