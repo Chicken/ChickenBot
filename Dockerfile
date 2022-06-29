@@ -1,17 +1,15 @@
-FROM node:16-alpine AS builder
+FROM node:16-bullseye-slim AS builder
 
 WORKDIR /app
 
-RUN apk update && \
-    apk upgrade && \
-    apk add \
-    make \
-    g++ \
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y \
+    build-essential \
     python3 \
-    cairo-dev \
-    pango-dev \
-    jpeg-dev \
-    pixman-dev
+    libcairo2-dev \
+    libpango1.0-dev \
+    libjpeg-dev
 
 COPY yarn.lock package.json ./
 
@@ -19,15 +17,15 @@ RUN sed -i 's/"prepare": "husky install"/"prepare": ""/' ./package.json
 
 RUN yarn --production=true --frozen-lockfile --link-duplicates
 
-FROM node:16-alpine
+FROM node:16-bullseye-slim
 
 WORKDIR /app
 
 ENV NODE_ENV="production"
 
-RUN apk update && \
-    apk upgrade && \
-    apk add --no-cache dumb-init
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y dumb-init
 
 RUN mkdir /app/data && \
     chown -R node:node /app
