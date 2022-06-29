@@ -17,10 +17,10 @@ module.exports = async (client) => {
         try {
             data = await (
                 await fetch(
-                    `http://${process.env.lavalink_host}/loadtracks?identifier=${encodeURIComponent(
+                    `http://${process.env.LAVALINK_HOST}/loadtracks?identifier=${encodeURIComponent(
                         query
                     )}`,
-                    { headers: { Authorization: process.env.lavalink_pass } }
+                    { headers: { Authorization: process.env.LAVALINK_PASS } }
                 )
             ).json();
             if (data.error)

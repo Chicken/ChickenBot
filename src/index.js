@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { Client, Intents, Options, LimitedCollection } = require("discord.js");
 
 const client = new Client({

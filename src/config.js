@@ -1,19 +1,19 @@
 const { Permissions } = require("discord.js");
 
 const config = {
-    owner: "YOUR ID HERE",
-    admins: [],
-    support: [],
-    token: process.env.token,
-    hostname: process.env.hostname,
-    weatherapi: process.env.weatherapi,
-    thecatapi: process.env.thecatapi,
-    fixerapi: process.env.fixerapi,
-    webport: process.env.port,
-    log: "YOUR LOG CHANNEL ID HERE",
+    owner: process.env.OWNER,
+    admins: process.env.ADMINS.split(","),
+    support: process.env.SUPPORT.split(","),
+    token: process.env.TOKEN,
+    hostname: process.env.HOSTNAME,
+    weatherapi: process.env.WEATHERAPI,
+    thecatapi: process.env.THECATAPI,
+    fixerapi: process.env.FIXERAPI,
+    webport: process.env.PORT,
+    log: process.env.LOG,
     defaultSettings: {
         settings: {
-            prefix: "<",
+            prefix: process.env.DEFAULT_PREFIX,
             log: null,
             logs: {
                 join: false,

@@ -19,7 +19,7 @@ module.exports = async (client) => {
     app.get("/auth", async (req, res) => {
         const data = {
             client_id: client.user.id,
-            client_secret: process.env.client_secret,
+            client_secret: process.env.CLIENT_SECRET,
             grant_type: "authorization_code",
             code: req.query.code,
             redirect_uri: `${client.config.hostname}/auth`,

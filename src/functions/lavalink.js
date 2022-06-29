@@ -2,7 +2,7 @@ const { Node } = require("@skyra/audio");
 require("dotenv").config();
 
 module.exports = async (client) => {
-    if (!process.env.lavalink_host) {
+    if (!process.env.LAVALINK_HOST) {
         client.logger.info(
             "Lavalink is missing required info to start. Music commands are now disabled."
         );
@@ -11,9 +11,9 @@ module.exports = async (client) => {
     try {
         client.lavalink = new Node(
             {
-                password: process.env.lavalink_pass,
+                password: process.env.LAVALINK_PASS,
                 userID: client.user.id,
-                host: process.env.lavalink_host,
+                host: process.env.LAVALINK_HOST,
             },
             (guildID, packet) => {
                 const guild = client.guilds.cache.get(guildID);
