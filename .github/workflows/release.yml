@@ -37,6 +37,6 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.REPO_LC }}:latest
+          tags: ghcr.io/${{ env.REPO_LC }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
