@@ -8,9 +8,10 @@ RUN apk update && \
     make \
     g++ \
     python3 \
-    cairo \
-    pango \
-    libjpeg
+    cairo-dev \
+    pango-dev \
+    jpeg-dev \
+    pixman-dev
 
 COPY yarn.lock package.json ./
 
