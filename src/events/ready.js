@@ -49,13 +49,24 @@ module.exports = async (client) => {
             .filter((v) => v?.np?.track)
             .forEach((v, id) => {
                 const { np, volume, textChannel, musicChannel } = v;
-                client.m.play(np.track, {
-                    guild: id,
-                    channel: musicChannel || np.channel,
-                    volume,
-                    startTime: np.resume || 0,
-                    pause: np.wasPaused,
-                });
+                const toPlay = musicChannel || np.channel;
+                if (!toPlay) {
+                    // In a bugged state
+                    client.music.set(id, {}, "np");
+                    client.music.set(id, [], "queue");
+                    return;
+                }
+                client.m
+                    .play(np.track, {
+                        guild: id,
+                        channel: toPlay,
+                        volume,
+                        startTime: np.resume || 0,
+                        pause: np.wasPaused,
+                    })
+                    .catch((e) => {
+                        client.logger.error(`Resuming playback for ${id} failed.`, e);
+                    });
                 client.music.delete(id, "np.resume");
                 client.music.delete(id, "np.channel");
                 client.music.delete(id, "np.wasPaused");
