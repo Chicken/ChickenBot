@@ -46,7 +46,7 @@ module.exports = async (client) => {
     client.channels.cache.get(client.config.log).send({ embeds: [embed] });
     if (music) {
         client.music
-            .filter((v) => v?.np.track)
+            .filter((v) => v?.np?.track)
             .forEach((v, id) => {
                 const { np, volume, textChannel, musicChannel } = v;
                 client.m.play(np.track, {
