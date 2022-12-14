@@ -367,12 +367,12 @@ module.exports = async (client) => {
             .forEach((v, id) => {
                 const player = client?.lavalink?.players?.get(id);
                 if (!player) return;
-                if (player.paused) return;
                 const time = player?.position;
                 const channel = client?.lavalink?.voiceStates?.get(id)?.channel_id;
                 if (!channel) return;
                 client.music.set(id, time, "np.resume");
-                client.music.set(id, channel, "np.channel");
+                client.music.set(id, player.paused, "np.wasPaused");
+                client.music.set(id, channel, "musicChannel");
             });
         await client.music.close();
         await client.destroy();
