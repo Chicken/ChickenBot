@@ -85,6 +85,7 @@ Query: ${query}`);
         }
         channel =
             channel || message?.guild.me?.voice?.channel?.id || message?.member?.voice?.channel?.id;
+        client.music.set(guild, channel, "musicChannel");
         let { queue } = music;
         tracks = tracks
             .filter((t) => t)
@@ -122,11 +123,12 @@ Query: ${query}`);
      * @param {boolean} [options.parse] - Optional. Whether to search for your query or not.
      * @param {number} [options.volume] - Optional. The volume to play at. Must be from 0 to 150.
      * @param {number} [options.startTime] - Optional. The time to start playing the video.
+     * @param {boolean} [options.pause] - Optional. Whether it should start paused or not.
      */
     m.play = async (query, options = {}) => {
         if (!client.lavalink) throw new Error("Lavalink failed to initialize.");
         const manager = client.lavalink;
-        const { guild, channel, parse, startTime } = options;
+        const { guild, channel, parse, startTime, pause } = options;
         const player = manager.players.get(guild);
         let { volume } = options;
         if (!guild) throw new Error("Missing guild.");
@@ -135,9 +137,15 @@ Query: ${query}`);
         await player.join(channel, {
             deaf: true,
         });
+        client.music.set(guild, channel, "musicChannel");
         try {
             await player.setVolume(volume);
-            await player.play(query, { start: startTime });
+            await player.play(query, { start: startTime, pause });
+            // Band-Aid fix for a bug
+            if (pause)
+                setTimeout(async () => {
+                    await player.pause(true);
+                }, 1000);
         } catch (e) {
             const currentChannel = client.channels.cache.get(
                 client.music.get(guild, "textChannel")

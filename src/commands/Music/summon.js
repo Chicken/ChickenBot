@@ -7,6 +7,7 @@ exports.execute = async (client, message, args) => {
     if (!player) return message.channel.send("I am not playing anything.");
     // player.switchChannel(message.member.voice.channel.id);
     client.music.set(message.guild.id, message.channel.id, "textChannel");
+    client.music.set(message.guild.id, message.member.voice.channel.id, "musicChannel");
     message.channel.send(
         `Playing in ${message.member.voice.channel.toString()} and bound to ${message.channel.toString()}.`
     );

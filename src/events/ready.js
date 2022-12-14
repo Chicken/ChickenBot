@@ -46,19 +46,21 @@ module.exports = async (client) => {
     client.channels.cache.get(client.config.log).send({ embeds: [embed] });
     if (music) {
         client.music
-            .filter((v) => v?.np?.channel)
+            .filter((v) => v?.np.track)
             .forEach((v, id) => {
-                const { np, volume, textChannel } = v;
+                const { np, volume, textChannel, musicChannel } = v;
                 client.m.play(np.track, {
                     guild: id,
-                    channel: np.channel,
+                    channel: musicChannel || np.channel,
                     volume,
-                    startTime: np.resume,
+                    startTime: np.resume || 0,
+                    pause: np.wasPaused,
                 });
                 client.music.delete(id, "np.resume");
                 client.music.delete(id, "np.channel");
+                client.music.delete(id, "np.wasPaused");
                 const channel = client.channels.cache.get(textChannel);
-                if (channel)
+                if (channel && !np.wasPaused)
                     channel.send(
                         "It looks like your session was interrupted. I've restarted where we left off."
                     );
