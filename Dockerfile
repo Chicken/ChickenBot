@@ -25,7 +25,7 @@ ENV NODE_ENV="production"
 
 RUN apt update && \
     apt upgrade -y && \
-    apt install -y dumb-init
+    apt install -y dumb-init fonts-open-sans
 
 RUN mkdir /app/data && \
     chown -R node:node /app

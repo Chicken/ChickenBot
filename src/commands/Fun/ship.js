@@ -62,7 +62,7 @@ exports.execute = async (client, message, args) => {
 
         ctx.drawImage(heart, x - size, y - size, 60 + size * 2, 60 + size * 2);
 
-        ctx.font = "30px 'Segoe UI'";
+        ctx.font = "30px 'sans-serif'";
         ctx.fillStyle = "black";
         ctx.fillText(`${love}%`, love > 10 ? 223 : 241, 126);
         message.channel.send({
